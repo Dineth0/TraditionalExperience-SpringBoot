@@ -1,7 +1,7 @@
 package lk.ijse.gdse.traditionalexperiencebackend.service.impl;
 
 import lk.ijse.gdse.traditionalexperiencebackend.dto.TraditionalItemDTO;
-import lk.ijse.gdse.traditionalexperiencebackend.entity.Item;
+import lk.ijse.gdse.traditionalexperiencebackend.entity.TraditionalItem;
 import lk.ijse.gdse.traditionalexperiencebackend.repo.TraditionalItemRepo;
 import lk.ijse.gdse.traditionalexperiencebackend.service.TraditionalItemService;
 import org.modelmapper.ModelMapper;
@@ -19,7 +19,7 @@ public class TraditionalItemServiceImpl implements TraditionalItemService {
 
     @Override
     public void addItem(TraditionalItemDTO itemDTO) {
-        itemRepo.save(modelMapper.map(itemDTO, Item.class));
+        itemRepo.save(modelMapper.map(itemDTO, TraditionalItem.class));
     }
 
 

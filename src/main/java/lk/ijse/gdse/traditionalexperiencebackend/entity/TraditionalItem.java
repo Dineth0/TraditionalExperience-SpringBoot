@@ -14,7 +14,7 @@ import java.util.UUID;
 @Data
 
 @Entity
-public class Item {
+public class TraditionalItem {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
