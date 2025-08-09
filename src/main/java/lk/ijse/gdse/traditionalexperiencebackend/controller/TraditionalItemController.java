@@ -1,6 +1,7 @@
 package lk.ijse.gdse.traditionalexperiencebackend.controller;
 
 import lk.ijse.gdse.traditionalexperiencebackend.dto.TraditionalItemDTO;
+import lk.ijse.gdse.traditionalexperiencebackend.entity.TraditionalItem;
 import lk.ijse.gdse.traditionalexperiencebackend.service.TraditionalItemService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/item")
+@CrossOrigin
 public class TraditionalItemController {
     @Autowired
     private TraditionalItemService itemService;
@@ -37,5 +40,15 @@ public class TraditionalItemController {
         itemDTO.setItemImage(fileName);
         itemService.addItem(itemDTO);
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseUtil(200,"Added",itemDTO));
+    }
+
+    @GetMapping("/getAllItems")
+    public ResponseEntity<?> getAllItems() {
+        List<TraditionalItemDTO> items = itemService.getAllItems();
+        if(items.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                    .body(new ResponseUtil(204,"No Items Found",null));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(items);
     }
 }

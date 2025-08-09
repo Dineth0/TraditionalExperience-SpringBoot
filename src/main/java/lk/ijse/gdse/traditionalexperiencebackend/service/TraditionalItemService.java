@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface TraditionalItemService {
     void addItem(TraditionalItemDTO itemDTO);
-//    List<TraditionalItemDTO> getAllItems();
+    List<TraditionalItemDTO> getAllItems();
 }
