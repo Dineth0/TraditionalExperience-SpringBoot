@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heritage Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@700&display=swap');
+
+        body {
+            margin: 0;
+            font-family: 'Crimson Text', serif;
+            background: url(assets/itempattern.png) repeat;
+            background-size: cover;
+            color: #fffaf0;
+        }
+
+        header {
+            background: rgba(40, 20, 10, 0.9);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #a9743f;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: #f1cc7f;
+        }
+
+        nav a {
+            color: #f1cc7f;
+            margin: 0 1rem;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #ffcc00;
+        }
+
+        .main-title {
+            text-align: center;
+            font-size: 3rem;
+            margin: 2rem 0 1rem;
+            color: #fdf2d3;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .card {
+            background: #fdf2d3;
+            color: #3e1f0d;
+            width: 250px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-text {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #9e1b1b;
+            color: #fff;
+            padding: 0.5rem 1.2rem;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #6d0f0f;
+        }
+    </style>
+</head>
+<body>
+<header class="sticky-top" style="background: rgba(60, 20, 20, 0.9); border-bottom: 1px solid #a9743f;">
+    <nav class="navbar navbar-expand-lg navbar-dark container-fluid">
+        <a class="navbar-brand" href="#" style="color: #e2c6a3;">Heritage Portal</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Crafts</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Workshops</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Reviews</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+
+<h2 class="main-title">Sri Lankan Traditional Items</h2>
+
+<section class="card-container">
+<!--    <div class="card">-->
+<!--        <img src="assets/mask.png" alt="Mask Carving">-->
+<!--        <div class="card-body">-->
+<!--            <div class="card-title">Mask Carving</div>-->
+<!--            <div class="card-text">Learn to carve traditional Sri Lankan masks with a local artisan.</div>-->
+<!--            <a href="markscarving.html" class="btn">View More</a>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div class="card">-->
+<!--        <img src="assets/pathik.png" alt="Batik Painting">-->
+<!--        <div class="card-body">-->
+<!--            <div class="card-title">Batik Painting</div>-->
+<!--            <div class="card-text">Discover the art of Batik and create your own colorful fabric piece.</div>-->
+<!--            <a href="BatikPainting.html" class="btn">View More</a>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div class="card">-->
+<!--        <img src="assets/lacqur.png" alt="Lacquer Craft">-->
+<!--        <div class="card-body">-->
+<!--            <div class="card-title">Lacquer Craft</div>-->
+<!--            <div class="card-text">Experience the colorful lacquer craft of Sri Lanka with hands-on guidance.</div>-->
+<!--            <a href="Lacquer.html" class="btn">View More</a>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div class="card">-->
+<!--        <img src="assets/foods.png" alt="Lacquer Craft">-->
+<!--        <div class="card-body">-->
+<!--            <div class="card-title">Traditional foods</div>-->
+<!--            <div class="card-text">Traditional Sri Lankan main meal consisting of steamed rice served with a variety of curries like dhal, fish, chicken, and vegetable curries, often spiced with local flavors.</div>-->
+<!--            <a href="food.html" class="btn">View More</a>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div class="card">-->
+<!--        <img src="assets/mats.png" alt="Lacquer Craft">-->
+<!--        <div class="card-body">-->
+<!--            <div class="card-title">Dumbara Mats</div>-->
+<!--            <div class="card-text">Handwoven traditional mats crafted by Sri Lankan artisans from the Dumbara Valley using cotton and natural dyes. Known for their geometric patterns and intricate designs, they reflect the rich heritage of indigenous weaving techniques.</div>-->
+<!--            <a href="DumbaraMats.html" class="btn">View More</a>-->
+<!--        </div>-->
+<!--    </div>-->
+</section>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/jquery-3.7.1.min.js"></script>
+<script src="js/item.js"></script>
+</body>
+</html>
