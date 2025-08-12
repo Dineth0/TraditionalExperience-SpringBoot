@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,30 +26,32 @@ public class TraditionalItemController {
 
     @PostMapping(value = "/addItem", consumes = {"multipart/form-data"})
     public ResponseEntity<ResponseUtil> saveItem(@RequestPart("item") TraditionalItemDTO itemDTO,
-                                                 @RequestPart("file") MultipartFile multipartFile) throws IOException {
-        String fileName = System.currentTimeMillis() + "_" + multipartFile.getOriginalFilename();
-        Path filePath = Paths.get("uploads/", fileName);
-        Files.createDirectories(filePath.getParent());
-        Files.write(filePath, multipartFile.getBytes());
+                                                 @RequestPart("file") MultipartFile[] multipartFiles) throws IOException {
+        List<String> fileNames = new ArrayList<>();
+        Path uploadDir = Paths.get("uploads/");
+        Files.createDirectories(uploadDir);
 
-        try {
-            Files.createDirectories(filePath.getParent());
+        for(MultipartFile multipartFile : multipartFiles) {
+
+            String fileName = System.currentTimeMillis() + "_" + multipartFile.getOriginalFilename();
+            Path filePath = uploadDir.resolve(fileName);
             Files.write(filePath, multipartFile.getBytes());
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to store file", e);
+            fileNames.add(fileName);
         }
-        itemDTO.setItemImage(fileName);
+
+
+        itemDTO.setItemImage(fileNames);
         itemService.addItem(itemDTO);
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseUtil(200,"Added",itemDTO));
     }
 
     @GetMapping("/getAllItems")
-    public ResponseEntity<?> getAllItems() {
+    public ResponseEntity<List<TraditionalItemDTO>> getAllItems(){
         List<TraditionalItemDTO> items = itemService.getAllItems();
         if(items.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                    .body(new ResponseUtil(204,"No Items Found",null));
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
-        return ResponseEntity.status(HttpStatus.OK).body(items);
+        return ResponseEntity.ok(items);
     }
+
 }

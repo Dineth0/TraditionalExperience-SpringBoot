@@ -21,7 +21,8 @@ public class TraditionalItem {
     private UUID id;
     private String itemName;
     private String itemDescription;
-    private String itemImage;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> itemImage;
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Workshop> workshop;

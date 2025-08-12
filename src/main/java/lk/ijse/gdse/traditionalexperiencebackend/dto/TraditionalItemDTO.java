@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -13,5 +14,5 @@ public class TraditionalItemDTO {
     private UUID id;
     private String itemName;
     private String itemDescription;
-    private String itemImage;
+    private List<String> itemImage;
 }

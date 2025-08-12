@@ -21,7 +21,8 @@ public class TraditionalItemServiceImpl implements TraditionalItemService {
 
     @Override
     public void addItem(TraditionalItemDTO itemDTO) {
-        itemRepo.save(modelMapper.map(itemDTO, TraditionalItem.class));
+        TraditionalItem entity = modelMapper.map(itemDTO, TraditionalItem.class);
+        itemRepo.save(entity);
     }
 
     @Override

@@ -52,31 +52,18 @@ public class SecurityConfiguration {
                 .and()*/
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-
+                                "/uploads/**",
                                 "/api/v1/user/register",
                                 "/api/v1/auth/authenticate",
                                 "/api/v1/auth/forgot-password",
                                 "/api/v1/auth/reset-password",
-                                "/api/v1/auth/verify-otp"
+                                "/api/v1/auth/verify-otp",
+                                "/api/v1/item/getAllItems",
+                                "/api/v1/item/addItem"
 
-                        ).permitAll() // Allow these endpoints without authentication
-//                        .requestMatchers(
-//                                "/api/v1/jobs/**"
-//                        ).hasAuthority("EMPLOYER")
-//
-//                        .requestMatchers(
-//                                "/api/v1/job-applications/add"
-//                        ).hasAuthority("CANDIDATE")
-//
-//
-//                        .requestMatchers(
-//                                "/api/v1/users/getAll",
-//                                "/api/v1/jobCategory/getAll"
-//                        ).hasAuthority("ADMIN")
-//
-//
-//                        .requestMatchers("/api/v1/job/add","/api/v1/job/post-job")
-//                        .hasAuthority("EMPLOYER")
+                        ).permitAll()
+                        .requestMatchers("/api/v1/item/addItem")
+                        .hasRole("ADMIN")
                         .anyRequest().authenticated()
 
                 )
