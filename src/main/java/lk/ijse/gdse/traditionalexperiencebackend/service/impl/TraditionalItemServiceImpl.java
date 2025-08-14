@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class TraditionalItemServiceImpl implements TraditionalItemService {
@@ -31,6 +32,11 @@ public class TraditionalItemServiceImpl implements TraditionalItemService {
                 .stream()
                 .map(item -> modelMapper.map(item, TraditionalItemDTO.class))
                 .toList();
+    }
+
+    @Override()
+    public TraditionalItemDTO getItemById(UUID id) {
+        return modelMapper.map(itemRepo.findById(id).orElseThrow(() -> new RuntimeException("Item Not Found")), TraditionalItemDTO.class);
     }
 
 

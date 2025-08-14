@@ -7,6 +7,7 @@ import lk.ijse.gdse.traditionalexperiencebackend.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/item")
@@ -52,6 +54,12 @@ public class TraditionalItemController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
         return ResponseEntity.ok(items);
+    }
+
+    @GetMapping("/getItem/{id}")
+    public ResponseEntity<TraditionalItemDTO> getItemById(@PathVariable UUID id){
+        TraditionalItemDTO item = itemService.getItemById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(item);
     }
 
 }

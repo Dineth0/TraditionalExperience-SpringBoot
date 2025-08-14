@@ -53,13 +53,16 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/uploads/**",
+                                "/css/**",
+                                "/js/**",
+                                "/images/**",
                                 "/api/v1/user/register",
                                 "/api/v1/auth/authenticate",
                                 "/api/v1/auth/forgot-password",
                                 "/api/v1/auth/reset-password",
                                 "/api/v1/auth/verify-otp",
                                 "/api/v1/item/getAllItems",
-                                "/api/v1/item/addItem"
+                                "/api/v1/item/getItem/**"
 
                         ).permitAll()
                         .requestMatchers("/api/v1/item/addItem")

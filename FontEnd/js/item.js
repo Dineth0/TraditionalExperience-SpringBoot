@@ -8,7 +8,8 @@ $(document).ready(function(){
 
         let item = {
             itemName: $('#itemName').val(),
-            itemDescription:$('#itemDescription').val()
+            itemShortDescription:$('#itemShortDescription').val(),
+
 
         };
         let formData = new FormData();
@@ -57,7 +58,7 @@ $(document).ready(function(){
         $.ajax({
             url: 'http://localhost:8080/api/v1/item/getAllItems',
             method: 'GET',
-            headers: token ? { 'Authorization': 'Bearer ' + token } : {}, // ✅ token optional
+            headers: token ? { 'Authorization': 'Bearer ' + token } : {},
 
             success: function (items) {
                 let container = $(".card-container");
@@ -101,7 +102,7 @@ $(document).ready(function(){
                         <div class="card-body">
                             <div class="card-title">${itemName}</div>
                             <div class="card-text">${description}</div>
-                            <a href="Lacquer.html" class="btn">View More</a>
+            <a href="Item-Details.html?id=${item.id}" class="btn">View More</a>
                         </div>
                     </div>`;
                     container.append(card);

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"></meta>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+        <title>Item Details</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+        <style>
+            body{
+                font-family: 'Poppins', sans-serif;
+                color: #292626;
+                background-color: #4B352A;
+            }
+            .item-card{
+                background-color: #A86523;
+                border-radius: 1rem;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            }
+            .item-title{
+                font-weight: 600;
+                color: #292626;
+            }
+            .item-description{
+                font-size: 1.1rem;
+                color: #292626;
+            }
+            .image-gallery{
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            .image-container {
+                flex: 1 1 calc(33.333% - 1rem);
+                max-width: calc(33.333% - 1rem);
+                overflow: hidden;
+                border-radius: 0.75rem;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }
+            .item-image{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.5s ease-in-out;
+            }
+            .item-image:hover{
+                transform: scale(1.05);
+            }
+        </style>
+
+    </head>
+<body>
+<main class="container my-5">
+    <div class="card item-card p-4">
+        <h1 id="itemName" class="item-title"></h1>
+        <p id="itemDescription" class="item-description"></p>
+
+        <hr class="my-4">
+
+        <h2 class="h4 mb-3">Images</h2>
+        <div id="itemImages" class="image-gallery">
+            <p class="text-muted">Loading Images...</p>
+        </div>
+    </div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="js/jquery-3.7.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        let params = new URLSearchParams(window.location.search);
+        let itemId = params.get('id');
+
+        if (!itemId) {
+            $("body").html("<p class='text-danger text-center mt-5'>Item Id not provided</p>")
+            return;
+        }
+        $.ajax({
+            url: `http://localhost:8080/api/v1/item/getItem/${itemId}`,
+            method: "GET",
+            success: function (item) {
+                $("#itemName").text(item.itemName);
+                $("#itemDescription").text(item.itemDescription);
+
+                let imagesHtml = "";
+                if(item.itemImage && item.itemImage.length > 0) {
+                    item.itemImage.forEach(img =>{
+                        imagesHtml +=`
+                        <div class="image-container">
+                            <img src="http://localhost:8080/uploads/${img}" alt="Item Image" class="item-image">
+                        </div>
+                        `;
+                    });
+                }else {
+                    imagesHtml ="<p>No images Available</p>"
+                }
+                $("#itemImages").html(imagesHtml);
+            }
+        })
+    })
+
+</script>
+</body>
+</html>
