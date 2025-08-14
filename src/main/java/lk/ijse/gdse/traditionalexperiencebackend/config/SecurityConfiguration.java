@@ -66,7 +66,7 @@ public class SecurityConfiguration {
 
                         ).permitAll()
                         .requestMatchers("/api/v1/item/addItem")
-                        .hasRole("ADMIN")
+                        .hasAuthority("ADMIN")
                         .anyRequest().authenticated()
 
                 )
