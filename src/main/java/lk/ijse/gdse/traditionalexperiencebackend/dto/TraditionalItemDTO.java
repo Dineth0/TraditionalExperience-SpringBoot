@@ -13,6 +13,7 @@ import java.util.UUID;
 public class TraditionalItemDTO {
     private UUID id;
     private String itemName;
+    private String itemShortDescription;
     private String itemDescription;
     private List<String> itemImage;
 }

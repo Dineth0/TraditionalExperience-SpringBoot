@@ -20,6 +20,8 @@ public class TraditionalItem {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
     private String itemName;
+    private String itemShortDescription;
+    @Column(length = 10000)
     private String itemDescription;
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> itemImage;

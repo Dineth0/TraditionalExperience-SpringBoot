@@ -9,6 +9,7 @@ $(document).ready(function(){
         let item = {
             itemName: $('#itemName').val(),
             itemShortDescription:$('#itemShortDescription').val(),
+            itemDescription:$('#itemDescription').val(),
 
 
         };
@@ -40,10 +41,10 @@ $(document).ready(function(){
                 })
 
             },
-            error: function () {
+            error: function (xhr) {
                 if(xhr.status === 403){
                     Swal.fire({
-                        icon: "Error",
+                        icon: "error",
                         title: "Not Authenticated",
                         showConfirmButton: false,
                         timer: 2000
@@ -74,7 +75,7 @@ $(document).ready(function(){
 
                 items.forEach(item => {
                     let itemName = item.itemName;
-                    let description = item.itemDescription;
+                    let shortDescription = item.itemShortDescription;
                     let imagePaths = item.itemImage || [];
 
                     let imagesHtml = imagePaths.length > 0
@@ -84,10 +85,10 @@ $(document).ready(function(){
                     let row = `
                     <tr class="item-row" 
                         data-item-name="${itemName}"
-                        data-description="${description}"
+                        data-description="${shortDescription}"
                         data-image="${imagePaths.join(';')}">
                         <td>${itemName}</td>
-                        <td>${description}</td>
+                        <td>${shortDescription}</td>
                         <td>${imagesHtml}</td>
                     </tr>`;
                     tbody.append(row);
@@ -101,7 +102,7 @@ $(document).ready(function(){
                         <img src="${firstImageUrl}" alt="${itemName}">
                         <div class="card-body">
                             <div class="card-title">${itemName}</div>
-                            <div class="card-text">${description}</div>
+                            <div class="card-text">${shortDescription}</div>
             <a href="Item-Details.html?id=${item.id}" class="btn">View More</a>
                         </div>
                     </div>`;
