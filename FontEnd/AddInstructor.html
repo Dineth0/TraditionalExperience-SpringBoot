@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #433c3b;
+            font-family: 'Inter', sans-serif;
+            color: #f4e2c6; /* Light beige text for readability */
+        }
+
+        .form-section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #e0b84b; /* Gold accent */
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(244, 226, 198, 0.4);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            border: 1px solid #e0b84b;
+            background-color: #5a4e4c; /* Slightly lighter than background */
+            border-radius: 8px;
+            padding: 10px 15px;
+            transition: all 0.3s ease;
+            color: #ffffff;
+        }
+
+        .form-control:focus {
+            border-color: #c97b63; /* Clay accent */
+            background-color: #6e5d5a; /* Focused slightly lighter shade */
+            box-shadow: 0 0 8px rgba(224, 184, 75, 0.5); /* Soft gold glow */
+            outline: none;
+            color: #fff;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .file-input-container label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .file-input-container input[type="file"] {
+            display: block;
+            margin-top: 5px;
+            padding: 6px;
+            border-radius: 8px;
+            background-color: #5a4e4c;
+            border: 1px solid #e0b84b;
+            color: #fff;
+        }
+
+        .file-input-container p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 5px;
+        }
+
+        .submit-btn {
+            background-color: #e0b84b;
+            color: #433c3b;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #c97b63; /* Clay hover */
+            color: #fff;
+        }
+
+    </style>
+</head>
+<body>
+<div class="content-container">
+    <form id="itemForm">
+        <input type="hidden" id="itemId" name="itemId">
+
+        <h3 class="form-section-title">Instructors Information</h3>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label>Instructor Name</label>
+                    <input class="form-control" type="text" name="title" id="instructorName" required>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label>Instructor Age</label>
+                    <input class="form-control" type="text" name="Age" id="instructorAge" required>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label>Category</label>
+                    <input class="form-control" type="text" name="Category" id="instructorCategory" required>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label>Instructor Email</label>
+                    <input class="form-control" type="email" name="Email" id="instructorEmail" required>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label>Instructor Phone</label>
+                    <input class="form-control" type="number" name="Phone" id="instructorPhone" required>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="form-group file-input-container">
+                    <label>Image</label>
+                    <input type="file" id="instructorImg" name="img" accept="image/*">
+                    <p>Maximum file size: 2 MB</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12">
+            <button type="submit" class="btn submit-btn">
+                Submit
+            </button>
+        </div>
+        <div class="card my-4">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+
+                        <th scope="col">Instructor Name</th>
+                        <th scope="col">Instructor Age</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Instructor Email</th>
+                        <th scope="col">Instructor Phone</th>
+                        <th scope="col">Image</th>
+                    </tr>
+                    </thead>
+                    <tbody class="instructor-tbody">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/jquery-3.7.1.min.js"></script>
+<script src="js/item.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>
