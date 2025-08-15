@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CraftsmanDTO {
+public class InstructorDTO {
     private String id;
-    private String craftsmanName;
+    private String instructorName;
     private int age;
-    private String craftsmanEmail;
-    private String craftsmanPhone;
+    private String instructorEmail;
+    private String instructorPhone;
     private String image;
 }

@@ -60,7 +60,7 @@ $(document).ready(function () {
                                 }
                             } else {
                                 console.log("role not found in token");
-                                // window.location.href = "dashboard.html";
+
                             }
                         })
                     }

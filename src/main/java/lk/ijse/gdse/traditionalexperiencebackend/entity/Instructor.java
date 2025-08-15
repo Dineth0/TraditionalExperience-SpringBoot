@@ -12,17 +12,18 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Entity
-public class Craftsman {
+public class Instructor {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
-    private String craftsmanName;
+    private String instructorName;
     private int age;
-    private String craftsmanEmail;
-    private String craftsmanPhone;
+    private String category;
+    private String instructorEmail;
+    private String instructorPhone;
     private String image;
 
-    @OneToMany(mappedBy = "craftsman", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Workshop> workshop;
 }

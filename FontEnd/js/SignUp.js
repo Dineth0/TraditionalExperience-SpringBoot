@@ -40,13 +40,13 @@ $(document).ready(function () {
                 console.log("token", response.data);
 
                 if (response.code === 201) {
-                    // Save token to localStorage
+
                     const token = response.data.token;
 
-                    // ✅ Save only the token string
-                    localStorage.setItem("jwt", token);
 
-                    // Optional: save full response if needed
+                    localStorage.setItem("authtoken", token);
+
+
                     localStorage.setItem("jwt_debug", JSON.stringify(response));
 
                     console.log("Token stored: ", token);
@@ -59,7 +59,6 @@ $(document).ready(function () {
                         timer: 2000
                     }).then(() => {
 
-                            // Default redirect if something unexpected happens
                             window.location.href = "SignIn.html";
 
 

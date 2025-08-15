@@ -32,8 +32,8 @@ public class Workshop {
     private TraditionalItem item;
 
     @ManyToOne
-    @JoinColumn(name = "craftsmanId")
-    private Craftsman craftsman;
+    @JoinColumn(name = "instructorId")
+    private Instructor instructor;
 
     @OneToMany(mappedBy = "workshop", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> review;

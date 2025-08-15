@@ -1,9 +1,7 @@
 package lk.ijse.gdse.traditionalexperiencebackend.controller;
 
-import lk.ijse.gdse.traditionalexperiencebackend.dto.CraftsmanDTO;
-import lk.ijse.gdse.traditionalexperiencebackend.dto.TraditionalItemDTO;
-import lk.ijse.gdse.traditionalexperiencebackend.entity.Craftsman;
-import lk.ijse.gdse.traditionalexperiencebackend.service.CraftsmanService;
+import lk.ijse.gdse.traditionalexperiencebackend.dto.InstructorDTO;
+import lk.ijse.gdse.traditionalexperiencebackend.service.InstructorService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,15 +15,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @RestController
-@RequestMapping("/api/v1/craftsman")
+@RequestMapping("/api/v1/instructor")
 @CrossOrigin
-public class CraftsmanController {
+public class InstructorController {
 
     @Autowired
-    private CraftsmanService craftsmanService;
+    private InstructorService instructorService;
 
-    @PostMapping(value ="addCraftsman" , consumes = {"multipart/form-data"})
-    public ResponseEntity<ResponseUtil> saveCraftsman(@RequestPart("craftsman") CraftsmanDTO craftsmanDTO,
+    @PostMapping(value ="addInstructor" , consumes = {"multipart/form-data"})
+    public ResponseEntity<ResponseUtil> saveInstructor(@RequestPart("instructor") InstructorDTO instructorDTO,
                                                       @RequestPart("file") MultipartFile multipartFile) throws IOException {
 
         String fileName = System.currentTimeMillis() + "_" + multipartFile.getOriginalFilename();
@@ -39,9 +37,9 @@ public class CraftsmanController {
         } catch (IOException e) {
             throw new RuntimeException("Failed to store file", e);
         }
-        craftsmanDTO.setImage(fileName);
-        craftsmanService.addCraftsman(craftsmanDTO);
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseUtil(200,"Added",craftsmanDTO));
+        instructorDTO.setImage(fileName);
+        instructorService.addInstructor(instructorDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseUtil(200,"Added",instructorDTO));
 
     }
 }
