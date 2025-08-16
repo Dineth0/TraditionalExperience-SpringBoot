@@ -65,7 +65,8 @@ public class SecurityConfiguration {
                                 "/api/v1/item/getItem/**"
 
                         ).permitAll()
-                        .requestMatchers("/api/v1/item/addItem")
+                        .requestMatchers("/api/v1/item/addItem",
+                                "/api/v1/instructor/addInstructor")
                         .hasAuthority("ADMIN")
                         .anyRequest().authenticated()
 
