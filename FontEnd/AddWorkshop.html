@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #433c3b;
+            font-family: 'Inter', sans-serif;
+            color: #f4e2c6; /* Light beige text for readability */
+        }
+
+        .form-section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #e0b84b; /* Gold accent */
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(244, 226, 198, 0.4);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            border: 1px solid #e0b84b;
+            background-color: #5a4e4c; /* Slightly lighter than background */
+            border-radius: 8px;
+            padding: 10px 15px;
+            transition: all 0.3s ease;
+            color: #ffffff;
+        }
+
+        .form-control:focus {
+            border-color: #c97b63;
+            background-color: #6e5d5a;
+            box-shadow: 0 0 8px rgba(224, 184, 75, 0.5);
+            outline: none;
+            color: #fff;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .file-input-container label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .file-input-container input[type="file"] {
+            display: block;
+            margin-top: 5px;
+            padding: 6px;
+            border-radius: 8px;
+            background-color: #5a4e4c;
+            border: 1px solid #e0b84b;
+            color: #fff;
+        }
+
+        .file-input-container p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 5px;
+        }
+
+        .submit-btn {
+            background-color: #e0b84b;
+            color: #433c3b;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #c97b63;
+            color: #fff;
+        }
+
+    </style>
+</head>
+<body>
+<div class="content-container">
+    <form id="workshopForm">
+        <input type="hidden" id="workshopIfd" name="Id">
+
+        <h3 class="form-section-title">Workshop Information</h3>
+        <div class="col-lg-12">
+            <div class="form-group">
+                <label for="itemSelect">Select Tradition Item for Workshop</label>
+                <select id="itemSelect" class="form-control" required></select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label for="workshopTitle">Workshop Title</label>
+                    <input class="form-control" type="text" name="title" id="workshopTitle" required>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea name="description" class="form-control" id="description" rows="5" required></textarea>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input class="form-control" type="text" name="location" id="location" required>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label for="duration">Time Duration</label>
+                    <input class="form-control" type="text" name="duration" id="duration" required>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label>Language</label>
+                    <input class="form-control" type="text" name="language" id="language" required>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label>Participant Count</label>
+                    <input class="form-control" type="number" name="participantCount" id="participantCount" required>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label for="fees">Fee</label>
+                    <input class="form-control" type="text" name="fee" id="fees" required>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label for="instructorSelect">Select Instructor for Workshop</label>
+                    <select id="instructorSelect" class="form-control" required></select>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="form-group file-input-container">
+                    <label for="workshopImg">Image</label>
+                    <input type="file" id="workshopImg" name="img" accept="image/*" multiple>
+                    <p>Maximum file size: 2 MB</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12">
+            <button type="submit" class="btn submit-btn">
+                Submit
+            </button>
+        </div>
+        <div class="card my-4">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Location</th>
+                        <th scope="col">Duration</th>
+                        <th scope="col">Language</th>
+                        <th scope="col">Participant Count</th>
+                        <th scope="col">Fee</th>
+                        <th scope="col">Images</th>
+                    </tr>
+                    </thead>
+                    <tbody class="workshop-tbody">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/jquery-3.7.1.min.js"></script>
+<script src="js/Workshop.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>

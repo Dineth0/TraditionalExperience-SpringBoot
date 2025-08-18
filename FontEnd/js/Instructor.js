@@ -51,12 +51,12 @@ $(document).ready(function(){
                         showConfirmButton: false,
                         timer: 2000
                     }).then(() => {
-                        // loadItems();
-                        // window.location.href = "items.html";
+                         loadInstructors();
+                        window.location.href = "Instructors.html";
                     })
                 }else if(response.code === 406) {
                     Swal.fire({
-                        icon: "success",
+                        icon: "error",
                         title: response.message,
                         showConfirmButton: false,
                         timer: 2000
