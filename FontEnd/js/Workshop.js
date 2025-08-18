@@ -1,6 +1,7 @@
 $(document).ready(function(){
     loadInstructorsDropDown();
     loadItemsDropDown();
+    loadWorkshops();
     let token = localStorage.getItem("authtoken");
     if (!token) {
         window.location.href = 'SignIn.html';
@@ -128,4 +129,100 @@ $(document).ready(function(){
             }
         })
     })
+    function loadWorkshops(){
+        let token = localStorage.getItem("authtoken");
+        $.ajax({
+            url:'http://localhost:8080/api/v1/workshop/getAllWorkshops',
+            method:'GET',
+            headers: token ? { 'Authorization': 'Bearer ' + token } : {},
+            success: function (response) {
+                let workshops = response.data;
+                let container = $(".card-container");
+                let tbody = $('.workshop-tbody');
+
+                tbody.empty();
+                container.empty()
+
+                if(!workshops || workshops.length === 0) {
+                    container.html('<p>No items added yet</p>');
+                    return;
+                }
+                workshops.forEach(workshops =>{
+                    let workshopTitle = workshops.title;
+                    let workshopDescription = workshops.description;
+                    let location = workshops.location;
+                    let duration = workshops.duration;
+                    let language = workshops.language;
+                    let participantCount = workshops.participantCount;
+                    let fee = workshops.fee;
+                    let imagePaths = workshops.image || []
+
+                    let imagesHtml = imagePaths.length > 0
+                        ? imagePaths.map(img => `<img src="http://localhost:8080/uploads/${img}" alt="Item Image" width="80" style="margin-right: 5px">`).join('')
+                        : 'No Images Found';
+
+                    let row = `
+                    <tr class="workshop-row" 
+                        data-workshop-title="${workshopTitle}"
+                        data-description="${workshopDescription}"
+                        data-location="${location}"
+                        data-deration="${duration}"
+                        data-language="${language}"
+                        data-participantCount="${participantCount}"
+                        data-fee="${fee}"
+                        data-image="${imagePaths.join(';')}">
+                        <td>${workshopTitle}</td>
+                        <td>${workshopDescription}</td>
+                        <td>${location}</td>
+                        <td>${duration}</td>
+                        <td>${language}</td>
+                        <td>${participantCount}</td>
+                        <td>${fee}</td>
+                        <td>${imagesHtml}</td>
+                    </tr>`;
+                    tbody.append(row);
+
+                    let firstImageUrl = imagePaths.length > 0
+                        ? `http://localhost:8080/uploads/${imagePaths[0]}`
+                        : 'default-placeholder.png';
+
+                    let card = `
+                    <div class="cards">
+                        <img src="${firstImageUrl}" alt="${workshopTitle}">
+                        <div class="card-body">
+                            <div class="card-title">${workshopTitle}</div>
+                            <div class="card-text">${location}</div>
+                            <div class="card-text">${duration}</div>
+                            <div class="card-text">${fee}</div>
+            <a href="Item-Details.html?id=${workshops.id}" class="btn">View More</a>
+                        </div>
+                    </div>`;
+                    container.append(card);
+                })
+            },
+            error: function (xhr) {
+                if (xhr.status === 204) {
+                    $(".card-container").html('<p>No items added yet</p>');
+                } else if (xhr.status === 403) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Not Authorized",
+                        text: "Please log in again",
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        localStorage.removeItem("authtoken");
+                        window.location.href = "SignIn.html";
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error Loading Instructors",
+                        text: xhr.responseText || "Please try again"
+                    });
+                }
+            }
+
+        })
+    }
 })
