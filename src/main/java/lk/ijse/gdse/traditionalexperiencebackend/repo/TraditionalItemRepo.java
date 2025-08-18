@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface TraditionalItemRepo extends JpaRepository<TraditionalItem, UUID> {
+public interface TraditionalItemRepo extends JpaRepository<TraditionalItem, Long> {
 //    void findById(UUID id);
 }
