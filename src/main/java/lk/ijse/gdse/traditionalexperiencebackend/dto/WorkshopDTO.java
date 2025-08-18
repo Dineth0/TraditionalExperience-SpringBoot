@@ -5,12 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class WorkshopDTO {
-    private String id;
+    private Long id;
     private String title;
     private String description;
     private String location;
@@ -19,7 +20,7 @@ public class WorkshopDTO {
     private int participantCount;
     private String fee;
     private List<String> image;
-    private String itemId;
-    private String instructorId;
+    private UUID itemId;
+    private UUID instructorId;
 //    private String mapUrl;
 }

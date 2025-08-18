@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @NoArgsConstructor
 @Data
 public class UserDTO {
-    private String id;
+    private Long id;
     private String username;
     private String email;
     private String password;

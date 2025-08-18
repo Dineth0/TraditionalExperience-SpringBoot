@@ -14,9 +14,8 @@ import java.util.List;
 @Entity
 public class Instructor {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String instructorName;
     private int age;
     private String category;

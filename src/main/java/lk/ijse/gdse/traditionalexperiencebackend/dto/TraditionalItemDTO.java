@@ -11,7 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Data
 public class TraditionalItemDTO {
-    private UUID id;
+    private Long id;
     private String itemName;
     private String itemShortDescription;
     private String itemDescription;

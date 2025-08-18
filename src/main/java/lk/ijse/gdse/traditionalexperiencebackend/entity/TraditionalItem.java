@@ -16,9 +16,8 @@ import java.util.UUID;
 @Entity
 public class TraditionalItem {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String itemName;
     private String itemShortDescription;
     @Column(length = 10000)
