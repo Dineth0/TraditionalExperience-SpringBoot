@@ -62,11 +62,13 @@ public class SecurityConfiguration {
                                 "/api/v1/auth/reset-password",
                                 "/api/v1/auth/verify-otp",
                                 "/api/v1/item/getAllItems",
-                                "/api/v1/item/getItem/**"
+                                "/api/v1/item/getItem/**",
+                                "/api/v1/instructor/getAllInstructors"
 
                         ).permitAll()
                         .requestMatchers("/api/v1/item/addItem",
-                                "/api/v1/instructor/addInstructor")
+                                "/api/v1/instructor/addInstructor",
+                                "/api/v1/workshop/addWorkshop")
                         .hasAuthority("ADMIN")
                         .anyRequest().authenticated()
 

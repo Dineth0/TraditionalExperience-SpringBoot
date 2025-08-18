@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -14,7 +16,10 @@ public class WorkshopDTO {
     private String location;
     private String duration;
     private String language;
+    private int participantCount;
     private String fee;
-    private String image;
+    private List<String> image;
+    private String itemId;
+    private String instructorId;
 //    private String mapUrl;
 }

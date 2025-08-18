@@ -23,8 +23,10 @@ public class Workshop {
     private String location;
     private String duration;
     private String language;
+    private int participantCount;
     private String fee;
-    private String image;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> image;
 //    private String mapUrl;
 
     @ManyToOne
