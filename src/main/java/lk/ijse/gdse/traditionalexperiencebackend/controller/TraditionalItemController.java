@@ -57,7 +57,7 @@ public class TraditionalItemController {
     }
 
     @GetMapping("/getItem/{id}")
-    public ResponseEntity<TraditionalItemDTO> getItemById(@PathVariable UUID id){
+    public ResponseEntity<TraditionalItemDTO> getItemById(@PathVariable Long id){
         TraditionalItemDTO item = itemService.getItemById(id);
         return ResponseEntity.status(HttpStatus.OK).body(item);
     }

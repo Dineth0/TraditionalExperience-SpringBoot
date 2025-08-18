@@ -35,7 +35,7 @@ public class TraditionalItemServiceImpl implements TraditionalItemService {
     }
 
     @Override()
-    public TraditionalItemDTO getItemById(UUID id) {
+    public TraditionalItemDTO getItemById(Long id) {
         return modelMapper.map(itemRepo.findById(id).orElseThrow(() -> new RuntimeException("Item Not Found")), TraditionalItemDTO.class);
     }
 

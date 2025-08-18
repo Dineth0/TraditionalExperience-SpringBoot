@@ -9,5 +9,5 @@ public interface TraditionalItemService {
     void addItem(TraditionalItemDTO itemDTO);
     List<TraditionalItemDTO> getAllItems();
 
-    TraditionalItemDTO getItemById(UUID id);
+    TraditionalItemDTO getItemById(Long id);
 }
