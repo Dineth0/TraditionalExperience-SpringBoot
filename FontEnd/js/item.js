@@ -79,7 +79,7 @@ $(document).ready(function(){
                     let imagePaths = item.itemImage || [];
 
                     let imagesHtml = imagePaths.length > 0
-                        ? imagePaths.map(img => `<img src="http://localhost:8080/uploads/${img}" alt="Item Image" width="80" style="margin-right: 5px">`).join('')
+                        ? imagePaths.map(img => `<img src="http://localhost:8080/uploads/${img}" alt="Item Image" width="40" style="margin-right: 5px">`).join('')
                         : 'No Images Found';
 
                     let row = `
@@ -90,6 +90,10 @@ $(document).ready(function(){
                         <td>${itemName}</td>
                         <td>${shortDescription}</td>
                         <td>${imagesHtml}</td>
+                        <td>
+                            <button class="btn btn-sm" style="background-color:bisque" ">Edit</button>
+                            <button class="btn btn-sm" style="background-color: cornflowerblue">Delete</button>
+                        </td>
                     </tr>`;
                     tbody.append(row);
 

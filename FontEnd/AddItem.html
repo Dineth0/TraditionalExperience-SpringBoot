@@ -83,68 +83,98 @@
       background-color: #c97b63; /* Clay hover */
       color: #fff;
     }
+    .modal-content{
+      background-color: #32302b;
+    }
 
   </style>
 </head>
 <body>
-<div class="content-container">
-  <form id="itemForm">
-    <input type="hidden" id="itemId" name="itemId">
 
-    <h3 class="form-section-title">Traditional Item Information</h3>
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="form-group">
-          <label>Item Name</label>
-          <input class="form-control" type="text" name="title" id="itemName" required>
-        </div>
+<div class="container my-5">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="mb-0">Job Listings</h4>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addItemModal">
+          + Add Item
+        </button>
       </div>
-      <div class="col-lg-12">
-        <div class="form-group">
-          <label>Short Description</label>
-          <textarea name="message" class="form-control" id="itemShortDescription" rows="5" required></textarea>
-        </div>
+      <div class="mb-3">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search jobs...">
       </div>
-
-      <div class="col-lg-12">
-        <div class="form-group">
-          <label>Description</label>
-          <textarea name="message" class="form-control" id="itemDescription" rows="5" required></textarea>
-        </div>
-      </div>
-
-      <div class="col-lg-12">
-        <div class="form-group file-input-container">
-          <label>Item Image</label>
-          <input type="file" id="itemImg" name="img" accept="image/*" multiple>
-          <p>Maximum file size: 2 MB</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-lg-12">
-      <button type="submit" class="btn submit-btn">
-        Submit
-      </button>
-    </div>
-    <div class="card my-4">
       <div class="table-responsive">
-        <table class="table table-bordered">
-          <thead>
+        <table class="table table-striped table-hover">
+          <thead class="table-light">
           <tr>
-
-            <th scope="col">ItemName</th>
-            <th scope="col">Short Description</th>
-            <th scope="col">Image</th>
+            <th scope="col">ItemName</th>-->
+                        <th scope="col">Short Description</th>
+                        <th scope="col">Image</th>
+            <th>Actions</th>
           </tr>
           </thead>
           <tbody class="item-tbody">
-
+          <!-- Populated via script.js -->
           </tbody>
         </table>
       </div>
     </div>
-  </form>
+  </div>
+</div>
+<div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addJobModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+<!--        <h5 class="modal-title" id="addJobModalLabel">Add New Job</h5>-->
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+        <form id="itemForm">
+          <input type="hidden" id="itemId" name="itemId">
+
+          <h3 class="form-section-title">Traditional Item Information</h3>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-group">
+                <label>Item Name</label>
+                <input class="form-control" type="text" name="title" id="itemName" required>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="form-group">
+                <label>Short Description</label>
+                <textarea name="message" class="form-control" id="itemShortDescription" rows="5" required></textarea>
+              </div>
+            </div>
+
+            <div class="col-lg-12">
+              <div class="form-group">
+                <label>Description</label>
+                <textarea name="message" class="form-control" id="itemDescription" rows="5" required></textarea>
+              </div>
+            </div>
+
+            <div class="col-lg-12">
+              <div class="form-group file-input-container">
+                <label>Item Image</label>
+                <input type="file" id="itemImg" name="img" accept="image/*" multiple>
+                <p>Maximum file size: 2 MB</p>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn submit-btn"  >Save Item</button>
+          </div>
+
+<!--          <div class="col-lg-12">-->
+<!--            <button type="submit" class="btn submit-btn">-->
+<!--              Submit-->
+<!--            </button>-->
+<!--          </div>-->
+
+        </form>
+    </div>
+  </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/jquery-3.7.1.min.js"></script>
