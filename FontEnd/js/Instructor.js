@@ -110,7 +110,7 @@ $(document).ready(function(){
                         :null
 
                     let imagesHtml = imageUrl
-                    ?`<img src="${imageUrl}" alt="image" width="80" style="margin-right: 5px>:`
+                    ?`<img src="${imageUrl}" alt="image" width="40" style="margin-right: 5px;">:`
                         :'No Images Found';
 
 
@@ -129,6 +129,10 @@ $(document).ready(function(){
                         <td>${instructorEmail}</td>
                         <td>${instructorPhone}</td>
                         <td>${imagesHtml}</td>
+                        <td>
+                            <button class="btn btn-sm" style="background-color:bisque">Edit</button>
+                            <button class="btn btn-sm" style="background-color: cornflowerblue">Delete</button>
+                        </td>
                     </tr>`;
                     tbody.append(row);
 
