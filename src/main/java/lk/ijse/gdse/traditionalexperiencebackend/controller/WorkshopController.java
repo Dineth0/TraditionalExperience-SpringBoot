@@ -72,4 +72,16 @@ public class WorkshopController {
                     .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
         }
     }
+
+    @GetMapping("/getWorkshopByItem/{itemId}")
+    public ResponseEntity<ResponseDTO> getWorkshopByItem(@PathVariable Long itemId){
+        try{
+            List<WorkshopDTO> workshops = workshopService.getWorkshopsByItem(itemId);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ResponseDTO(VarList.OK, "Success", workshops));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+        }
+    }
 }

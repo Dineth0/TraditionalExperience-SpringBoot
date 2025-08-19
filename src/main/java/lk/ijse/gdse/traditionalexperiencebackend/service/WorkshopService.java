@@ -8,4 +8,5 @@ import java.util.List;
 public interface WorkshopService {
     int addWorkshop(WorkshopDTO workshopDTO);
     List<WorkshopDTO> getAllWorkshops();
+    List<WorkshopDTO> getWorkshopsByItem(Long itemId);
 }

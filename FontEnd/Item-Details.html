@@ -193,6 +193,7 @@
     $(document).ready(function () {
         let params = new URLSearchParams(window.location.search);
         let itemId = params.get('id');
+        loadWorkshopsForCard(itemId);
 
         if (!itemId) {
             $("body").html("<p class='text-danger text-center mt-5'>Item Id not provided</p>")
@@ -218,8 +219,52 @@
                     imagesHtml ="<p>No images Available</p>"
                 }
                 $("#itemImages").html(imagesHtml);
+                loadWorkshopsForCard(itemId);
+
             }
         })
+        function loadWorkshopsForCard(itemId){
+            let token = localStorage.getItem("authtoken");
+            $.ajax({
+                url: `http://localhost:8080/api/v1/workshop/getWorkshopByItem/${itemId}`,
+                method: "GET",
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
+                success: function (response) {
+                    let workshops = response.data;
+                    let container = $(".card-container");
+                    container.empty();
+
+                    if (!workshops || workshops.length === 0) {
+                        container.html("<p class='text-muted'>No workshops available for this item</p>");
+                        return;
+                    }
+
+                    workshops.forEach(workshop => {
+                        let firstImageUrl = workshop.image && workshop.image.length > 0
+                            ? `http://localhost:8080/uploads/${workshop.image[0]}`
+                            : "default-placeholder.png";
+
+                        let card = `
+                <div class="cards">
+                    <img src="${firstImageUrl}" alt="${workshop.title}">
+                    <div class="card-body">
+                        <div class="card-title">${workshop.title}</div>
+                        <div class="card-text">${workshop.location}</div>
+                        <div class="card-text">${workshop.duration}</div>
+                        <div class="card-text">Fee: ${workshop.fee}</div>
+                                    <a href="" class="btn">View More</a>
+\
+                    </div>
+                </div>`;
+                        container.append(card);
+                    });
+                }
+            });
+        }
+
+
     })
 
 </script>

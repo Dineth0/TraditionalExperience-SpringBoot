@@ -1,7 +1,8 @@
 $(document).ready(function(){
+    let params = new URLSearchParams(window.location.search);
     loadInstructorsDropDown();
     loadItemsDropDown();
-    loadWorkshops();
+    loadWorkshopsForTable();
     let token = localStorage.getItem("authtoken");
     if (!token) {
         window.location.href = 'SignIn.html';
@@ -129,7 +130,7 @@ $(document).ready(function(){
             }
         })
     })
-    function loadWorkshops(){
+    function loadWorkshopsForTable(){
         let token = localStorage.getItem("authtoken");
         $.ajax({
             url:'http://localhost:8080/api/v1/workshop/getAllWorkshops',
@@ -137,17 +138,17 @@ $(document).ready(function(){
             headers: token ? { 'Authorization': 'Bearer ' + token } : {},
             success: function (response) {
                 let workshops = response.data;
-                let container = $(".card-container");
+                // let container = $(".card-container");
                 let tbody = $('.workshop-tbody');
 
                 tbody.empty();
-                container.empty()
+                // container.empty()
 
-                if(!workshops || workshops.length === 0) {
-                    container.html('<p>No items added yet</p>');
-                    return;
-                }
-                workshops.forEach(workshops =>{
+                // if(!workshops || workshops.length === 0) {
+                //     container.html('<p>No items added yet</p>');
+                //     return;
+                // }
+                workshops.forEach(workshops => {
                     let workshopTitle = workshops.title;
                     let workshopDescription = workshops.description;
                     let location = workshops.location;
@@ -181,24 +182,10 @@ $(document).ready(function(){
                         <td>${imagesHtml}</td>
                     </tr>`;
                     tbody.append(row);
-
-                    let firstImageUrl = imagePaths.length > 0
-                        ? `http://localhost:8080/uploads/${imagePaths[0]}`
-                        : 'default-placeholder.png';
-
-                    let card = `
-                    <div class="cards">
-                        <img src="${firstImageUrl}" alt="${workshopTitle}">
-                        <div class="card-body">
-                            <div class="card-title">${workshopTitle}</div>
-                            <div class="card-text">${location}</div>
-                            <div class="card-text">${duration}</div>
-                            <div class="card-text">${fee}</div>
-            <a href="Item-Details.html?id=${workshops.id}" class="btn">View More</a>
-                        </div>
-                    </div>`;
-                    container.append(card);
                 })
+
+
+
             },
             error: function (xhr) {
                 if (xhr.status === 204) {
@@ -225,4 +212,5 @@ $(document).ready(function(){
 
         })
     }
+
 })
