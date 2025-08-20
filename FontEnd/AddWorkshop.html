@@ -98,7 +98,7 @@
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h4 class="mb-0">Job Listings</h4>
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addJobModal">
-                    + Add Job
+                    + Add Workshop
                 </button>
             </div>
             <div class="mb-3">
@@ -110,10 +110,10 @@
                     <tr>
                         <th scope="col">Title</th>
                         <th scope="col">Description</th>
-                        <th scope="col">Location</th>
                         <th scope="col">Duration</th>
                         <th scope="col">Language</th>
                         <th scope="col">Participant Count</th>
+                        <th scope="col">Includes</th>
                         <th scope="col">Fee</th>
                         <th scope="col">Address</th>
                         <th scope="col">Times</th>
@@ -161,12 +161,6 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-12">
-                        <div class="form-group">
-                            <label for="location">Location</label>
-                            <input class="form-control" type="text" name="location" id="location" required>
-                        </div>
-                    </div>
 
                     <div class="col-lg-12">
                         <div class="form-group">
@@ -177,15 +171,23 @@
 
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label>Language</label>
+                            <label for="language">Language</label>
                             <input class="form-control" type="text" name="language" id="language" required>
                         </div>
                     </div>
 
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label>Participant Count</label>
+                            <label for="participantCount">Participant Count</label>
                             <input class="form-control" type="number" name="participantCount" id="participantCount" required>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group" id="includeSection">
+                            <label for="include">Includes Workshop</label>
+                            <input class="form-control include-input" type="text" name="include" id="include" required>
+                            <button type="button" id="addIncludeButton" class="btn btn-primary">Add Another Include</button>
                         </div>
                     </div>
 

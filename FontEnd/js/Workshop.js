@@ -64,6 +64,9 @@ $(document).ready(function(){
     $('#addTimeButton').on('click', function(){
         $('#timeSection').append(' <input class="form-control time-input" type="time" name="fee" id="time" required>')
     });
+    $('#addIncludeButton').on('click', function(){
+        $('#includeSection').append(' <input class="form-control include-input" type="text" name="include" id="include" required>')
+    })
 
     $('#workshopForm').on('submit', function(e){
         e.preventDefault();
@@ -77,11 +80,16 @@ $(document).ready(function(){
                 times.push($(this).val());
             }
         });
+        let includes=[];
+        $('.include-input').each(function(){
+            if($(this).val()){
+                includes.push($(this).val());
+            }
+        })
 
         let workshop ={
             title: $('#workshopTitle').val(),
             description: $('#description').val(),
-            location: $('#location').val(),
             duration: $('#duration').val(),
             language: $('#language').val(),
             participantCount: $('#participantCount').val(),
@@ -89,7 +97,8 @@ $(document).ready(function(){
             address: $('#address').val(),
             itemId:$('#itemSelect').val(),
             instructorId:$('#instructorSelect').val(),
-            time:times
+            time:times,
+            include:includes
 
         }
         let formData = new FormData();
@@ -164,10 +173,10 @@ $(document).ready(function(){
                 workshops.forEach(workshops => {
                     let workshopTitle = workshops.title;
                     let workshopDescription = workshops.description;
-                    let location = workshops.location;
                     let duration = workshops.duration;
                     let language = workshops.language;
                     let participantCount = workshops.participantCount;
+                    let include = workshops.include;
                     let fee = workshops.fee;
                     let address = workshops.address;
                     let times= workshops.time;
@@ -181,20 +190,21 @@ $(document).ready(function(){
                     <tr class="workshop-row" 
                         data-workshop-title="${workshopTitle}"
                         data-description="${workshopDescription}"
-                        data-location="${location}"
+                 
                         data-deration="${duration}"
                         data-language="${language}"
                         data-participantCount="${participantCount}"
+                        data-inculde="${include}"
                         data-fee="${fee}"
                         data-address="${address}"
                         data-time="${times}"
                         data-image="${imagePaths.join(';')}">
                         <td>${workshopTitle}</td>
-                        <td>${workshopDescription}</td>
-                        <td>${location}</td>
+                        <td>${workshopDescription}></td>
                         <td>${duration}</td>
                         <td>${language}</td>
                         <td>${participantCount}</td>
+                        <td>${include}</td>
                         <td>${fee}</td>
                         <td>${address}</td>
                          <td>${times.join(', ')}</td>

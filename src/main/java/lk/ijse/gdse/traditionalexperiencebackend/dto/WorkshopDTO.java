@@ -14,7 +14,6 @@ public class WorkshopDTO {
     private Long id;
     private String title;
     private String description;
-    private String location;
     private String duration;
     private String language;
     private int participantCount;
@@ -22,6 +21,7 @@ public class WorkshopDTO {
     private String address;
     private List<String> image;
     private List<String> time;
+    private List<String> include;
     private Long itemId;
     private Long instructorId;
 //    private String mapUrl;

@@ -18,7 +18,6 @@ public class Workshop {
     private Long id;
     private String title;
     private String description;
-    private String location;
     private String duration;
     private String language;
     private int participantCount;
@@ -28,6 +27,8 @@ public class Workshop {
     private List<String> image;
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> time;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> include;
 //    private String mapUrl;
 
     @ManyToOne
