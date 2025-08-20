@@ -25,6 +25,8 @@ public class Workshop {
     private String fee;
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> image;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> time;
 //    private String mapUrl;
 
     @ManyToOne

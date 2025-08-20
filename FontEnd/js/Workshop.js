@@ -61,11 +61,22 @@ $(document).ready(function(){
             }
         })
     }
+    $('#addTimeButton').on('click', function(){
+        $('#timeSection').append(' <input class="form-control time-input" type="time" name="fee" id="time" required>')
+    });
 
     $('#workshopForm').on('submit', function(e){
         e.preventDefault();
 
+
         let token = localStorage.getItem("authtoken");
+
+        let times = [];
+        $('.time-input').each(function(){
+            if($(this).val()){
+                times.push($(this).val());
+            }
+        });
 
         let workshop ={
             title: $('#workshopTitle').val(),
@@ -76,7 +87,8 @@ $(document).ready(function(){
             participantCount: $('#participantCount').val(),
             fee: $('#fees').val(),
             itemId:$('#itemSelect').val(),
-            instructorId:$('#instructorSelect').val()
+            instructorId:$('#instructorSelect').val(),
+            time:times
 
         }
         let formData = new FormData();
@@ -156,6 +168,7 @@ $(document).ready(function(){
                     let language = workshops.language;
                     let participantCount = workshops.participantCount;
                     let fee = workshops.fee;
+                    let times= workshops.time;
                     let imagePaths = workshops.image || []
 
                     let imagesHtml = imagePaths.length > 0
@@ -171,6 +184,7 @@ $(document).ready(function(){
                         data-language="${language}"
                         data-participantCount="${participantCount}"
                         data-fee="${fee}"
+                        data-time="${times}"
                         data-image="${imagePaths.join(';')}">
                         <td>${workshopTitle}</td>
                         <td>${workshopDescription}</td>
@@ -179,6 +193,7 @@ $(document).ready(function(){
                         <td>${language}</td>
                         <td>${participantCount}</td>
                         <td>${fee}</td>
+                         <td>${times.join(', ')}</td>
                         <td>${imagesHtml}</td>
                         <td>
                             <button class="btn btn-sm" style="background-color:bisque" ">Edit</button>

@@ -115,6 +115,7 @@
                         <th scope="col">Language</th>
                         <th scope="col">Participant Count</th>
                         <th scope="col">Fee</th>
+                        <th scope="col">Times</th>
                         <th scope="col">Images</th>
                         <th>Actions</th>
                     </tr>
@@ -191,6 +192,14 @@
                         <div class="form-group">
                             <label for="fees">Fee</label>
                             <input class="form-control" type="text" name="fee" id="fees" required>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group" id="timeSection">
+                            <label for="time">Workshop Times</label>
+                            <input class="form-control time-input" type="time" name="time" id="time" required>
+                            <button type="button" id="addTimeButton" class="btn btn-primary">Add Another Time</button>
                         </div>
                     </div>
 
