@@ -23,6 +23,7 @@ public class Workshop {
     private String language;
     private int participantCount;
     private String fee;
+    private String address;
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> image;
     @ElementCollection(fetch = FetchType.EAGER)

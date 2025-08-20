@@ -86,6 +86,7 @@ $(document).ready(function(){
             language: $('#language').val(),
             participantCount: $('#participantCount').val(),
             fee: $('#fees').val(),
+            address: $('#address').val(),
             itemId:$('#itemSelect').val(),
             instructorId:$('#instructorSelect').val(),
             time:times
@@ -168,6 +169,7 @@ $(document).ready(function(){
                     let language = workshops.language;
                     let participantCount = workshops.participantCount;
                     let fee = workshops.fee;
+                    let address = workshops.address;
                     let times= workshops.time;
                     let imagePaths = workshops.image || []
 
@@ -184,6 +186,7 @@ $(document).ready(function(){
                         data-language="${language}"
                         data-participantCount="${participantCount}"
                         data-fee="${fee}"
+                        data-address="${address}"
                         data-time="${times}"
                         data-image="${imagePaths.join(';')}">
                         <td>${workshopTitle}</td>
@@ -193,6 +196,7 @@ $(document).ready(function(){
                         <td>${language}</td>
                         <td>${participantCount}</td>
                         <td>${fee}</td>
+                        <td>${address}</td>
                          <td>${times.join(', ')}</td>
                         <td>${imagesHtml}</td>
                         <td>

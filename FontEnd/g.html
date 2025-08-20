@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Workshop Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+</head>
+<body>
+<div id="map" style="width:100%; height:400px;"></div>
+
+<!-- jQuery -->
+<script src="js/jquery-3.7.1.min.js"></script>
+
+<!-- Leaflet -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+    <div id="map" style="width: 100%; height: 400px;"></div>
+
+    <!-- Leaflet CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+    function loadWorkshopMap(address) {
+        // Default Sri Lanka center
+        var map = L.map('map').setView([7.8731, 80.7718], 7);
+
+        // Free OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Geocode address using Nominatim
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.length > 0) {
+                    let lat = data[0].lat;
+                    let lon = data[0].lon;
+                    map.setView([lat, lon], 15);
+
+                    L.marker([lat, lon]).addTo(map)
+                        .bindPopup(address)
+                        .openPopup();
+                } else {
+                    alert("Address not found!");
+                }
+            });
+    }
+
+    // Example: backend එකෙන් ගත් workshop එකේ address
+    let workshopAddress = "Mathugama, Sri Lanka"; // <- backend response එකෙන් set කරන්න
+    loadWorkshopMap(workshopAddress);
+</script>
+
+
+</script>
+</body>
+</html>

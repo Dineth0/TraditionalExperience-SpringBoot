@@ -19,6 +19,7 @@ public class WorkshopDTO {
     private String language;
     private int participantCount;
     private String fee;
+    private String address;
     private List<String> image;
     private List<String> time;
     private Long itemId;
