@@ -1,65 +1,65 @@
 <!DOCTYPE html>
-    <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-            <style>
-                .gallery-thumbs{
-                    max-height: 450px;
-                }
-                .thumbLeft{
-                    position: relative;
-                    margin-bottom: 10px;
-                }
-                .gallery-thumbs img{
-                    width: 100%;
-                    height: 90px;
-                    object-fit: cover;
-                    border-radius: 10px;
-                    cursor: pointer;
-                }
-                .see-moreBTN{
-                    position: absolute;
-                    bottom: 0;
-                    right: 0;
-                    left: 0;
-                    top:0;
-                    background-color: rgba(255,255,255,0.5);
-                    color: #fff;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    font-weight: bold;
-                    font-size: 1.1rem;
-                    border-radius: 10px;
-                    cursor: pointer;
-                }
-                .main-image img{
-                    width: 100%;
-                    height: 470px;
-                    object-fit: cover;
-                    border-radius: 10px;
-                }
-                .details-card{
-                    background-color: rgba(255,255,255,0.5);
-                    border-radius: 10px;
-                    padding: 10px;
-                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-                }
-                #rightSide{
-                    position: fixed;
-                    top:100px;
-                    right:40px;
-                    width: 40%;
-                    z-index: 1000;
-                    height: fit-content;
-                }
+    <style>
+        .gallery-thumbs{
+            max-height: 450px;
+        }
+        .thumbLeft{
+            position: relative;
+            margin-bottom: 10px;
+        }
+        .gallery-thumbs img{
+            width: 100%;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .see-moreBTN{
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            top:0;
+            background-color: rgba(255,255,255,0.5);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .main-image img{
+            width: 100%;
+            height: 470px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .details-card{
+            background-color: rgba(255,255,255,0.5);
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+        #rightSide{
+            position: fixed;
+            top:100px;
+            right:40px;
+            width: 40%;
+            z-index: 1000;
+            height: fit-content;
+        }
 
-            </style>
-        </head>
+    </style>
+</head>
 
 <body>
 <div class="container my-5">
@@ -94,13 +94,13 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body text-center">
-               <img id="modalImage" src="" class="img-fluid rounded"></img>
-                  </div>
+                <img id="modalImage" src="" class="img-fluid rounded"></img>
+            </div>
 
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-secondary" id="prevBtn">Prev</button>
-                    <button type="button" class="btn submit-btn" id="nextBtn">Next</button>
-                </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-secondary" id="prevBtn">Prev</button>
+                <button type="button" class="btn submit-btn" id="nextBtn">Next</button>
+            </div>
         </div>
     </div>
 </div>
@@ -148,14 +148,14 @@
                 if(workshop.image && workshop.image.length > 0){
                     allImages = workshop.image;
                     $('#mainImage img').attr('src',`http://localhost:8080/uploads/${allImages[0]}`);
-                     $('#thumbGallery').empty();
+                    $('#thumbGallery').empty();
 
-                     allImages.slice(0,5).forEach((img, index) => {
-                         let thumbHtml = `<div class="thumbLeft">
+                    allImages.slice(0,5).forEach((img, index) => {
+                        let thumbHtml = `<div class="thumbLeft">
                                                 <img src="http://localhost:8080/uploads/${img}" data-index="${index}" />
                                             </div>`
-                         $('#thumbGallery').append(thumbHtml);
-                     })
+                        $('#thumbGallery').append(thumbHtml);
+                    })
 
                     if(allImages.length > 5){
                         $('#thumbGallery .thumbLeft:last').append(
