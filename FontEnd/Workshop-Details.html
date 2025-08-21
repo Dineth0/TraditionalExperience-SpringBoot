@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+            <style>
+                .gallery-thumbs{
+                    max-height: 450px;
+                }
+                .thumbLeft{
+                    position: relative;
+                    margin-bottom: 10px;
+                }
+                .gallery-thumbs img{
+                    width: 100%;
+                    height: 90px;
+                    object-fit: cover;
+                    border-radius: 10px;
+                    cursor: pointer;
+                }
+                .see-moreBTN{
+                    position: absolute;
+                    bottom: 0;
+                    right: 0;
+                    left: 0;
+                    top:0;
+                    background-color: rgba(255,255,255,0.5);
+                    color: #fff;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-weight: bold;
+                    font-size: 1.1rem;
+                    border-radius: 10px;
+                    cursor: pointer;
+                }
+                .main-image img{
+                    width: 100%;
+                    height: 470px;
+                    object-fit: cover;
+                    border-radius: 10px;
+                }
+                .details-card{
+                    background-color: rgba(255,255,255,0.5);
+                    border-radius: 10px;
+                    padding: 10px;
+                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+                }
+                #rightSide{
+                    position: fixed;
+                    top:100px;
+                    right:40px;
+                    width: 40%;
+                    z-index: 1000;
+                    height: fit-content;
+                }
+
+            </style>
+        </head>
+
+<body>
+<div class="container my-5">
+    <div class="row g-4">
+        <div class="col-md-7">
+            <div class="row">
+                <div class="col-3 gallery-thumbs" id="thumbGallery"></div>
+                <div class="col-9 main-image" id="mainImage">
+                    <img src="" alt="">
+                </div>
+            </div>
+            <div class="row">
+                <p><strong>කාලය:</strong> <span id="workshopDuration"></span></p>
+                <p><strong>භාෂාව:</strong> <span id="workshopLanguage"></span></p>
+                <p><strong>පිවිසුම් ගණන:</strong> <span id="workshopParticipants"></span></p>
+                <p class="price">Fee: $<span id="workshopFee"></span></p>
+                <p><strong>ලිපිනය:</strong> <span id="workshopAddress"></span></p>
+                <p><strong>Times:</strong> <span id="workshopTimes"></span></p>
+                <p><strong>Includes:</strong> <span id="workshopIncludes"></span></p>
+            </div>
+        </div>
+
+        <div class="col-md-5" id="rightSide">
+            <div class="details-card">
+                <p><strong>From </strong><span id="fees"></span><span>  per Person</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="imageModal" tabindex="-1" >
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+               <img id="modalImage" src="" class="img-fluid rounded"></img>
+                  </div>
+
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-secondary" id="prevBtn">Prev</button>
+                    <button type="button" class="btn submit-btn" id="nextBtn">Next</button>
+                </div>
+        </div>
+    </div>
+</div>
+<script src="js/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    let allImages = [];
+    let currentIndex = 0;
+
+    function openModal(index) {
+        currentIndex = index;
+        $('#modalImage').attr('src', 'http://localhost:8080/uploads/' + allImages[currentIndex]);
+        $('#imageModal').modal('show');
+    }
+    $(document).ready(function () {
+        let params = new URLSearchParams(window.location.search);
+        let workshopId = params.get('id');
+
+        if(!workshopId){
+            $('body').html('<p class="text-danger text-center">Workshop Not Found</p>')
+            return
+        }
+        let token = localStorage.getItem('authtoken');
+        $.ajax({
+            url: `http://localhost:8080/api/v1/workshop/getWorkshopById/${workshopId}` ,
+            method: 'GET',
+            headers: {
+                "Authorization": "Bearer " + token
+            },
+            success: function (response) {
+                let workshop = response.data;
+
+                $("#workshopTitle").text(workshop.title);
+
+                $("#workshopDescription").text(workshop.description);
+                $("#workshopDuration").text(workshop.duration);
+                $("#workshopLanguage").text(workshop.language);
+                $("#workshopParticipants").text(workshop.participantCount);
+                $("#workshopFee").text(workshop.fee);
+                $("#fees").text(workshop.fee);
+                $("#workshopAddress").text(workshop.address);
+                $("#workshopTimes").text(workshop.time.join(", "));
+                $("#workshopIncludes").text(workshop.include.join(", "));
+
+                if(workshop.image && workshop.image.length > 0){
+                    allImages = workshop.image;
+                    $('#mainImage img').attr('src',`http://localhost:8080/uploads/${allImages[0]}`);
+                     $('#thumbGallery').empty();
+
+                     allImages.slice(0,5).forEach((img, index) => {
+                         let thumbHtml = `<div class="thumbLeft">
+                                                <img src="http://localhost:8080/uploads/${img}" data-index="${index}" />
+                                            </div>`
+                         $('#thumbGallery').append(thumbHtml);
+                     })
+
+                    if(allImages.length > 5){
+                        $('#thumbGallery .thumbLeft:last').append(
+                            `<div class="see-moreBTN" id="seeMoreBtn">See More</div>`
+                        );
+                    }
+                    $('#thumbGallery').on('click','img', function () {
+                        let idx = $(this).data('index');
+                        $('#mainImage img').attr('src', $(this).attr('src'));
+
+                    })
+                    $('#thumbGallery').on('click','#seeMoreBtn', function () {
+                        openModal(0);
+
+                    })
+                    $('#prevBtn').on('click', function () {
+                        currentIndex = (currentIndex - 1 + allImages.length) % allImages.length;
+                        $("#modalImage").attr("src", "http://localhost:8080/uploads/" + allImages[currentIndex]);
+
+                    })
+                    $('#nextBtn').on('click', function () {
+                        currentIndex = (currentIndex +1) % allImages.length;
+                        $("#modalImage").attr("src", "http://localhost:8080/uploads/" + allImages[currentIndex]);
+
+                    })
+
+                }
+            }
+        })
+    })
+
+</script>
+</body>
+</html>

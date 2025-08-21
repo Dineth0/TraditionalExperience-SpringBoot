@@ -65,4 +65,11 @@ public class WorkshopServiceImpl implements WorkshopService {
                 .map(workshop -> modelMapper.map(workshop, WorkshopDTO.class))
                 .toList();
     }
+
+    @Override
+    public WorkshopDTO getWorkshopById(Long id) {
+        return workshopRepo.findById(id)
+                .map(workshop -> modelMapper.map(workshop, WorkshopDTO.class))
+                .orElse(null);
+    }
 }

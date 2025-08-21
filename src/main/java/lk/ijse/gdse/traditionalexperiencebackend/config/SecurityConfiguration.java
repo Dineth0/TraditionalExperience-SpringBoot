@@ -65,7 +65,8 @@ public class SecurityConfiguration {
                                 "/api/v1/item/getItem/**",
                                 "/api/v1/instructor/getAllInstructors",
                                 "/api/v1/workshop/getAllWorkshops",
-                                "api/v1/workshop/getWorkshopByItem/**"
+                                "api/v1/workshop/getWorkshopByItem/**",
+                                "api/v1/workshop/getWorkshopById/**"
 
                         ).permitAll()
                         .requestMatchers("/api/v1/item/addItem",

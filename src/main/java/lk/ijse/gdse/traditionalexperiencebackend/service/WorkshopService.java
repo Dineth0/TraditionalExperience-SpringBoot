@@ -9,4 +9,5 @@ public interface WorkshopService {
     int addWorkshop(WorkshopDTO workshopDTO);
     List<WorkshopDTO> getAllWorkshops();
     List<WorkshopDTO> getWorkshopsByItem(Long itemId);
+    WorkshopDTO getWorkshopById(Long id);
 }

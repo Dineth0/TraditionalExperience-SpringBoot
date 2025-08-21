@@ -84,4 +84,20 @@ public class WorkshopController {
                     .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
         }
     }
+    @GetMapping("/getWorkshopById/{id}")
+    public ResponseEntity<ResponseDTO> getWorkshopById(@PathVariable Long id){
+        try{
+            WorkshopDTO workshopDTO = workshopService.getWorkshopById(id);
+            if(workshopDTO != null){
+                return ResponseEntity.status(HttpStatus.OK)
+                        .body(new ResponseDTO(VarList.OK, "Success", workshopDTO));
+            }else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseDTO(VarList.Not_Found, "Workshop Not Found", null));
+            }
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+        }
+    }
 }
