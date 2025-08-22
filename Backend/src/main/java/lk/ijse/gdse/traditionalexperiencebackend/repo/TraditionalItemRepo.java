@@ -7,5 +7,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface TraditionalItemRepo extends JpaRepository<TraditionalItem, Long> {
+    boolean existsByItemName(String itemName);
 //    void findById(UUID id);
 }

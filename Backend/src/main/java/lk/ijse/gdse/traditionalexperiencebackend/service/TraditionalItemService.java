@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface TraditionalItemService {
-    void addItem(TraditionalItemDTO itemDTO);
+    int addItem(TraditionalItemDTO itemDTO);
     List<TraditionalItemDTO> getAllItems();
 
     TraditionalItemDTO getItemById(Long id);
