@@ -72,4 +72,12 @@ public class WorkshopServiceImpl implements WorkshopService {
                 .map(workshop -> modelMapper.map(workshop, WorkshopDTO.class))
                 .orElse(null);
     }
+
+    @Override
+    public int getParticipantsById(Long id) {
+        Integer count = workshopRepo.getParticipantCountById(id);
+        return (count != null) ? count : 0;
+    }
+
+
 }
