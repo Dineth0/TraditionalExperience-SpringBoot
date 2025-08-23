@@ -183,7 +183,7 @@
             <p class="text-muted">Loading Images...</p>
         </div>
     </div>
-    <h3>Workshops Here</h3>
+    <h3 style="color: white; text-align: center">Workshops Here</h3>
     <section class="card-container"></section>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -202,7 +202,8 @@
         $.ajax({
             url: `http://localhost:8080/api/v1/item/getItem/${itemId}`,
             method: "GET",
-            success: function (item) {
+            success: function (response) {
+                let item = response.data
                 $("#itemName").text(item.itemName);
                 $("#itemDescription").text(item.itemDescription);
 

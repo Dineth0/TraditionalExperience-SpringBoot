@@ -30,15 +30,24 @@ $(document).ready(function(){
             processData: false,
             contentType: false,
             success: function (response) {
-                Swal.fire({
-                    icon: "success",
-                    title: "Added Successful",
-                    showConfirmButton: false,
-                    timer: 2000
-                }).then(() => {
-                    loadItems();
-                    window.location.href = "items.html";
-                })
+                if(response.code === 201) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Added Successful",
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        loadItems();
+                        window.location.href = "items.html";
+                    })
+                }else if (response.code === 502) {
+                    Swal.fire({
+                        icon: "error",
+                        title: response.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                }
 
             },
             error: function (xhr) {
@@ -61,7 +70,8 @@ $(document).ready(function(){
             method: 'GET',
             headers: token ? { 'Authorization': 'Bearer ' + token } : {},
 
-            success: function (items) {
+            success: function (response) {
+                let items = response.data;
                 let container = $(".card-container");
                 let tbody = $('.item-tbody');
 
@@ -155,3 +165,21 @@ $(document).ready(function(){
         window.location.href = "home.html";
     }
 })
+function editJob(id) {
+    $.ajax({
+        method: "GET",
+        url: `http://localhost:8080/api/v1/item/getItem/${id}`,
+        success: function (job) {
+            $('#editItemName').val(job.jobTitle);
+            $('#editItemShortDescription').val(job.company);
+            $('#editItemDescription').val(job.location);
+
+
+            $('#editItemModal').modal('show');
+        },
+        error: function (xhr, status, error) {
+            console.log(xhr.responseText);
+            alert("Failed to edit job!");
+        }
+    })
+}

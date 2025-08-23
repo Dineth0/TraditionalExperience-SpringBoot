@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <style>
+        body {
+            background-color: #704534;
+        }
         .gallery-thumbs{
             max-height: 450px;
         }
@@ -17,8 +20,7 @@
         .gallery-thumbs img{
             width: 100%;
             height: 90px;
-            object-fit: cover;
-            border-radius: 10px;
+              border-radius: 10px;
             cursor: pointer;
         }
         .see-moreBTN{
@@ -57,11 +59,44 @@
             z-index: 1000;
             height: fit-content;
         }
+        .picker-box{
+            border:1px solid #e6e6e6; border-radius:10px; overflow:hidden; background:#fff;
+        }
+        .picker-cell{
+            padding:12px 14px; display:flex; align-items:center; gap:10px; cursor:pointer;
+            border-right:1px solid #eee;
+        }
+        .picker-cell:last-child{ border-right:none; }
+        .picker-cell .label{ font-size:12px; color:#666; display:block; }
+        .picker-cell .value{ font-weight:600; }
+        .btn-primary-viator{ background:#00897b; border-color:#00897b; }
+        .btn-primary-viator:hover{ background:#007b6f; border-color:#007b6f; }
+        .info-line{ color:#1f7a1f; font-size:14px; }
+        .availability-list .slot{ border:1px solid #e7e7e7; border-radius:10px; padding:10px 12px; margin-bottom:8px; background:#fff; }
+        .availability-empty{ padding:10px 12px; border-radius:10px; background:#fff3cd; border:1px solid #ffeeba; color:#8a6d3b; }
 
     </style>
 </head>
 
 <body>
+<header class="sticky-top" style="background: rgba(71,40,40,0.9); border-bottom: 1px solid #bf8f5f;">
+    <nav class="navbar navbar-expand-lg navbar-dark container-fluid">
+        <a class="navbar-brand" href="#" style="color: #e2c6a3;">Heritage Portal</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Crafts</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Workshops</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Reviews</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<h2 id="workshopName" style="text-align: center; margin-bottom: 50px;" ></h2>
 <div class="container my-5">
     <div class="row g-4">
         <div class="col-md-7">
@@ -71,22 +106,66 @@
                     <img src="" alt="">
                 </div>
             </div>
-            <div class="row">
-                <p><strong>කාලය:</strong> <span id="workshopDuration"></span></p>
-                <p><strong>භාෂාව:</strong> <span id="workshopLanguage"></span></p>
-                <p><strong>පිවිසුම් ගණන:</strong> <span id="workshopParticipants"></span></p>
+            <div class="row" style="color: white">
+                <p><strong>Duration:</strong> <span id="workshopDuration"></span></p>
+                <p><strong>Language:</strong> <span id="workshopLanguage"></span></p>
+                <p><strong>Participants:</strong> <span id="workshopParticipants">less than</span></p>
                 <p class="price">Fee: $<span id="workshopFee"></span></p>
-                <p><strong>ලිපිනය:</strong> <span id="workshopAddress"></span></p>
+                <p><strong>Address:</strong> <span id="workshopAddress"></span></p>
                 <p><strong>Times:</strong> <span id="workshopTimes"></span></p>
                 <p><strong>Includes:</strong> <span id="workshopIncludes"></span></p>
             </div>
         </div>
 
-        <div class="col-md-5" id="rightSide">
-            <div class="details-card">
-                <p><strong>From </strong><span id="fees"></span><span>  per Person</span></p>
+        <div class="col-lg-5">
+            <div id="rightSide" class="details-card">
+                <p class="mb-2 fs-5">
+                    From $<span id="fees">0</span><span class="text-muted"> per person</span>
+                </p>
+
+                <!-- Date & Travelers IU like screenshot -->
+                <div class="picker-box d-flex mt-2">
+                    <!-- Date cell -->
+                    <div class="picker-cell flex-fill" id="dateCell">
+                        <div class="w-100">
+                            <span class="label">Date</span>
+                            <span class="value" id="dateDisplay">Pick a date</span>
+                            <input type="date" class="form-control d-none" id="bookingDate">
+                        </div>
+
+                    </div>
+
+                    <!-- Travelers cell -->
+                    <div class="picker-cell flex-fill" id="participantCell">
+                        <div class="w-100">
+                            <span class="label">Participants </span>
+                            <span class="value" id="participantCountDisplay"></span>
+                        </div>
+                        <i class="fa-solid fa-angle-down ms-auto"></i>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary-viator w-100 mt-3" id="checkAvailabilityBtn">
+                    Check Availability
+                </button>
+
+                <div class="mt-3 p-3 rounded" style="background:#f2fff6; border:1px solid #d9f5e0;">
+                    <p class="mb-1 info-line"><i class="fa fa-check-circle"></i> Free cancellation up to 24 hours before</p>
+                    <p class="mb-0 info-line"><i class="fa fa-check-circle"></i> Reserve Now and Pay Later</p>
+                </div>
+
+                <!-- Availability results -->
+                <div class="mt-3" id="availabilityWrap" style="display:none;">
+                    <h6 class="mb-2">Available Workshops</h6>
+                    <div class="availability-list" id="availabilityList"></div>
+                </div>
+
+                <!--                <div class="mt-3 alert alert-warning mb-0">-->
+                <!--                    <strong>Book ahead!</strong><br/>On average, this is booked 12 days in advance.-->
+                <!--                </div>-->
             </div>
         </div>
+
     </div>
 </div>
 
@@ -101,6 +180,28 @@
                 <button type="button" class="btn btn-secondary" id="prevBtn">Prev</button>
                 <button type="button" class="btn submit-btn" id="nextBtn">Next</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="participantModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-3">
+            <h6 class="mb-2">Select up to <span id="maxTotalSpan"></span> participants in total.</h6>
+
+            <div class="d-flex justify-content-between align-items-center my-2">
+                <div>
+                    <strong>Only over 8 years old</strong><br>
+                    <small class="text-muted">Minimum: 0, Maximum: <span id="maxSpan"></span></small>
+                </div>
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-outline-secondary btn-sm" id="Minus"><i class="fa fa-minus"></i></button>
+                    <span class="mx-3" id="participantCount">0</span>
+                    <button class="btn btn-outline-secondary btn-sm" id="Plus"><i class="fa fa-plus"></i></button>
+                </div>
+            </div>
+
+            <button class="btn btn-primary-viator w-100 mt-3" id="applyParticipants">Apply</button>
         </div>
     </div>
 </div>
@@ -133,12 +234,11 @@
             success: function (response) {
                 let workshop = response.data;
 
-                $("#workshopTitle").text(workshop.title);
+                $("#workshopName").text(workshop.title);
 
                 $("#workshopDescription").text(workshop.description);
                 $("#workshopDuration").text(workshop.duration);
                 $("#workshopLanguage").text(workshop.language);
-                $("#workshopParticipants").text(workshop.participantCount);
                 $("#workshopFee").text(workshop.fee);
                 $("#fees").text(workshop.fee);
                 $("#workshopAddress").text(workshop.address);
@@ -183,10 +283,38 @@
                     })
 
                 }
+
             }
+
         })
+        $('#participantCell').on('click', function () {
+            let params = new URLSearchParams(window.location.search);
+            let workshopId = params.get('id');
+            let token = localStorage.getItem('authtoken');
+
+            $.ajax({
+                url: `http://localhost:8080/api/v1/workshop/getParticipantCount/${workshopId}`,
+                method: 'GET',
+                headers: {
+                    Authorization: 'Bearer ' + token
+                },
+                success: function (response) {
+                    let count = response.data || 0;
+
+                    $('#participantCount').html(count);
+                    $('#participantCountDisplay').text(count);
+                    $('#participantModal').modal('show');
+                },
+                error: function (response) {
+                    $('#participantCount').html(0);
+                    $('#participantCountDisplay').text(0);
+                }
+            })
+        })
+
     })
 
 </script>
 </body>
 </html>
+

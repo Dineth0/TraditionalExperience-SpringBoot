@@ -27,7 +27,8 @@ $(document).ready(function(){
             headers: {
                 'Authorization': 'Bearer ' + token,
             },
-            success: function (items) {
+            success: function (response) {
+                let items = response.data;
                 let select = $('#itemSelect');
                 select.empty();
                 select.append('<option value="">Select Item</option>');
