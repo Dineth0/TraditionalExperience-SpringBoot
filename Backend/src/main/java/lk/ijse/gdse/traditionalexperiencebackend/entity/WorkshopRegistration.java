@@ -21,6 +21,7 @@ public class WorkshopRegistration {
     private String country;
     private Date registrationDate;
     private Date selectWorkshopDate;
+    private String workshopTime;
     private int member;
 
     @ManyToOne
