@@ -199,6 +199,7 @@
                     <span class="mx-3" id="participantCount">0</span>
                     <button class="btn btn-outline-secondary btn-sm" id="Plus"><i class="fa fa-plus"></i></button>
                 </div>
+                <div id="alert"></div>
             </div>
 
             <button class="btn btn-primary-viator w-100 mt-3" id="applyParticipants">Apply</button>
@@ -286,7 +287,11 @@
 
             }
 
+
+
         })
+        let maxParticipant = 0;
+        let currentParticipant = 0;
         $('#participantCell').on('click', function () {
             let params = new URLSearchParams(window.location.search);
             let workshopId = params.get('id');
@@ -299,15 +304,111 @@
                     Authorization: 'Bearer ' + token
                 },
                 success: function (response) {
-                    let count = response.data || 0;
+                     maxParticipant = response.data || 0;
+                     currentParticipant =  0;
 
-                    $('#participantCount').html(count);
-                    $('#participantCountDisplay').text(count);
+                    $('#participantCount').html(maxParticipant);
+                    $('#participantCountDisplay').text(maxParticipant);
+                    $('#maxSpan').text(maxParticipant);
+                    $('#maxTotalSpan').text(maxParticipant);
                     $('#participantModal').modal('show');
+
+
                 },
+
                 error: function (response) {
                     $('#participantCount').html(0);
                     $('#participantCountDisplay').text(0);
+                }
+
+
+            })
+        });
+
+        $('#Minus').on('click', function () {
+            if(currentParticipant > 0 ){
+                currentParticipant--;
+
+                $('#participantCount').text(currentParticipant);
+            }
+
+        });
+        $('#Plus').on('click', function () {
+            if(currentParticipant < maxParticipant){
+                currentParticipant++;
+                $('#participantCount').text(currentParticipant);
+            }else {
+                alert("You cannot select more than " + maxParticipants + " participants.");
+
+            }
+
+
+        });
+        $('#applyParticipants').on('click', function () {
+            $('#participantCountDisplay').text(currentParticipant);
+            $('#participantModal').modal('hide');
+            if(currentParticipant === maxParticipant){
+                alert("You cannot select more than " + maxParticipant + " participants.");
+
+            }
+
+        })
+
+        $('#dateCell').on('click', function () {
+            $('#bookingDate').removeClass('d-none')[0].click();
+        });
+        $('#bookingDate').on('change', function () {
+            let selected = $(this).val();
+            if(selected){
+                $('#dateDisplay').text(selected);
+                $('#bookingDate').addClass('d-none');
+            }
+        });
+
+        $('#checkAvailabilityBtn').on('click', function (){
+            let token = localStorage.getItem('authtoken');
+            let params = new URLSearchParams(window.location.search);
+            let workshopId = params.get('id');
+
+            let selectedDate = $('#dateDisplay').text();
+            let participantCount = $('#participantCountDisplay').text();
+
+            if(!selectedDate){
+                Swal.fire({icon:'warning', title:'Please select a date'});
+                return;
+            }
+            if(!participantCount || participantCount === 0){
+                Swal.fire({icon:'warning', title:'Please select a Your Member Count'});
+                return;
+            }
+            $.ajax({
+                url:`http://localhost:8080/api/v1/workshopRegistration/checkAvailability/${workshopId}?date=${selectedDate}`,
+                method:'GET',
+                headers: {
+                    "Authorization": "Bearer " + token
+                },
+                success: function (slots) {
+                    $('#availabilityWrap').show();
+                    $('#availabilityList').empty();
+
+                    if(slots.length === 0){
+                        $('#availabilityList').html('<div class="availability-empty">No Times Available for this day</div>')
+                        return;
+                    }
+                    slots.forEach(function (slot) {
+                        let isAvailable = slot.available;
+                        let btn = `<button class=" btn btn-primary-viator w-100 mb-2 slotBtn"
+                                       data-time="${slot.time}" ${isAvailable ? "" : "disabled"}>
+                                       ${slot.time} ${isAvailable ? "" : "(Booked)"}
+</button>`
+                        $('#availabilityList').append(btn);
+                    })
+
+
+                },
+                error: function (response) {
+                    Swal.fire({icon:'error', title:'Error Checking Available'});
+                    return;
                 }
             })
         })
