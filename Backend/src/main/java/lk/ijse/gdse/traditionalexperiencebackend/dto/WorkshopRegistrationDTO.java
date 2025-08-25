@@ -18,6 +18,7 @@ public class WorkshopRegistrationDTO {
     private Date selectWorkshopDate;
     private String workshopTime;
     private int member;
+    private double totalFee;
     private Long userId;
     private Long workshopId;
 }
