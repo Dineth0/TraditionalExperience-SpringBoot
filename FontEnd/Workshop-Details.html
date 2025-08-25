@@ -470,6 +470,17 @@
             })
         })
 
+        let workshopFee = 0;
+        let selectedSlot = null;
+
+        $(document).on('click', '.slotBtn', function () {
+            selectedSlot = $(this).data('time');
+
+            let participants = parseInt($('#participantCountDisplay').text());
+            let totalFee = workshopFee * participants;
+            $('#totalFee').text('$' + totalFee.toFixed(2));
+            $('#WorkshopBookModal').modal('show')
+        })
 
 
 
