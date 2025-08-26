@@ -43,7 +43,9 @@ public class WorkshopRegistrationServiceImpl implements WorkshopRegistrationServ
                 workshop.setId(workshopRegistrationDTO.getWorkshopId());
                 workshopRegistration.setWorkshop(workshop);
             }
-            if(workshopRegistrationRepo.existsByWorkshopTime(workshopRegistrationDTO.getWorkshopTime())){
+            boolean exists = workshopRegistrationRepo.existsByWorkshopTimeAndSelectWorkshopDateAndWorkshopId(workshopRegistrationDTO.getWorkshopTime(),workshopRegistrationDTO.getSelectWorkshopDate(),workshopRegistrationDTO.getWorkshopId());
+
+            if(exists){
                 return VarList.Not_Acceptable;
             }else {
                 try{

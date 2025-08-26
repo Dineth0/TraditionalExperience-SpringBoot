@@ -216,7 +216,7 @@
                 <h5 class="modal-title" id="WorkshopBookModalLabel">Edit Job</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="WorkshopBootForm">
+            <form id="WorkshopBookForm">
                 <input type="hidden" id="editItemId" name="itemId">
 
                 <h3 class="form-section-title">Workshop Booking</h3>
@@ -259,6 +259,8 @@
 </div>
 <script src="js/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     let allImages = [];
     let currentIndex = 0;
@@ -393,7 +395,7 @@
                 currentParticipant++;
                 $('#participantCount').text(currentParticipant);
             }else {
-                alert("You cannot select more than " + maxParticipants + " participants.");
+                alert("You can only select  " + maxParticipants + " participants.");
 
             }
 
@@ -464,7 +466,10 @@
 
                 },
                 error: function (response) {
-                    Swal.fire({icon:'error', title:'Error Checking Available'});
+                    Swal.fire({
+                        icon:'error',
+                        title:'Error Checking Available'
+                    });
                     return;
                 }
             })
@@ -480,6 +485,71 @@
             let totalFee = workshopFee * participants;
             $('#totalFee').text('$' + totalFee.toFixed(2));
             $('#WorkshopBookModal').modal('show')
+        })
+        $('#WorkshopBookForm').on('submit', function(e) {
+            e.preventDefault();
+
+            let email = $('#email').val();
+            let phone = $('#number').val();
+            let country = $('#country').val();
+            let participants = parseInt($('#participantCountDisplay').text());
+            let totalFee = workshopFee * participants;
+            let selectedDate = $('#dateDisplay').text();
+            let workshopId = new URLSearchParams(window.location.search).get('id');
+            let userId = localStorage.getItem('userId');
+
+            if (!selectedSlot) {
+                alert('Please select a time slot');
+                return;
+            }
+
+
+            let workshopDate = new Date(selectedDate);
+            let registrationData = {
+                email: email,
+                phone: phone,
+                country: country,
+                registrationDate: new Date(),
+                selectWorkshopDate: workshopDate,
+                workshopTime: selectedSlot,
+                member: participants,
+                totalFee: totalFee,
+                userId: userId ?  parseInt(userId): null,
+                workshopId: parseInt(workshopId)
+            };
+
+            let token = localStorage.getItem('authtoken');
+
+            $.ajax({
+                url: 'http://localhost:8080/api/v1/workshopRegistration/registerWorkshop',
+                method: 'POST',
+                contentType: 'application/json',
+                headers: {
+                    "Authorization": "Bearer " + token
+                },
+                data: JSON.stringify(registrationData),
+                success: function (response) {
+                    if (response.code === 201) {
+                        Swal.fire({
+                            icon:'success',
+                            title:'Booking Successfully',
+                        });
+                    } else {
+                        Swal.fire({
+                            icon:'error',
+                            title:'Can not Booking',
+                        });
+                    }
+                },
+                error: function (err) {
+                    Swal.fire({
+                        icon:'error',
+                        title:'Error while booking. Try again.',
+                    });
+
+                    console.error(err);
+                }
+            });
         })
 
 
