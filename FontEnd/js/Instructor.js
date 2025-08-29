@@ -130,7 +130,7 @@ $(document).ready(function(){
                         <td>${instructorPhone}</td>
                         <td>${imagesHtml}</td>
                         <td>
-                            <button class="btn btn-sm" style="background-color:bisque">Edit</button>
+                            <button class="btn btn-sm" style="background-color:bisque" data-id="${instructor.id}" id="editBtn">Edit</button>
                             <button class="btn btn-sm" style="background-color: cornflowerblue">Delete</button>
                         </td>
                     </tr>`;
@@ -181,4 +181,107 @@ $(document).ready(function(){
             }
         })
     }
+
+    $(document).on('click', '#editBtn', function () {
+        let id = $(this).data('id');
+        editInstructor(id)
+    })
+    function editInstructor(id){
+        $.ajax({
+            url: `http://localhost:8080/api/v1/instructor/getInstructorById/${id}`,
+            method: "GET",
+            success : function (response){
+                let instructor = response.data;
+                $('#editInstructorId').val(instructor.id);
+                $('#editInstructorName').val(instructor.instructorName);
+                $('#editInstructorAge').val(instructor.age);
+                $('#editInstructorCategory').val(instructor.category);
+                $('#editInstructorEmail').val(instructor.instructorEmail);
+                $('#editInstructorPhone').val(instructor.instructorPhone);
+
+                let imagesHtml = '';
+                if (instructor.image) {
+                    imagesHtml = `<img src="http://localhost:8080/uploads/${instructor.image}" width="100" style="margin-right:10px"/>`;
+                } else {
+                    imagesHtml = 'No Images';
+                }
+
+                $('#EditInstructorImg').html(imagesHtml)
+                $('#editInstructorModal').modal('show');
+            },
+            error: function (xhr, status, error) {
+                    console.log(xhr.responseText);
+                    alert("Failed to edit Instructor!");
+            }
+
+        })
+    }
+
+    $('#editInstructorForm').submit(function (event) {
+        event.preventDefault();
+
+        let token = localStorage.getItem('authtoken');
+
+        let existingImage = $('#EditInstructorImg img').attr('src')
+            ? $('#EditInstructorImg img').attr('src').replace("http://localhost:8080/uploads/", "")
+            : null;
+        let formData= new FormData();
+
+        let instructor = {
+           id: $('#editInstructorId').val(),
+            instructorName: $('#editInstructorName').val(),
+             age: $('#editInstructorAge').val(),
+            category: $('#editInstructorCategory').val(),
+            instructorEmail: $('#editInstructorEmail').val(),
+            instructorPhone: $('#editInstructorPhone').val(),
+            image: existingImage,
+
+        }
+        formData.append('instructor', new Blob([JSON.stringify(instructor)], {type: 'application/json'}));
+
+        let files = $('#EditInstructorFileInput')[0].files;
+        for(let i = 0; i < files.length; i++) {
+            formData.append('file', files[i]);
+        }
+        $.ajax({
+            url:'http://localhost:8080/api/v1/instructor/updateInstructor',
+            method: 'PUT',
+            headers:{
+                'Authorization': 'Bearer ' + token
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.code === 200) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Updated Successful",
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        loadInstructors();
+                        window.location.href = "Instructor.html";
+                    })
+                } else if (response.code === 502) {
+                    Swal.fire({
+                        icon: "error",
+                        title: response.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                }
+            },
+            error:function (xhr){
+                if (xhr.status === 403) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Not Authenticated",
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                }
+            }
+        })
+    })
 })

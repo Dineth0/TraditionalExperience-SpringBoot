@@ -69,12 +69,15 @@ public class SecurityConfiguration {
                                 "/api/v1/workshop/getWorkshopById/**",
                                 "/api/v1/workshop/getParticipantCount/**",
                                 "/api/v1/workshopRegistration/registerWorkshop/",
-                                "/api/v1/workshopRegistration/checkAvailability/**"
+                                "/api/v1/workshopRegistration/checkAvailability/**",
+                                "api/v1/instructor/getInstructorById/**"
 
                         ).permitAll()
                         .requestMatchers("/api/v1/item/addItem",
                                 "/api/v1/instructor/addInstructor",
-                                "/api/v1/workshop/addWorkshop")
+                                "/api/v1/workshop/addWorkshop",
+                                "/api/v1/item/updateItem",
+                                "/api/v1/instructor/updateInstructor")
                         .hasAuthority("ADMIN")
                         .anyRequest().authenticated()
 

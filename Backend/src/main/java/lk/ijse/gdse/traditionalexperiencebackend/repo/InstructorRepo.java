@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface InstructorRepo extends JpaRepository<Instructor, Long> {
     boolean existsByInstructorName(String instructorName);
+
+    Instructor findByInstructorName(String instructorName);
 }

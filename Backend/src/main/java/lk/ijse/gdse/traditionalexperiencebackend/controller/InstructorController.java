@@ -2,6 +2,7 @@ package lk.ijse.gdse.traditionalexperiencebackend.controller;
 
 import lk.ijse.gdse.traditionalexperiencebackend.dto.InstructorDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.ResponseDTO;
+import lk.ijse.gdse.traditionalexperiencebackend.dto.TraditionalItemDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.service.InstructorService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.ResponseUtil;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
@@ -66,6 +67,60 @@ public class InstructorController {
             List<InstructorDTO> instructors = instructorService.getAllInstructors();
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new ResponseDTO(VarList.OK,"suceess", instructors));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+        }
+    }
+    @PutMapping( value = "/updateInstructor",  consumes = {"multipart/form-data"})
+    public ResponseEntity<ResponseDTO> updateInstructor(@RequestPart("instructor") InstructorDTO instructorDTO
+    , @RequestPart(value = "file", required = false) MultipartFile multipartFile) throws IOException {
+        try {
+            if (multipartFile != null && !multipartFile.isEmpty()) {
+                String fileName = System.currentTimeMillis() + "_" + multipartFile.getOriginalFilename();
+                Path filePath = Paths.get("uploads/", fileName);
+                Files.createDirectories(filePath.getParent());
+                Files.write(filePath, multipartFile.getBytes());
+                instructorDTO.setImage(fileName);
+            }
+
+
+
+            int response = instructorService.updateInstructor(instructorDTO);
+            switch (response) {
+                case VarList.Updated -> {
+                    return ResponseEntity.status(HttpStatus.CREATED)
+                            .body(new ResponseDTO(VarList.Created, "Instructor Saved", instructorDTO));
+                }
+                case VarList.Not_Acceptable -> {
+                    return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
+                            .body(new ResponseDTO(VarList.Not_Acceptable, "Instructor Already exists", null));
+
+                }
+                default -> {
+                    return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                            .body(new ResponseDTO(VarList.Bad_Gateway, "Error While Saving", null));
+
+                }
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error,"file Upload Failed" + e.getMessage(),null));
+
+
+        }
+    }
+    @GetMapping("/getInstructorById/{id}")
+    public ResponseEntity<ResponseDTO> getInstructorById(@PathVariable Long id) {
+        try{
+            InstructorDTO instructorDTO = instructorService.getInstructorById(id);
+            if(instructorDTO != null){
+                return ResponseEntity.status(HttpStatus.OK)
+                        .body(new ResponseDTO(VarList.OK, "Success", instructorDTO));
+            }else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseDTO(VarList.Not_Found, "Workshop Not Found", null));
+            }
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));

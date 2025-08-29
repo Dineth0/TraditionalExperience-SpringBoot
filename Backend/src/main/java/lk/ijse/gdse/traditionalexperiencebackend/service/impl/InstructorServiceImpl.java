@@ -42,4 +42,38 @@ public class InstructorServiceImpl implements InstructorService {
                 .map(instructor -> modelMapper.map(instructor, InstructorDTO.class))
                 .toList();
     }
+
+    @Override
+    public int updateInstructor(InstructorDTO instructorDTO) {
+        try{
+            Instructor existingInstructor = instructorRepo.findById(instructorDTO.getId()).orElse(null);
+            if(existingInstructor == null){
+                return VarList.Not_Found;
+            }
+            Instructor newInstructor =instructorRepo.findByInstructorName(instructorDTO.getInstructorName());
+            if(newInstructor != null && !newInstructor.getId().equals(instructorDTO.getId())){
+                return VarList.Not_Acceptable;
+            }
+            existingInstructor.setInstructorName(instructorDTO.getInstructorName());
+            existingInstructor.setAge(instructorDTO.getAge());
+            existingInstructor.setCategory(instructorDTO.getCategory());
+            existingInstructor.setInstructorEmail(instructorDTO.getInstructorEmail());
+            existingInstructor.setInstructorPhone(instructorDTO.getInstructorPhone());
+
+            if(instructorDTO.getImage() != null && !instructorDTO.getImage().isEmpty()){
+                existingInstructor.setImage(instructorDTO.getImage());
+            }
+            instructorRepo.save(existingInstructor);
+            return VarList.Updated;
+        }catch (Exception e){
+            return VarList.Bad_Gateway;
+        }
+    }
+
+    @Override
+    public InstructorDTO getInstructorById(Long id) {
+        return instructorRepo.findById(id)
+                .map(instructor -> modelMapper.map(instructor, InstructorDTO.class))
+                .orElse(null);
+    }
 }
