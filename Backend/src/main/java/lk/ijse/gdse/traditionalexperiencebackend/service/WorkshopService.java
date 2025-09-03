@@ -11,4 +11,5 @@ public interface WorkshopService {
     List<WorkshopDTO> getWorkshopsByItem(Long itemId);
     WorkshopDTO getWorkshopById(Long id);
     int getParticipantsById(Long id);
+    int updateWorkshop(WorkshopDTO workshopDTO);
 }

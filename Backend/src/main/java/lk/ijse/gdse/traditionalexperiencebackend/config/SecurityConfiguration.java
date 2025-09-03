@@ -77,7 +77,8 @@ public class SecurityConfiguration {
                                 "/api/v1/instructor/addInstructor",
                                 "/api/v1/workshop/addWorkshop",
                                 "/api/v1/item/updateItem",
-                                "/api/v1/instructor/updateInstructor")
+                                "/api/v1/instructor/updateInstructor",
+                                "/api/v1/workshop/updateWorkshop")
                         .hasAuthority("ADMIN")
                         .anyRequest().authenticated()
 

@@ -19,7 +19,7 @@ $(document).ready(function(){
         window.location.href = "home.html";
     }
 
-    function loadItemsDropDown() {
+    function loadItemsDropDown(selectedItemId = null) {
         let token = localStorage.getItem("authtoken");
         $.ajax({
             url: 'http://localhost:8080/api/v1/item/getAllItems',
@@ -35,11 +35,18 @@ $(document).ready(function(){
                 items.forEach(item => {
                     select.append(`<option value="${item.id}">${item.itemName}</option>`);
                 })
+                let editSelect = $('#EditItemSelect');
+                editSelect.empty();
+                editSelect.append('<option value="">Edit Item</option>');
+                items.forEach(item => {
+                    let selected = (item.id === selectedItemId) ? 'selected' : '';
+                    editSelect.append(`<option value="${item.id}"${selected}>${item.itemName}</option>`);
+                })
             }
         })
     }
 
-    function loadInstructorsDropDown() {
+    function loadInstructorsDropDown(selectedInstructorId = null) {
         let token = localStorage.getItem("authtoken");
         $.ajax({
             url: 'http://localhost:8080/api/v1/instructor/getAllInstructors',
@@ -58,7 +65,15 @@ $(document).ready(function(){
                     instructors.forEach(instructor => {
                         select.append(`<option value="${instructor.id}">${instructor.instructorName}</option>`);
                     });
+                    let editSelect = $('#EditInstructorSelect');
+                    editSelect.empty();
+                    editSelect.append('<option value="">Edit Item</option>');
+                    instructors.forEach(instructor => {
+                        let selected = (instructor.id === selectedInstructorId) ? 'selected' : '';
+                        editSelect.append(`<option value="${instructor.id}"${selected}>${instructor.instructorName}</option>`);
+                    })
                 }
+
             }
         })
     }
@@ -184,7 +199,7 @@ $(document).ready(function(){
                     let imagePaths = workshops.image || []
 
                     let imagesHtml = imagePaths.length > 0
-                        ? imagePaths.map(img => `<img src="http://localhost:8080/uploads/${img}" alt="Item Image" width="80" style="margin-right: 5px;">`).join('')
+                        ? imagePaths.map(img => `<img src="http://localhost:8080/uploads/${img}" alt="Item Image" width="40" style="margin-right: 5px;">`).join('')
                         : 'No Images Found';
 
                     let row = `
@@ -199,6 +214,7 @@ $(document).ready(function(){
                         data-fee="${fee}"
                         data-address="${address}"
                         data-time="${times}"
+                       
                         data-image="${imagePaths.join(';')}">
                         <td>${workshopTitle}</td>
                         <td>${workshopDescription}></td>
@@ -209,9 +225,10 @@ $(document).ready(function(){
                         <td>${fee}</td>
                         <td>${address}</td>
                          <td>${times.join(', ')}</td>
+                        
                         <td>${imagesHtml}</td>
                         <td>
-                            <button class="btn btn-sm" style="background-color:bisque" ">Edit</button>
+                            <button class="btn btn-sm" style="background-color:bisque" data-id="${workshops.id}" id="editBtn">Edit</button>
                             <button class="btn btn-sm" style="background-color: cornflowerblue">Delete</button>
                         </td>
                     </tr>`;
@@ -246,5 +263,143 @@ $(document).ready(function(){
 
         })
     }
+    $(document).on('click','#editBtn' , function (){
+        let id = $(this).data('id')
+        editWorkshop(id)
+    })
+
+    function editWorkshop(id){
+        $.ajax({
+            method:"GET",
+            url: `http://localhost:8080/api/v1/workshop/getWorkshopById/${id}`,
+            success: function (response) {
+                let workshop = response.data;
+
+               loadItemsDropDown(workshop.itemId);
+               loadInstructorsDropDown(workshop.instructorId);
+
+                $('#EditWorkshopId').val(workshop.id);
+                $('#EditWorkshopTitle').val(workshop.title);
+                    $('#EditDescription').val(workshop.description);
+                   $('#EditDuration').val(workshop.duration);
+                   $('#EditLanguage').val(workshop.language);
+                    $('#EditParticipantCount').val(workshop.participantCount);
+                    $('#EditFees').val(workshop.fee);
+                    $('#EditAddress').val(workshop.address);
+                    $('#EditTime').val(workshop.time);
+                    $('#EditInclude').val(workshop.include);
+
+                $('#EditTimeSection').empty();
+                workshop.time.forEach(t => {
+                    $('#EditTimeSection').append(`
+      <input class="form-control time-input" type="time" name="time" value="${t}" required>
+   `);
+                });
+                $('#EditTimeSection').append(`<button type="button" id="addEditTimeButton" class="btn btn-primary">Add Another Time</button>`);
+
+
+                $('#EditIncludeSection').empty();
+                workshop.include.forEach(i => {
+                    $('#EditIncludeSection').append(`
+      <input class="form-control include-input" type="text" name="include" value="${i}" required>
+   `);
+                });
+                $('#EditIncludeSection').append(`<button type="button" id="addEditIncludeButton" class="btn btn-primary">Add Another Include</button>`);
+
+
+
+                let imagesHtml = '';
+                    if(workshop.image && workshop.image.length > 0) {
+                        workshop.image.forEach(img => {
+                            imagesHtml += `<img src="http://localhost:8080/uploads/${img}" width="100" style="margin-right:10px"/>`
+
+                        })
+                    }else {
+                        imagesHtml = "No Images"
+                    }
+                    $('#EditWorkshopImg').html(imagesHtml)
+                    $('#editWorkshopModal').modal('show')
+            },
+            error:function (xhr, status, error){
+                console.log(xhr.responseText)
+                alert("Faild to Edit Workshop")
+            }
+        })
+    }
+
+    $('#workshopEditForm').submit(function (event) {
+        event.preventDefault();
+
+        let token = localStorage.getItem('authtoken');
+
+        let existingImage = $('#EditWorkshopImg img').map(function(){
+            return $(this).attr('src').replace("http://localhost:8080/uploads/", "");
+        }).get();
+        let formData = new FormData();
+
+        let workshop = {
+             id:$('#EditWorkshopId').val(),
+            title: $('#EditWorkshopTitle').val(),
+            description: $('#EditDescription').val(),
+            duration: $('#EditDuration').val(),
+            language: $('#EditLanguage').val(),
+            participantCount: parseInt($('#EditParticipantCount').val()),
+            fee: $('#EditFees').val(),
+            address: $('#EditAddress').val(),
+            itemId:$('#EditItemSelect').val(),
+            instructorId:$('#EditInstructorSelect').val(),
+            image: existingImage,
+        };
+        formData.append('workshop', new Blob([JSON.stringify(workshop)], {type: 'application/json'}));
+        let files = $('#EditWorkshopFileInput')[0].files;
+        for(let i = 0; i < files.length; i++) {
+            formData.append('file', files[i]);
+        }
+        $.ajax({
+            url:`http://localhost:8080/api/v1/workshop/updateWorkshop`,
+            method: 'PUT',
+            headers:{
+                "Authorization" : 'Bearer ' + token
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.code === 200) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Updated Successful",
+                        showConfirmButton: "OK",
+                        timer: 2000
+                    }).then(() => {
+                        $('#editWorkshopModal').modal('hide')
+                        loadWorkshopsForTable();
+                        // window.location.href = "item-details.html";
+                    })
+                } else if (response.code === 502) {
+                    Swal.fire({
+                        icon: "error",
+                        title: response.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                    console.log(response.error)
+                }
+
+            },
+            error:function (xhr){
+                if (xhr.status === 403) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Not Authenticated",
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                }
+            }
+        })
+    })
+
+
 
 })

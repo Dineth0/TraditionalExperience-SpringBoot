@@ -12,4 +12,6 @@ public interface WorkshopRepo extends JpaRepository<Workshop, Long> {
     List<Workshop> findByItemId(Long itemId);
     @Query("SELECT w.participantCount FROM Workshop w WHERE w.id = :id")
     Integer getParticipantCountById(@Param("id") Long id);
+
+    Workshop findByTitle(String title);
 }

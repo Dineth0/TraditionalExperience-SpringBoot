@@ -79,5 +79,38 @@ public class WorkshopServiceImpl implements WorkshopService {
         return (count != null) ? count : 0;
     }
 
+    @Override
+    public int updateWorkshop(WorkshopDTO workshopDTO) {
+        try{
+            Workshop existingWorkshop = workshopRepo.findById(workshopDTO.getId()).orElse(null);
+
+            if(existingWorkshop == null){
+                return VarList.Not_Found;
+            }
+            Workshop newWorkshop =workshopRepo.findByTitle(workshopDTO.getTitle());
+            if(newWorkshop != null && !newWorkshop.getId().equals(workshopDTO.getId())){
+                return VarList.Not_Acceptable;
+            }
+            existingWorkshop.setTitle(workshopDTO.getTitle());
+            existingWorkshop.setDescription(workshopDTO.getDescription());
+            existingWorkshop.setDuration(workshopDTO.getDuration());
+            existingWorkshop.setLanguage(workshopDTO.getLanguage());
+            existingWorkshop.setParticipantCount(workshopDTO.getParticipantCount());
+            existingWorkshop.setFee(workshopDTO.getFee());
+            existingWorkshop.setAddress(workshopDTO.getAddress());
+            existingWorkshop.setTime(workshopDTO.getTime());
+            existingWorkshop.setInclude(workshopDTO.getInclude());
+
+            if(workshopDTO.getImage() != null && !workshopDTO.getImage().isEmpty()){
+                existingWorkshop.setImage(workshopDTO.getImage());
+            }
+            workshopRepo.save(existingWorkshop);
+            return VarList.Updated;
+         }catch(Exception e){
+            System.out.println(e.getMessage());
+            return VarList.Bad_Gateway;
+        }
+    }
+
 
 }

@@ -117,6 +117,8 @@
                         <th scope="col">Fee</th>
                         <th scope="col">Address</th>
                         <th scope="col">Times</th>
+<!--                        <th scope="col">Item</th>-->
+<!--                        <th scope="col">Instructor</th>-->
                         <th scope="col">Images</th>
                         <th>Actions</th>
                     </tr>
@@ -144,7 +146,7 @@
                 <div class="col-lg-12">
                     <div class="form-group">
                         <label for="itemSelect">Select Tradition Item for Workshop</label>
-                        <select id="itemSelect" class="form-control" required></select>
+                        <select id="itemSelect" class="form-control" name="SelectItem" required></select>
                     </div>
                 </div>
                 <div class="row">
@@ -216,7 +218,7 @@
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label for="instructorSelect">Select Instructor for Workshop</label>
-                            <select id="instructorSelect" class="form-control" required></select>
+                            <select id="instructorSelect" class="form-control" name="SelectInstructor" required></select>
                         </div>
                     </div>
 
@@ -232,9 +234,114 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn submit-btn" >Save Workshop</button>
                 </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editWorkshopModal" tabindex="-1" aria-labelledby="editJobModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editWorkModalLabel">Edit Workshop</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="workshopEditForm">
+                <input type="hidden" id="EditWorkshopId" name="Id">
+
+                <h3 class="form-section-title">Workshop Information</h3>
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label for="itemSelect">Select Tradition Item for Workshop</label>
+                        <select id="EditItemSelect" class="form-control" required></select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="workshopTitle">Workshop Title</label>
+                            <input class="form-control" type="text" name="title" id="EditWorkshopTitle" required>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea name="description" class="form-control" id="EditDescription" rows="5" required></textarea>
+                        </div>
+                    </div>
 
 
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="duration">Time Duration</label>
+                            <input class="form-control" type="text" name="duration" id="EditDuration" required>
+                        </div>
+                    </div>
 
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="language">Language</label>
+                            <input class="form-control" type="text" name="language" id="EditLanguage" required>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="participantCount">Participant Count</label>
+                            <input class="form-control" type="number" name="participantCount" id="EditParticipantCount" required>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group" id="EditIncludeSection">
+                            <label for="include">Includes Workshop</label>
+                            <input class="form-control include-input" type="text" name="include" id="EditInclude" required>
+                            <button type="button" id="addEditIncludeButton" class="btn btn-primary">Add Another Include</button>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="fees">Fee</label>
+                            <input class="form-control" type="text" name="fee" id="EditFees" required>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <input class="form-control" type="text" name="address" id="EditAddress" required></input>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group" id="EditTimeSection">
+                            <label for="time">Workshop Times</label>
+                            <input class="form-control time-input" type="time" name="time" id="EditTime" required>
+                            <button type="button" id="addEditTimeButton" class="btn btn-primary">Add Another Time</button>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="instructorSelect">Select Instructor for Workshop</label>
+                            <select id="EditInstructorSelect" class="form-control" required></select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group file-input-container">
+                            <label for="workshopImg">Image</label>
+                            <input type="file" id="EditWorkshopFileInput" name="img" accept="image/*" multiple>
+                            <p>Maximum file size: 2 MB</p>
+                        </div>
+                        <div id="EditWorkshopImg"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn submit-btn" >Save Workshop</button>
+                </div>
             </form>
         </div>
     </div>

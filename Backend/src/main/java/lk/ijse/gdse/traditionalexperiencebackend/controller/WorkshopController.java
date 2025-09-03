@@ -50,8 +50,10 @@ public class WorkshopController {
                 return ResponseEntity.status(HttpStatus.CREATED)
                         .body(new ResponseDTO(VarList.Created, "Workshop Saved", workshopDTO));
             }else {
+                System.out.println(response);
                 return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
                         .body(new ResponseDTO(VarList.Bad_Gateway, "Error While Saving", null));
+
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -61,6 +63,7 @@ public class WorkshopController {
         }
 
     }
+
     @GetMapping("/getAllWorkshops")
     public ResponseEntity<ResponseDTO> getAllWorkshops() {
         try{
@@ -109,6 +112,57 @@ public class WorkshopController {
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+        }
+    }
+    @PutMapping( value = "/updateWorkshop",  consumes = {"multipart/form-data"})
+    public ResponseEntity<ResponseDTO> updateWorkshop(@RequestPart("workshop") WorkshopDTO workshopDTO
+            , @RequestPart(value = "file", required = false) MultipartFile[] multipartFiles) throws IOException {
+        try {
+            List<String> fileNames = new ArrayList<>();
+            Path uploadDir = Paths.get("uploads/");
+            Files.createDirectories(uploadDir);
+
+            if(multipartFiles != null && multipartFiles.length > 0) {
+
+
+                for (MultipartFile multipartFile : multipartFiles) {
+                    String fileName = System.currentTimeMillis() + "_" + multipartFile.getOriginalFilename();
+                    Path filePath = uploadDir.resolve(fileName);
+                    Files.write(filePath, multipartFile.getBytes());
+                    fileNames.add(fileName);
+                }
+                if (workshopDTO.getImage() != null) {
+                    fileNames.addAll(workshopDTO.getImage());
+                }
+                workshopDTO.setImage(fileNames);
+            }else {
+                workshopDTO.setImage(workshopDTO.getImage());
+            }
+
+
+
+            int response = workshopService.updateWorkshop(workshopDTO);
+            switch (response) {
+                case VarList.Updated -> {
+                    return ResponseEntity.status(HttpStatus.OK)
+                            .body(new ResponseDTO(VarList.Updated, "Instructor Saved", workshopDTO));
+                }
+                case VarList.Not_Acceptable -> {
+                    return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
+                            .body(new ResponseDTO(VarList.Not_Acceptable, "Instructor Already exists", null));
+
+                }
+                default -> {
+                    return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                            .body(new ResponseDTO(VarList.Bad_Gateway, "Error While Saving", null));
+
+                }
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error,"file Upload Failed" + e.getMessage(),null));
+
+
         }
     }
 }
