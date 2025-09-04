@@ -17,6 +17,7 @@ public class Workshop {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+    @Column(length = 5000)
     private String description;
     private String duration;
     private String language;
