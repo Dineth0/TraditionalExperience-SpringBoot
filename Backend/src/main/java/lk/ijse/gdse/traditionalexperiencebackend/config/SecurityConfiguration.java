@@ -80,7 +80,8 @@ public class SecurityConfiguration {
                                 "/api/v1/workshop/addWorkshop",
                                 "/api/v1/item/updateItem",
                                 "/api/v1/instructor/updateInstructor",
-                                "/api/v1/workshop/updateWorkshop")
+                                "/api/v1/workshop/updateWorkshop",
+                                "/api/v1/workshopRegistration/getAllRegistrations")
                         .hasAuthority("ADMIN")
                         .anyRequest().authenticated()
 

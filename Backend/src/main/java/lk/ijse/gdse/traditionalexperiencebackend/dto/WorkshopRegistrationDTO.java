@@ -21,4 +21,5 @@ public class WorkshopRegistrationDTO {
     private double totalFee;
     private Long userId;
     private Long workshopId;
+    private String workshopName;
 }

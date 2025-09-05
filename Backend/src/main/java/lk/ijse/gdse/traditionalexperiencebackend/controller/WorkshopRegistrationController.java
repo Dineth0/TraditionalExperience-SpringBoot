@@ -1,6 +1,7 @@
 package lk.ijse.gdse.traditionalexperiencebackend.controller;
 
 import lk.ijse.gdse.traditionalexperiencebackend.dto.ResponseDTO;
+import lk.ijse.gdse.traditionalexperiencebackend.dto.WorkshopDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.WorkshopRegistrationDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.service.WorkshopRegistrationService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
@@ -75,5 +76,17 @@ public class WorkshopRegistrationController {
         List<WorkshopRegistrationDTO> bookings = workshopRegistrationService.getBookingsByUserId(userId);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseDTO(VarList.OK, "Success", bookings));
+    }
+
+    @GetMapping("/getAllRegistrations")
+    public ResponseEntity<ResponseDTO> getAllRegistrations(){
+        try{
+            List<WorkshopRegistrationDTO> workshopRegistrations = workshopRegistrationService.getAlRegistrations();
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ResponseDTO(VarList.OK,"suceess", workshopRegistrations));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+        }
     }
 }

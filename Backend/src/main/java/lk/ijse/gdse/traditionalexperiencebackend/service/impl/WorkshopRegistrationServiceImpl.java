@@ -97,5 +97,20 @@ public class WorkshopRegistrationServiceImpl implements WorkshopRegistrationServ
                 .toList();
     }
 
+    @Override
+    public List<WorkshopRegistrationDTO> getAlRegistrations() {
+        List<WorkshopRegistration> registrations = workshopRegistrationRepo.findAll();
+        return registrations.stream()
+                .map(reg -> {
+                   WorkshopRegistrationDTO workshopRegistrationDTO = modelMapper.map(reg, WorkshopRegistrationDTO.class);
+                    if(reg.getWorkshop() != null){
+                        workshopRegistrationDTO.setWorkshopName(reg.getWorkshop().getTitle());
+                    }
+                    return workshopRegistrationDTO;
+                }).toList();
+
+
+    }
+
 
 }
