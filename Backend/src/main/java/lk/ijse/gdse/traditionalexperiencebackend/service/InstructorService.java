@@ -11,5 +11,6 @@ public interface InstructorService {
     List<InstructorDTO> getAllInstructors();
     int updateInstructor(InstructorDTO instructorDTO);
     InstructorDTO getInstructorById(Long id);
+    boolean deleteInstructor(Long id);
 
 }

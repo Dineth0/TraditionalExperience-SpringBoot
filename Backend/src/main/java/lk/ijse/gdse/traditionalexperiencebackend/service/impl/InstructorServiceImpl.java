@@ -76,4 +76,13 @@ public class InstructorServiceImpl implements InstructorService {
                 .map(instructor -> modelMapper.map(instructor, InstructorDTO.class))
                 .orElse(null);
     }
+
+    @Override
+    public boolean deleteInstructor(Long id) {
+        if(instructorRepo.existsById(id)){
+            instructorRepo.deleteById(id);
+            return true;
+        }else {
+            return false;
+        }    }
 }

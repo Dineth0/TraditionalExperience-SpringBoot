@@ -131,7 +131,7 @@ $(document).ready(function(){
                         <td>${imagesHtml}</td>
                         <td>
                             <button class="btn btn-sm" style="background-color:bisque" data-id="${instructor.id}" id="editBtn">Edit</button>
-                            <button class="btn btn-sm" style="background-color: cornflowerblue">Delete</button>
+                            <button class="btn btn-sm" style="background-color: cornflowerblue " id="deleteBtn" data-id="${instructor.id}">Delete</button>
                         </td>
                     </tr>`;
                     tbody.append(row);
@@ -281,6 +281,37 @@ $(document).ready(function(){
                         timer: 2000
                     })
                 }
+            }
+        })
+    })
+
+    $(document).on("click", "#deleteBtn", function() {
+        let id = $(this).data("id");
+        let row = $(this).closest(".item-row");
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You want to Delete this Instructor?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, Delete it",
+
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: `http://localhost:8080/api/v1/instructor/deleteInstructor/${id}`,
+                    method: "DELETE",
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    },
+                    success: function(response) {
+                        Swal.fire("Deleted!"," Instructor has been canceled.","success");
+                        row.fadeOut(400,()=>row.remove());
+                    },
+                    error: function(error) {
+                        Swal.fire("Error","Unable to delete Instructor","error");
+                    }
+                })
             }
         })
     })
