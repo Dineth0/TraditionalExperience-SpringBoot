@@ -52,4 +52,28 @@ public class WorkshopRegistrationController {
         List<Map<String, Object>> availability = workshopRegistrationService.checkAvailability(workshopId, date);
         return ResponseEntity.ok(availability);
     }
+
+    @DeleteMapping("/cancelBooking/{id}")
+    public ResponseEntity<ResponseDTO> cancelBooking (@PathVariable Long id){
+        try{
+            boolean deleted = workshopRegistrationService.cancelBooking(id);
+            if (deleted){
+                return ResponseEntity.status(HttpStatus.OK)
+                        .body(new ResponseDTO(VarList.OK, "Booking Deleted", null));
+            }else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseDTO(VarList.Not_Found, "Booking Not Found", null));
+            }
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+        }
+    }
+
+    @GetMapping("/myBooking/{userId}")
+    public ResponseEntity<ResponseDTO> myBooking (@PathVariable Long userId){
+        List<WorkshopRegistrationDTO> bookings = workshopRegistrationService.getBookingsByUserId(userId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDTO(VarList.OK, "Success", bookings));
+    }
 }

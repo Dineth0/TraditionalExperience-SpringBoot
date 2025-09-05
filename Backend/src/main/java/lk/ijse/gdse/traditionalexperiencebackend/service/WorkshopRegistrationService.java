@@ -11,4 +11,8 @@ import java.util.Map;
 public interface WorkshopRegistrationService {
     int registerWorkshop(WorkshopRegistrationDTO workshopRegistrationDTO);
     List<Map<String, Object>> checkAvailability(Long workshopId, Date date);
+
+    boolean cancelBooking(Long id);
+    List<WorkshopRegistrationDTO> getBookingsByUserId(Long userId);
+
 }

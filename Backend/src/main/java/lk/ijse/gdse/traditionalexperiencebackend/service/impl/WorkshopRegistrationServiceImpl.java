@@ -76,5 +76,26 @@ public class WorkshopRegistrationServiceImpl implements WorkshopRegistrationServ
         return result;
     }
 
+    @Override
+    public boolean cancelBooking(Long id) {
+        if(workshopRegistrationRepo.existsById(id)){
+            workshopRegistrationRepo.deleteById(id);
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public List<WorkshopRegistrationDTO> getBookingsByUserId(Long userId) {
+        if(userId == null){
+            return new ArrayList<>();
+        }
+        List<WorkshopRegistration> workshopRegistrations = workshopRegistrationRepo.findByUserId(userId);
+        return workshopRegistrations.stream()
+                .map(workshop -> modelMapper.map(workshop, WorkshopRegistrationDTO.class))
+                .toList();
+    }
+
 
 }

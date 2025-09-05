@@ -69,13 +69,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
         }
 
-        // BCrypt encoder object hadanna
+
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        // New password eka hash karanna
+
         String hashedPassword = encoder.encode(newPassword);
 
-        // Hashed password eka database ekata save karanna
+
         user.setPassword(hashedPassword);
         userRepo.save(user);
         return "Password updated successfully!";
@@ -116,21 +116,21 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         if (userRepo.existsByEmail(userDTO.getEmail())) {
             return VarList.Not_Acceptable;
         } else {
-            // Map UserDTO to User entity
+
             User user = modelMapper.map(userDTO, User.class);
 
-            // Encrypt the password
+
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 
 
-            // Set default role if not provided
+
             if (user.getRole() == null) {
-                user.setRole(RoleType.USER); // Default role
+                user.setRole(RoleType.USER);
             }
 
             userRepo.save(user);
-            // Return success response
+
             return VarList.Created;
         }
     }
@@ -142,9 +142,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             throw new UsernameNotFoundException("User not found with email: " + email);
         }
         return new org.springframework.security.core.userdetails.User(
-                user.getEmail(), // Use email as the username
-                user.getPassword(), // Password
-                getAuthority(user) // Convert role to GrantedAuthority
+                user.getEmail(),
+                user.getPassword(),
+                getAuthority(user)
         );
     }
 
