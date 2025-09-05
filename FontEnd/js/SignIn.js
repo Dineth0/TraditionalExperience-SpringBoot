@@ -30,6 +30,9 @@ $(document).ready(function () {
                 if(response.code === 201 && response.data && response.data.token) {
                     localStorage.setItem("authtoken", response.data.token);
 
+                    const decoded = parseJwt(response.data.token);
+                    localStorage.setItem("userId", decoded.id);
+
                     if (email === "sltraditionalexperience@gmail.com") {
                         Swal.fire({
                             icon: "success",

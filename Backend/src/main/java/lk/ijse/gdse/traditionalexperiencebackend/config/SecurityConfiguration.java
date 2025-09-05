@@ -70,7 +70,9 @@ public class SecurityConfiguration {
                                 "/api/v1/workshop/getParticipantCount/**",
                                 "/api/v1/workshopRegistration/registerWorkshop/",
                                 "/api/v1/workshopRegistration/checkAvailability/**",
-                                "api/v1/instructor/getInstructorById/**"
+                                "/api/v1/instructor/getInstructorById/**",
+                                "/api/v1/workshopRegistration/cancelBooking/**",
+                                "/api/v1/workshopRegistration/myBooking/**"
 
                         ).permitAll()
                         .requestMatchers("/api/v1/item/addItem",

@@ -60,6 +60,7 @@ public class JwtUtil implements Serializable {
     public String generateToken(UserDTO userDTO) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role",userDTO.getRole());
+        claims.put("id",userDTO.getId());
         return doGenerateToken(claims, userDTO.getEmail());
     }
 
@@ -81,7 +82,7 @@ public class JwtUtil implements Serializable {
 
     public Long extractUserId(String token) {
         Claims claims = extractAllClaims(token);
-        return claims.get("userId", Long.class);
+        return claims.get("id", Long.class);
     }
 
     private Claims extractAllClaims(String token) {
