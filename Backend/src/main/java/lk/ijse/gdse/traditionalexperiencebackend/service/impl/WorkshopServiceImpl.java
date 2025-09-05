@@ -112,5 +112,15 @@ public class WorkshopServiceImpl implements WorkshopService {
         }
     }
 
+    @Override
+    public boolean deleteWorkshop(Long id) {
+        if(workshopRepo.existsById(id)){
+            workshopRepo.deleteById(id);
+            return true;
+        }else {
+            return false;
+        }
+    }
+
 
 }

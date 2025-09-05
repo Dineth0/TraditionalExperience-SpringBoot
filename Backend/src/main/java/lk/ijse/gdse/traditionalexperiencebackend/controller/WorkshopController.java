@@ -165,4 +165,21 @@ public class WorkshopController {
 
         }
     }
+
+    @DeleteMapping("/deleteWorkshop/{id}")
+    public ResponseEntity<ResponseDTO> deleteWorkshop(@PathVariable Long id){
+        try{
+            boolean deleted = workshopService.deleteWorkshop(id);
+            if(deleted){
+                return ResponseEntity.status(HttpStatus.OK)
+                        .body(new ResponseDTO(VarList.OK, "Instructor Deleted", null));
+            }else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseDTO(VarList.Not_Found, "Instructor Not Found", null));
+            }
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+        }
+    }
 }
