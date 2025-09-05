@@ -206,11 +206,10 @@ $(document).ready(function(){
                     <tr class="workshop-row" 
                         data-workshop-title="${workshopTitle}"
                         data-description="${workshopDescription}"
-                 
-                        data-deration="${duration}"
+                        data-duration="${duration}"
                         data-language="${language}"
                         data-participantCount="${participantCount}"
-                        data-inculde="${include}"
+                        data-include="${include}"
                         data-fee="${fee}"
                         data-address="${address}"
                         data-time="${times}"
@@ -228,7 +227,7 @@ $(document).ready(function(){
                         
                         <td>${imagesHtml}</td>
                         <td>
-                            <button class="btn btn-sm" style="background-color:bisque" data-id="${workshops.id}" id="editBtn">Edit</button>
+                            <button class="btn btn-sm editBtn" style="background-color:bisque" data-id="${workshops.id}" >Edit</button>
                             <button class="btn btn-sm" style="background-color: cornflowerblue">Delete</button>
                         </td>
                     </tr>`;
@@ -263,7 +262,7 @@ $(document).ready(function(){
 
         })
     }
-    $(document).on('click','#editBtn' , function (){
+    $(document).on('click','.editBtn' , function (){
         let id = $(this).data('id')
         editWorkshop(id)
     })
