@@ -10,4 +10,9 @@ public interface ReviewService {
 
     List<ReviewDTO> getAllReviews();
     List<ReviewDTO> getReviewsByWorkshop(Long workshopId);
+    List<ReviewDTO> getReviewsByUser(Long userId);
+
+    int updateReview(ReviewDTO reviewDTO);
+    boolean deleteReview(Long id);
+    ReviewDTO getReviewById(Long id);
 }

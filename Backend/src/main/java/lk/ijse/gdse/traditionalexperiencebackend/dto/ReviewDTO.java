@@ -12,11 +12,12 @@ import java.util.List;
 @Data
 public class ReviewDTO {
     private Long id;
+    private String visitorName;
     private int rating;
     private String title;
     private String description;
     private Date wentDate;
-    private List<String> image;
+    private Date reviewDate;
     private Long userId;
     private Long workshopId;
 }

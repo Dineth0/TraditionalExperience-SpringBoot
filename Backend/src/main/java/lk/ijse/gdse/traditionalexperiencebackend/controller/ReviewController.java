@@ -3,6 +3,7 @@ package lk.ijse.gdse.traditionalexperiencebackend.controller;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.ResponseDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.ReviewDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.WorkshopDTO;
+import lk.ijse.gdse.traditionalexperiencebackend.dto.WorkshopRegistrationDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.service.ReviewService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,22 +25,10 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
-    @PostMapping(value = "/addReview", consumes = {"multipart/form-data"})
-    public ResponseEntity<ResponseDTO> addReview(@RequestPart("review") ReviewDTO reviewDTO,
-                                                 @RequestPart("file") MultipartFile[] multipartFiles) {
+    @PostMapping(value = "/addReview")
+    public ResponseEntity<ResponseDTO> addReview( ReviewDTO reviewDTO) {
 
         try {
-            List<String> fileNames = new ArrayList<>();
-            Path uploadDir = Paths.get("uploads/");
-            Files.createDirectories(uploadDir);
-
-            for (MultipartFile multipartFile : multipartFiles) {
-                String fileName = System.currentTimeMillis() + "_" + multipartFile.getOriginalFilename();
-                Path filePath = uploadDir.resolve(fileName);
-                Files.write(filePath, multipartFile.getBytes());
-                fileNames.add(fileName);
-            }
-            reviewDTO.setImage(fileNames);
 
             int response = reviewService.addReview(reviewDTO);
             if (response == VarList.Created) {
@@ -77,6 +66,75 @@ public class ReviewController {
             List<ReviewDTO> reviews = reviewService.getReviewsByWorkshop(workshopId);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new ResponseDTO(VarList.OK, "Success", reviews));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+        }
+    }
+
+    @GetMapping("/getReviewByUser/{userId}")
+    public ResponseEntity<ResponseDTO> getReviewByUser(@PathVariable Long userId){
+        List<ReviewDTO> reviews = reviewService.getReviewsByUser(userId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDTO(VarList.OK, "Success", reviews));
+    }
+
+    @PutMapping("/updateReview")
+    public ResponseEntity<ResponseDTO> updateReview( ReviewDTO reviewDTO) {
+        try {
+            int response = reviewService.updateReview(reviewDTO);
+            switch (response) {
+                case VarList.Updated -> {
+                    return ResponseEntity.status(HttpStatus.OK)
+                            .body(new ResponseDTO(VarList.Updated, "Review Saved", reviewDTO));
+                }
+                case VarList.Not_Acceptable -> {
+                    return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
+                            .body(new ResponseDTO(VarList.Not_Acceptable, "Review Already exists", null));
+
+                }
+                default -> {
+                    return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                            .body(new ResponseDTO(VarList.Bad_Gateway, "Error While Saving", null));
+
+                }
+            }
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error,"file Upload Failed" + e.getMessage(),null));
+
+
+        }
+    }
+
+    @DeleteMapping("/deleteReview/{id}")
+    public ResponseEntity<ResponseDTO> deleteReview(@PathVariable Long id) {
+        try{
+            boolean deleted = reviewService.deleteReview(id);
+            if(deleted){
+                return ResponseEntity.status(HttpStatus.OK)
+                        .body(new ResponseDTO(VarList.OK, "Review Deleted", null));
+            }else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseDTO(VarList.Not_Found, "Review Not Found", null));
+            }
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+        }
+    }
+
+    @GetMapping("/getReviewById/{id}")
+    public ResponseEntity<ResponseDTO> getReviewById(@PathVariable Long id) {
+        try{
+            ReviewDTO reviewDTO = reviewService.getReviewById(id);
+            if(reviewDTO != null){
+                return ResponseEntity.status(HttpStatus.OK)
+                        .body(new ResponseDTO(VarList.OK, "Success", reviewDTO));
+            }else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseDTO(VarList.Not_Found, "Workshop Not Found", null));
+            }
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));

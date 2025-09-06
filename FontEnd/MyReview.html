@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        body {
+            background: url(assets/newitmpettern.png) repeat;
+            background-size: cover;
+            font-family: 'Segoe UI', sans-serif;
+            color: #c8c8c8;
+        }
+        .page-title {
+            font-weight: 700;
+            color: #a7a3a3;
+        }
+        .booking-card {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease;
+        }
+        .booking-card:hover {
+            transform: translateY(-4px);
+        }
+        .booking-header {
+            background: #5d3614;
+            color: white;
+            padding: 16px;
+        }
+        .booking-header h5 {
+            margin: 0;
+            font-weight: 600;
+        }
+        .booking-body {
+            padding: 16px;
+        }
+        .booking-body p {
+            margin-bottom: 8px;
+        }
+        .cancelBtn {
+            border: none;
+            background: #432513;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .cancelBtn:hover {
+            background: #c9302c;
+            transform: scale(1.05);
+        }
+        h2{
+            text-align: center;
+            color: #e2a049;
+        }
+        .booking-card {
+            background: #9e5f0d;
+            width: 350px;
+        }
+        button{
+            border: none;
+            background: #432513;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: 0.3s;
+            margin-left: 60px;
+        }
+        button:hover{
+            background: #432513;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4"><i class="fa-solid fa-book"></i> My Reviews</h2>
+    <div class="row justify-content-center" id="reviewList"></div>
+
+</div>
+<script src="js/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function renderStars(rating) {
+        let stars = "";
+        for (let i = 1; i <= 5; i++) {
+            if (i <= rating) {
+                stars += '<i class="fa-solid fa-star" style="color:#FFD700;"></i>'; // filled star
+            } else {
+                stars += '<i class="fa-regular fa-star" style="color:#FFD700;"></i>'; // empty star
+            }
+        }
+        return stars;
+    }
+
+    $(document).ready(function() {
+        let token = localStorage.getItem("authtoken");
+        let userId = localStorage.getItem("userId");
+
+        $.ajax({
+            url: `http://localhost:8080/api/v1/review/getReviewByUser/${userId}`,
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + token
+            },
+            success: function(response) {
+                let reviews = response.data;
+                if (!reviews || reviews.length === 0) {
+                    $("#bookingList").html('<P class="text-muted">No Review found.</P>');
+                    return;
+                }
+                reviews.forEach((review) => {
+                    let card = `
+  <div class="col-md-6 col-lg-4 mb-4 d-flex justify-content-center">
+    <div class="booking-card w-100">
+      <div class="booking-header">
+         ${renderStars(review.rating)}
+         <button><i class="fa-solid fa-trash"></i></button>
+         <button><i class="fa-solid fa-pen-to-square"></i></button>
+      </div>
+      <div class="booking-body">
+              <p><strong> ${review.title}</strong></p>
+
+        <p> ${review.reviewDate}</p>
+        <p> ${review.visitorName}</p>
+        <p> ${review.description}</p>
+
+
+      </div>
+    </div>
+  </div>
+`;
+                    $("#reviewList").append(card);
+                })
+            }
+        })
+        $(document).on("click", ".cancelBtn", function() {
+            let id = $(this).data("id");
+            let card = $(this).closest(".booking-card");
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You want to cancel this booking?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, cancel it",
+
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `http://localhost:8080/api/v1/workshopRegistration/cancelBooking/${id}`,
+                        method: "DELETE",
+                        headers: {
+                            "Authorization": "Bearer " + token
+                        },
+                        success: function(response) {
+                            Swal.fire("Cancelled!","Your booking has been canceled.","success");
+                            card.fadeOut(400,()=>card.remove());
+                        },
+                        error: function(error) {
+                            Swal.fire("Error","Unable to cancel booking","error");
+                        }
+                    })
+                }
+            })
+        })
+
+    })
+</script>
+</body>
+</html>

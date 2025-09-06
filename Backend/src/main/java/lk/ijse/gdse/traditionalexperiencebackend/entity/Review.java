@@ -19,12 +19,13 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String visitorName;
     private int rating;
     private String title;
     private String description;
     private Date wentDate;
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> image;
+    private Date reviewDate;
+
 
 
     @ManyToOne

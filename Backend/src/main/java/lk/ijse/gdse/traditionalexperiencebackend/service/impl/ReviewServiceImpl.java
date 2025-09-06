@@ -63,4 +63,58 @@ public class ReviewServiceImpl implements ReviewService {
                 .toList();
     }
 
+    @Override
+    public List<ReviewDTO> getReviewsByUser(Long userId) {
+        if(userId == null){
+            return new ArrayList<>();
+        }
+        List<Review> reviews = reviewRepo.findByUserId(userId);
+        return reviews.stream()
+                .map(review -> modelMapper.map(review, ReviewDTO.class))
+                .toList();
+
+    }
+
+    @Override
+    public int updateReview(ReviewDTO reviewDTO) {
+        try{
+            Review existingReview = reviewRepo.findById(reviewDTO.getId()).orElse(null);
+
+            if(existingReview == null){
+                return VarList.Not_Found;
+            }
+            Review newReview = reviewRepo.findByTitle(reviewDTO.getTitle());
+            if(newReview != null && !newReview.getId().equals(reviewDTO.getId())){
+                return VarList.Not_Acceptable;
+            }
+            existingReview.setVisitorName(reviewDTO.getVisitorName());
+            existingReview.setRating(reviewDTO.getRating());
+            existingReview.setTitle(reviewDTO.getTitle());
+            existingReview.setDescription(reviewDTO.getDescription());
+            existingReview.setWentDate(reviewDTO.getWentDate());
+
+            reviewRepo.save(existingReview);
+            return VarList.Updated;
+        }catch(Exception e){
+            return VarList.Bad_Gateway;
+        }
+    }
+
+    @Override
+    public boolean deleteReview(Long id) {
+        if(reviewRepo.existsById(id)){
+            reviewRepo.deleteById(id);
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public ReviewDTO getReviewById(Long id) {
+        return reviewRepo.findById(id)
+                .map(review -> modelMapper.map(review, ReviewDTO.class))
+                .orElse(null);
+    }
+
 }
