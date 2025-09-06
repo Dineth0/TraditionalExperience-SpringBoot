@@ -153,6 +153,15 @@
             .btn:hover {
                 background: #6d0f0f;
             }
+            #logout{
+                background: #946a28;
+                border: none;
+                color: #fff;
+                padding: 10px 25px;
+                border-radius: 50px;
+                font-weight: 600;
+                transition: 0.3s;
+            }
         </style>
 
     </head>
@@ -165,11 +174,13 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Crafts</a></li>
+                <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="Instructors.html">Instructors</a></li>
+                <li class="nav-item"><a class="nav-link" href="items.html">Instructors</a></li>
+
                 <li class="nav-item"><a class="nav-link" href="#">Workshops</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Reviews</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                <button id="logout">Logout</button>
             </ul>
         </div>
     </nav>
@@ -242,6 +253,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="js/jquery-3.7.1.min.js"></script>
 <script src="js/Workshop.js"></script>
+<script src="js/SignIn.js"></script>
 <script>
     $(document).ready(function () {
         let params = new URLSearchParams(window.location.search);
