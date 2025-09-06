@@ -84,11 +84,11 @@ public class UserController {
     @GetMapping("/getUserIdFromToken")
     public ResponseEntity<?> getUserId(@RequestHeader("Authorization") String token) {
         try {
-            // **Step 1: Token Decode**
-            String jwt = token.replace("Bearer ", ""); // Bearer prefix eka ain karanawa
-            String userId = jwtFilter.extractUserId(jwt); // Token eken userId ganna
 
-            // **Step 2: Response eka return karanawa**
+            String jwt = token.replace("Bearer ", "");
+            String userId = jwtFilter.extractUserId(jwt);
+
+
             Map<String, String> response = new HashMap<>();
             response.put("userId", userId);
             return ResponseEntity.ok(response);
@@ -100,17 +100,17 @@ public class UserController {
 
 
     @GetMapping("/getByEmail")
-//    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+
     public ResponseEntity<?> getUserIdByEmail(HttpServletRequest request) {
-        // Extract the token from the Authorization header
-        String token = request.getHeader("Authorization").substring(7);  // Remove "Bearer " from token
-        String email = jwtFilter.extractEmailFromToken(token);  // Use a utility method to extract email from the JWT token
+
+        String token = request.getHeader("Authorization").substring(7);
+        String email = jwtFilter.extractEmailFromToken(token);
 
         if (email == null || email.isEmpty()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Email not found in token");
         }
 
-        // Fetch user by email
+
         User user = userService.findByEmail(email);
         if (user != null) {
             return ResponseEntity.ok(Collections.singletonMap("userId", user.getId()));

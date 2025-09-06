@@ -33,7 +33,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private String secretKey;
 
 
-    private String secret = "YourSecretKey"; // JWT Token secret key
+    private String secret = "YourSecretKey";
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {

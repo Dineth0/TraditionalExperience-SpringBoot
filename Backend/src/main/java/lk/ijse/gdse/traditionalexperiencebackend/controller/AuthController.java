@@ -25,7 +25,7 @@ public class AuthController {
     private final UserServiceImpl userService;
 
 
-    //constructor injection
+
     public AuthController(JwtUtil jwtUtil, AuthenticationManager authenticationManager, UserServiceImpl userService) {
         this.jwtUtil = jwtUtil;
         this.authenticationManager = authenticationManager;

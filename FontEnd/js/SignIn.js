@@ -98,3 +98,10 @@ function parseJwt(token) {
         return null;
     }
 }
+
+$(document).on('click', '#logout', function () {
+    localStorage.removeItem("authtoken");
+    sessionStorage.removeItem("authtoken")
+
+    window.location.href= "home.html"
+})
