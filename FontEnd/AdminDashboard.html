@@ -329,6 +329,7 @@
     <a href="AddInstructor.html"><i class="fas fa-briefcase"></i> Instructors</a>
     <a href="AddWorkshop.html"><i class="fas fa-tags"></i> Workshops Lists</a>
     <a href="WorkshopBookingList.html"><i class="fas fa-tags"></i> Workshop Booking List</a>
+    <a href="AllReviews.html"><i class="fas fa-tags"></i> All Reviews</a>
 
     <a href="admin-setting.html"><i class="fas fa-cog"></i> Settings</a>
     <a href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -342,6 +343,16 @@
             <i class="fas fa-bars"></i>
         </button>
         <h1>Welcome to Admin Dashboard</h1>
+        <li class="nav-item dropdown">
+            <a class="nav-link" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown">
+                <i class="fas fa-bell" ></i>
+                <span class="badge bg-danger" id="notificationCount">0</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" id="notificationList">
+                <li class="dropdown-header">Notifications</li>
+                <li><span class="dropdown-item">No new notifications</span></li>
+            </ul>
+        </li>
         <button class="btn profile-btn">
             <i class="fas fa-user-circle"></i>
             <span>Admin Profile</span>
@@ -406,14 +417,17 @@
     </div>
 </div>
 
-<!-- Bootstrap JS & Dependencies -->
+
+
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 <script src="js/SignIn.js"></script>
 
 <script>
-    // Mobile menu toggle (added functionality without changing structure)
+
     document.addEventListener('DOMContentLoaded', function() {
         const menuToggle = document.getElementById('menuToggle');
         if (menuToggle) {
@@ -424,16 +438,49 @@
     })
     $(document).ready(function () {
         $(".sidebar a").click(function (e) {
-            e.preventDefault(); // prevent full page reload
+            e.preventDefault();
 
             let pageUrl = $(this).attr("href");
 
-            // Load the content into the #content-area
             $(".content-container").load(pageUrl);
+
+
         });
+        loadNotifications();
+
+        setInterval(loadNotifications, 10000);
     });
+    const adminId= 1;
+    function loadNotifications() {
+        new URLSearchParams(window.location.search).get('id');
+        let token = localStorage.getItem('authtoken');
+        $.ajax({
+            url: `http://localhost:8080/api/v1/notification/unread/${adminId}`,
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ` + token
+            },
+            success: function (response) {
+                console.log(response);
+                let notifications = response.data;
+                let count = notifications.length;
 
+                $("#notificationCount").text(count);
 
+                let list = $("#notificationList");
+                list.empty();
+                list.append('<li class="dropdown-header">Notifications</li>');
+
+                if (count === 0) {
+                    list.append('<li><span class="dropdown-item">No new notifications</span></li>');
+                } else {
+                    notifications.forEach(n => {
+                        list.append('<li><span class="dropdown-item">' + n.message + '</span></li>');
+                    });
+                }
+            }
+        });
+    }
 
 </script>
 

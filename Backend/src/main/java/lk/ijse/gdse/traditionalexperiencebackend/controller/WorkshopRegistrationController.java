@@ -1,9 +1,12 @@
 package lk.ijse.gdse.traditionalexperiencebackend.controller;
 
+import lk.ijse.gdse.traditionalexperiencebackend.dto.NotificationDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.ResponseDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.WorkshopDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.WorkshopRegistrationDTO;
+import lk.ijse.gdse.traditionalexperiencebackend.service.NotificationService;
 import lk.ijse.gdse.traditionalexperiencebackend.service.WorkshopRegistrationService;
+import lk.ijse.gdse.traditionalexperiencebackend.service.WorkshopService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,6 +27,12 @@ public class WorkshopRegistrationController {
     @Autowired
     private WorkshopRegistrationService workshopRegistrationService;
 
+    @Autowired
+    private NotificationService notificationService;
+
+    @Autowired
+    private WorkshopService workshopService;
+
     @PostMapping("/registerWorkshop")
     public ResponseEntity<ResponseDTO> registerWorkshop(@RequestBody WorkshopRegistrationDTO workshopRegistrationDTO){
         try {
@@ -31,6 +40,15 @@ public class WorkshopRegistrationController {
 
             switch (response){
                 case VarList.Created -> {
+                    NotificationDTO notificationDTO = new NotificationDTO();
+                    WorkshopDTO workshopDTO = workshopService.getWorkshopById(workshopRegistrationDTO.getWorkshopId());
+                    notificationDTO.setMessage("New workshop booking for: " + workshopDTO.getTitle());
+                    Long adminUserId = 1L;
+                    notificationDTO.setUserId(adminUserId);
+                    notificationDTO.setReadStatus(false);
+                    notificationDTO.setCreateAt(new java.sql.Date(System.currentTimeMillis()));
+
+                    notificationService.createNotification(notificationDTO);
                     return ResponseEntity.status(HttpStatus.CREATED)
                             .body(new ResponseDTO(VarList.Created, "Registration successfully",workshopRegistrationDTO));
                 }
