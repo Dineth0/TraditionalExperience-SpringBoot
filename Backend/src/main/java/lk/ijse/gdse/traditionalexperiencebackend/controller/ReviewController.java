@@ -26,7 +26,7 @@ public class ReviewController {
     private ReviewService reviewService;
 
     @PostMapping(value = "/addReview")
-    public ResponseEntity<ResponseDTO> addReview( ReviewDTO reviewDTO) {
+    public ResponseEntity<ResponseDTO> addReview(@RequestBody ReviewDTO reviewDTO) {
 
         try {
 
@@ -80,7 +80,7 @@ public class ReviewController {
     }
 
     @PutMapping("/updateReview")
-    public ResponseEntity<ResponseDTO> updateReview( ReviewDTO reviewDTO) {
+    public ResponseEntity<ResponseDTO> updateReview(@RequestBody ReviewDTO reviewDTO) {
         try {
             int response = reviewService.updateReview(reviewDTO);
             switch (response) {

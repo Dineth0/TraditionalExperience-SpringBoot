@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         body {
@@ -83,6 +84,64 @@
     <div class="row justify-content-center" id="reviewList"></div>
 
 </div>
+<div class="modal fade" id="editReviewModal" tabindex="-1" aria-labelledby="editJobModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ReviewModalLabel">Edit Review</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form id="editReviewForm" action="${pageContext.request.contextPath}/reviews" method="post" enctype="multipart/form-data">
+
+                <input type="hidden" id="EditReviewId" name="reviewId">
+
+                <div class="mb-3">
+                    <label for="editName" class="form-label">Visitor Name</label>
+                    <input type="text" id="editName" name="name" class="form-control" required>
+                </div>
+
+
+                <div class="mb-3">
+                    <label class="form-label d-block">Rating</label>
+                    <input type="hidden" id="editRating" name="rating" value="0" required>
+                    <div id="stars">
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
+                    <small id="ratingText" class="text-muted">No rating yet</small>
+                </div>
+
+                <div class="mb-3">
+                    <label for="editTitle" class="form-label">Title</label>
+                    <input type="text" id="editTitle" name="title" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="editDescription" class="form-label">Description</label>
+                    <textarea id="editDescription" name="description" class="form-control" rows="5" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="editWentDate" class="form-label">Date visited</label>
+                    <input type="date" id="editWentDate" name="wentDate" class="form-control">
+                </div>
+
+
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">Edit Review</button>
+                    <a href="${pageContext.request.contextPath}/workshops" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
@@ -99,76 +158,196 @@
     }
 
     $(document).ready(function() {
-        let token = localStorage.getItem("authtoken");
-        let userId = localStorage.getItem("userId");
+        loadMyReview();
+        function loadMyReview() {
+            let token = localStorage.getItem("authtoken");
+            let userId = localStorage.getItem("userId");
 
-        $.ajax({
-            url: `http://localhost:8080/api/v1/review/getReviewByUser/${userId}`,
-            method: "GET",
-            headers: {
-                "Authorization": "Bearer " + token
-            },
-            success: function(response) {
-                let reviews = response.data;
-                if (!reviews || reviews.length === 0) {
-                    $("#bookingList").html('<P class="text-muted">No Review found.</P>');
-                    return;
+            $.ajax({
+                url: `http://localhost:8080/api/v1/review/getReviewByUser/${userId}`,
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + token
+                },
+                success: function (response) {
+                    let reviews = response.data;
+                    if (!reviews || reviews.length === 0) {
+                        $("#reviewList").html('<P class="text-muted">No Review found.</P>');
+                        return;
+                    }
+                    reviews.forEach((review) => {
+                        let card = `
+                                  <div class="col-md-6 col-lg-4 mb-4 d-flex justify-content-center">
+                                    <div class="booking-card w-100">
+                                      <div class="booking-header">
+                                         ${renderStars(review.rating)}
+                                         <button data-id="${review.id}" class="cancelBtn"><i class="fa-solid fa-trash"></i></button>
+                                         <button data-id="${review.id}" class="editBtn"><i class="fa-solid fa-pen-to-square"></i></button>
+                                      </div>
+                                      <div class="booking-body">
+                                              <p><strong> ${review.title}</strong></p>
+
+                                        <p> ${review.reviewDate}</p>
+                                        <p> ${review.visitorName}</p>
+                                        <p> ${review.description}</p>
+
+
+                                      </div>
+                                    </div>
+                                  </div>
+                                `;
+                        $("#reviewList").append(card);
+                    })
                 }
-                reviews.forEach((review) => {
-                    let card = `
-  <div class="col-md-6 col-lg-4 mb-4 d-flex justify-content-center">
-    <div class="booking-card w-100">
-      <div class="booking-header">
-         ${renderStars(review.rating)}
-         <button><i class="fa-solid fa-trash"></i></button>
-         <button><i class="fa-solid fa-pen-to-square"></i></button>
-      </div>
-      <div class="booking-body">
-              <p><strong> ${review.title}</strong></p>
-
-        <p> ${review.reviewDate}</p>
-        <p> ${review.visitorName}</p>
-        <p> ${review.description}</p>
-
-
-      </div>
-    </div>
-  </div>
-`;
-                    $("#reviewList").append(card);
-                })
-            }
-        })
+            })
+        }
         $(document).on("click", ".cancelBtn", function() {
             let id = $(this).data("id");
             let card = $(this).closest(".booking-card");
 
             Swal.fire({
                 title: "Are you sure?",
-                text: "You want to cancel this booking?",
+                text: "You want to Delete this Review?",
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonText: "Yes, cancel it",
+                confirmButtonText: "Yes, Delete it",
 
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: `http://localhost:8080/api/v1/workshopRegistration/cancelBooking/${id}`,
+                        url: `http://localhost:8080/api/v1/review/deleteReview/${id}`,
                         method: "DELETE",
                         headers: {
                             "Authorization": "Bearer " + token
                         },
                         success: function(response) {
-                            Swal.fire("Cancelled!","Your booking has been canceled.","success");
+                            Swal.fire("Deleted!","Your Review has been Deleted.","success");
                             card.fadeOut(400,()=>card.remove());
                         },
                         error: function(error) {
-                            Swal.fire("Error","Unable to cancel booking","error");
+                            Swal.fire("Error","Unable to Delete Review","error");
                         }
                     })
                 }
             })
         })
+
+        $(document).on('click', '.editBtn', function (){
+            let id = $(this).data("id");
+            editReview(id)
+        })
+        function editReview(id) {
+            $.ajax({
+                url: `http://localhost:8080/api/v1/review/getReviewById/${id}`,
+                method: "GET",
+                success: function (response) {
+                    let review = response.data;
+                    $('#EditReviewId').val(review.id);
+                    $('#editName').val(review.visitorName);
+                    $('#editRating').val(review.rating);
+                    $('#editTitle').val(review.title);
+                    $('#editDescription').val(review.description);
+                    $('#editWentDate').val(review.wentDate);
+
+                    $("#stars .star").removeClass("text-warning");
+
+                    $("#stars .star").each(function() {
+                        if($(this).data("value") <= review.rating) {
+                            $(this).addClass("text-warning");
+                        }
+                    })
+                    if(review.rating > 0) {
+                        $('#ratingText').text('Rating : ' + review.rating + " stars");
+                    }else {
+                        $('#ratingText').text("No Rating");
+                    }
+
+                    $(".star").off("click").on("click", function(){
+                        let value = $(this).data("value");
+                        let current = parseInt($('#editRating').val());
+
+                        if(current === value) {
+                            $("#editRating").val(0);
+                            $(".star").removeClass("text-warning");
+                            $('#ratingText').text("No Rating");
+                        }else {
+                            $("#editRating").val(value);
+                            $(".star").removeClass("text-warning");
+                            $(".star").each(function(){
+                                if($(this).data("value") <= value){
+                                    $(this).addClass("text-warning");
+                                }
+                            });
+                            $("#ratingText").text("Rating: " + value + " / 5");
+                        }
+
+                    });
+
+                    $('#editReviewModal').modal('show')
+                },
+                error: function (error,xhr) {
+                    console.log(error);
+                    console.log(xhr.responseText);
+                    alert("field Load data");
+                }
+            })
+        }
+        $('#editReviewForm').submit(function(e){
+            e.preventDefault();
+
+            let token = localStorage.getItem("authtoken");
+
+            let review = {
+                id: $('#EditReviewId').val(),
+                visitorName: $('#editName').val(),
+                rating: $('#editRating').val(),
+                title: $('#editTitle').val(),
+                description: $('#editDescription').val(),
+                wentDate: $('#editWentDate').val(),
+            }
+            $.ajax({
+                url: 'http://localhost:8080/api/v1/review/updateReview',
+                method: 'PUT',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                data: JSON.stringify(review),
+                contentType:'application/json',
+                success: function (response) {
+                    if (response.code === 200) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Updated Successful",
+                            showConfirmButton: false,
+                            timer: 2000
+                        }).then(() => {
+                            loadMyReview();
+                            window.location.href = "items.html";
+                        })
+                    } else if (response.code === 502) {
+                        Swal.fire({
+                            icon: "error",
+                            title: response.message,
+                            showConfirmButton: false,
+                            timer: 2000
+                        })
+                    }
+
+                },
+                error: function (xhr) {
+                    if (xhr.status === 403) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Not Authenticated",
+                            showConfirmButton: false,
+                            timer: 2000
+                        })
+                    }
+
+                }
+            })
+        })
+
 
     })
 </script>
