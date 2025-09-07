@@ -20,4 +20,6 @@ public class ReviewDTO {
     private Date reviewDate;
     private Long userId;
     private Long workshopId;
+    private String workshopName;
+
 }

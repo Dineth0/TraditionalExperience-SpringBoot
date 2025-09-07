@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #433c3b;
+            font-family: 'Inter', sans-serif;
+            color: #f4e2c6; /* Light beige text for readability */
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container my-5">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="mb-0">Review List</h4>
+
+            </div>
+            <div class="mb-3">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search Reviews...">
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-light">
+                    <tr>
+                        <th scope="col">Workshop</th>
+                        <th scope="col">Visitor Name</th>
+                        <th scope="col">Rating</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Went Date</th>
+                        <th scope="col">Created At</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody class="review-tbody">
+                    <!-- Populated via script.js -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/jquery-3.7.1.min.js"></script>
+<script src="js/Review.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>

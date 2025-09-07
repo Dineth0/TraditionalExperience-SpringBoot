@@ -79,7 +79,8 @@ public class SecurityConfiguration {
                                 "api/v1/review/getReviewByUser/**",
                                 "api/v1/review/updateReview",
                                 "api/v1/review/deleteReview/**",
-                                "api/v1/review/getReviewById/**"
+                                "api/v1/review/getReviewById/**",
+                                "api/v1/notification/create"
 
                         ).permitAll()
                         .requestMatchers("/api/v1/item/addItem",
@@ -90,7 +91,8 @@ public class SecurityConfiguration {
                                 "/api/v1/workshop/updateWorkshop",
                                 "/api/v1/workshopRegistration/getAllRegistrations",
                                 "/api/v1/instructor/deleteInstructor/**",
-                                "api/v1/workshop/deleteWorkshop/**")
+                                "api/v1/workshop/deleteWorkshop/**",
+                                "api/v1/notification/unread/**")
                         .hasAuthority("ADMIN")
                         .anyRequest().authenticated()
 

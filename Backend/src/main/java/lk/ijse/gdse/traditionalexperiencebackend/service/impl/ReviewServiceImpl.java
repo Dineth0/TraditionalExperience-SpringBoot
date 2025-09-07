@@ -48,8 +48,13 @@ public class ReviewServiceImpl implements ReviewService {
     public List<ReviewDTO> getAllReviews() {
         List<Review> reviews = reviewRepo.findAll();
         return reviews.stream()
-                .map(review -> modelMapper.map(review, ReviewDTO.class))
-                .toList();
+                .map(reg -> {
+                    ReviewDTO reviewDTO = modelMapper.map(reg, ReviewDTO.class);
+                    if(reg.getWorkshop() != null){
+                        reviewDTO.setWorkshopName(reg.getWorkshop().getTitle());
+                    }
+                    return reviewDTO;
+                }).toList();
     }
 
     @Override

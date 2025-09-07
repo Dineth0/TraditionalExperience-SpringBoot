@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    loadAllReview();
     $(document).on('click', '#ReviewBtn', function () {
         $('#ReviewModal').modal('show')
     })
@@ -86,6 +87,93 @@ $(document).ready(function () {
             }
         })
     })
+    function renderStars(rating) {
+        let stars = "";
+        for (let i = 1; i <= 5; i++) {
+            if (i <= rating) {
+                stars += '<i class="fa-solid fa-star" style="color:#FFD700;"></i>'; // filled star
+            } else {
+                stars += '<i class="fa-regular fa-star" style="color:#FFD700;"></i>'; // empty star
+            }
+        }
+        return stars;
+    }
+
+    function loadAllReview(){
+        let token = localStorage.getItem('authtoken');
+
+        $.ajax({
+            url: 'http://localhost:8080/api/v1/review/getAllReviews',
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+            success: function (response) {
+                let reviews = response.data;
+                let table = $('.review-tbody');
+                table.empty();
+
+                if(reviews.length === 0 || !reviews){
+                    table.append('<tr><td colspan="10" class="text-center">No Reviews</td></tr>');
+                    return;
+                }
+                reviews.forEach((review) => {
+                    let row = `
+                            <tr class="review-row">
+                                <td>${review.workshopName}</td>
+                                <td>${review.visitorName}             </td>
+                                <td>${renderStars(review.rating)}</td>
+                                <td>${review.title}</td>
+                                <td>${review.description}</td>
+                                <td>${review.wentDate}</td>
+                                <td>${review.reviewDate}</td>
+                                
+                                <td>
+                                    <button class="btn btn-sm btn-warning deleteBtn" data-id="${review.id}" >
+                                    Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    table.append(row);
+                })
+            },
+            error: function (error) {
+                console.log(error);
+                alert(error.message);
+            }
+        })
+        $(document).on("click", ".deleteBtn", function() {
+            let id = $(this).data("id");
+            let row = $(this).closest(".review-row");
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You want to Delete this Review?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, Delete it",
+
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `http://localhost:8080/api/v1/review/deleteReview/${id}`,
+                        method: "DELETE",
+                        headers: {
+                            "Authorization": "Bearer " + token
+                        },
+                        success: function(response) {
+                            Swal.fire("Deleted!","Your Review has been Deleted.","success");
+                            row.fadeOut(400,()=>row.remove());
+                        },
+                        error: function(error) {
+                            Swal.fire("Error","Unable to Delete Review","error");
+                        }
+                    })
+                }
+            })
+        })
+    }
 
 
 
