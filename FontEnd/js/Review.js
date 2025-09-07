@@ -44,7 +44,7 @@ $(document).ready(function () {
             $("#ratingText").text("Please select a rating").addClass("text-danger");
             return;
         }
-        let formData = new FormData();
+
         let review = {
             visitorName:$("#name").val(),
             rating:$("#rating").val(),
@@ -56,21 +56,13 @@ $(document).ready(function () {
             workshopId : new URLSearchParams(window.location.search).get('id')
 
         }
-        formData.append("review", new Blob([JSON.stringify(review)], {type: "application/json"}));
 
-        let files = $('#images')[0].files;
-        if(files.length > 0) {
-            for (let i = 0; i < files.length; i++) {
-                formData.append('file', files[i]);
-            }
-        }
 
         $.ajax({
             url:`http://localhost:8080/api/v1/review/addReview`,
             method: 'POST',
-            data:formData,
-            processData:false,
-            contentType:false,
+            data: JSON.stringify(review),
+            contentType:'application/json',
             headers:{
                 "Authorization": "Bearer " + token
             },
