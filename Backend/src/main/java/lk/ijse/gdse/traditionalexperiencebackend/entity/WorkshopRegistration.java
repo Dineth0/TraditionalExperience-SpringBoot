@@ -24,6 +24,7 @@ public class WorkshopRegistration {
     private String workshopTime;
     private int member;
     private double totalFee;
+    private String PaymentStatus;
 
     @ManyToOne
     @JoinColumn(name = "userId")

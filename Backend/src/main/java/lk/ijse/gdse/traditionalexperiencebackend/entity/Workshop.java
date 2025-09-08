@@ -22,6 +22,7 @@ public class Workshop {
     private String duration;
     private String language;
     private int participantCount;
+//    @Column(columnDefinition = "DOUBLE")
     private String fee;
     private String address;
     @ElementCollection(fetch = FetchType.EAGER)

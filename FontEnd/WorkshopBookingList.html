@@ -40,6 +40,7 @@
                         <th scope="col">country</th>
                         <th scope="col">Registration Date</th>
                         <th scope="col">Email</th>
+                        <th scope="col">PaymentStatus</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -76,18 +77,21 @@
                         return;
                     }
                     registrations.forEach((registration) => {
+                        let paymentClass = registration.paymentStatus === 'Pending' ? 'bg-warning text-dark' : '';
+
                         let row = `
-                            <tr>
-                                <td>${registration.workshopName}</td>
-                                <td>${registration.selectWorkshopDate}             </td>
-                                <td>${registration.workshopTime}</td>
-                                <td>${registration.member}</td>
-                                <td>${registration.totalFee}</td>
-                                <td>${registration.phone}</td>
-                                <td>${registration.country}</td>
-                                <td>${registration.registrationDate}</td>
-                                <td>${registration.email}</td>
-                                <td>
+                            <tr ">
+                               <td class="${registration.paymentStatus === 'Pending' ? 'bg-warning text-dark' : ''}">${registration.workshopName}</td>
+            <td class="${registration.paymentStatus === 'Pending' ? 'bg-warning text-dark' : ''}">${registration.selectWorkshopDate}</td>
+            <td class="${registration.paymentStatus === 'Pending' ? 'bg-warning text-dark' : ''}">${registration.workshopTime}</td>
+            <td class="${registration.paymentStatus === 'Pending' ? 'bg-warning text-dark' : ''}">${registration.member}</td>
+            <td class="${registration.paymentStatus === 'Pending' ? 'bg-warning text-dark' : ''}">${registration.totalFee}</td>
+            <td class="${registration.paymentStatus === 'Pending' ? 'bg-warning text-dark' : ''}">${registration.phone}</td>
+            <td class="${registration.paymentStatus === 'Pending' ? 'bg-warning text-dark' : ''}">${registration.country}</td>
+            <td class="${registration.paymentStatus === 'Pending' ? 'bg-warning text-dark' : ''}">${registration.registrationDate}</td>
+            <td class="${registration.paymentStatus === 'Pending' ? 'bg-warning text-dark' : ''}">${registration.email}</td>
+            <td class="${registration.paymentStatus === 'Pending' ? 'bg-warning text-dark' : ''}">${registration.paymentStatus}</td>
+            <td>
                                     <button class="btn btn-sm btn-warning sendMailBtn" data-email="${registration.email}" >
                                     Send Mail
                                     </button>

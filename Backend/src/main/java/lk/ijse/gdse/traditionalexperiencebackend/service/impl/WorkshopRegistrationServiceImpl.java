@@ -33,6 +33,7 @@ public class WorkshopRegistrationServiceImpl implements WorkshopRegistrationServ
 
             WorkshopRegistration workshopRegistration = modelMapper.map(workshopRegistrationDTO, WorkshopRegistration.class);
 
+            workshopRegistration.setPaymentStatus("Pending");
             if(workshopRegistrationDTO.getUserId() != null){
                 User user = new User();
                 user.setId(workshopRegistrationDTO.getUserId());
@@ -49,7 +50,7 @@ public class WorkshopRegistrationServiceImpl implements WorkshopRegistrationServ
                 return VarList.Not_Acceptable;
             }else {
                 try{
-                    workshopRegistrationRepo.save(modelMapper.map(workshopRegistrationDTO, WorkshopRegistration.class)  );
+                    workshopRegistrationRepo.save(workshopRegistration) ;
                     return VarList.Created;
                 }catch(Exception e){
                     return VarList.Bad_Gateway;

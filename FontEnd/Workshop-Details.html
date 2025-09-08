@@ -822,7 +822,6 @@
             let participants = parseInt($('#participantCountDisplay').text());
             let totalFee = workshopFee * participants;
             let selectedDate = $('#dateDisplay').text();
-            let workshopId = new URLSearchParams(window.location.search).get('id');
             let token = localStorage.getItem('authtoken');
             let userId = localStorage.getItem('userId');
 
@@ -884,31 +883,6 @@
             window.location.href = `review.html?id=${workshopId}`;
         });
 
-        // $(document).ready(function(){
-        //     const card = $('#rightSide');
-        //     const includesSection = $('#workshopIncludes');
-        //     const cardHeight = card.outerHeight();
-        //     const cardInitialTop = parseInt(card.css('top')) || 100;
-        //
-        //     $(window).on('scroll', function(){
-        //         const scrollTop = $(window).scrollTop();
-        //         const includesTop = includesSection.offset().top;
-        //
-        //         if(scrollTop + cardInitialTop + cardHeight < includesTop){
-        //             // Sticky position එක තවම ඇතුලේ
-        //             card.css({
-        //                 position: 'sticky',
-        //                 top: cardInitialTop + 'px'
-        //             });
-        //         } else {
-        //             // Includes section එකට ගිය පසු normal flow එකට යන්න
-        //             card.css({
-        //                 position: 'absolute',
-        //                 top: includesTop - cardHeight + 'px'
-        //             });
-        //         }
-        //     });
-        // });
 
 
 
