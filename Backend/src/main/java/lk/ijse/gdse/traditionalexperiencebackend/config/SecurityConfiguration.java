@@ -92,7 +92,8 @@ public class SecurityConfiguration {
                                 "/api/v1/workshopRegistration/getAllRegistrations",
                                 "/api/v1/instructor/deleteInstructor/**",
                                 "api/v1/workshop/deleteWorkshop/**",
-                                "api/v1/notification/unread/**")
+                                "api/v1/notification/unread/**",
+                                "api/v1/notification/markAsRead/**")
                         .hasAuthority("ADMIN")
                         .anyRequest().authenticated()
 

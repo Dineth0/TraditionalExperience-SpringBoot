@@ -58,12 +58,11 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public boolean markAsRead(Long id) {
-        return notificationRepo.findById(id)
-                .map(notification -> {
-                    notification.setReadStatus(true);
-                    notificationRepo.save(notification);
-                    return true;
-                }).orElse(false);
+    public int markAsRead(Long userId) {
+        
+        List<Notification> notifications = notificationRepo.findByUserIdAndReadStatusFalse(userId);
+        notifications.forEach(notification -> notification.setReadStatus(true));
+        notificationRepo.saveAll(notifications);
+        return notifications.size();
     }
 }

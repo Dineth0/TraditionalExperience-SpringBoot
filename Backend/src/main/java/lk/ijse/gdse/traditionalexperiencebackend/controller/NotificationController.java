@@ -40,10 +40,23 @@ public class NotificationController {
     }
     @GetMapping("/unread/{userId}")
     public ResponseEntity<ResponseDTO> getUnreadNotifications(@PathVariable Long userId) {
-        try {
+        try { 
             return ResponseEntity.ok(
                     new ResponseDTO(VarList.OK, "Success",
                             notificationService.getUnReadNotifications(userId))
+            );
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+        }
+    }
+    @PutMapping("/markAsRead/{userId}")
+    public ResponseEntity<ResponseDTO> markAsRead(@PathVariable Long userId) {
+
+        try {
+            int updateCount = notificationService.markAsRead(userId);
+            return ResponseEntity.ok(
+                    new ResponseDTO(VarList.OK, updateCount + "success", null)
             );
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

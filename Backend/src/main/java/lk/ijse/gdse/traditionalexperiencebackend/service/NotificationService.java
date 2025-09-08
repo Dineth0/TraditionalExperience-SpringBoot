@@ -8,5 +8,5 @@ public interface NotificationService {
     int createNotification(NotificationDTO notificationDTO);
     List<NotificationDTO> getAllNotifications();
     List<NotificationDTO> getUnReadNotifications(Long userId);
-    boolean markAsRead(Long id);
+    int markAsRead(Long id);
 }

@@ -480,6 +480,20 @@
                 }
             }
         });
+        $('#notificationDropdown').on('click', function () {
+            let token = localStorage.getItem('authtoken');
+            $.ajax({
+                url:`http://localhost:8080/api/v1/notification/markAsRead/${adminId}`,
+                method: "PUT",
+                headers: {
+                    "Authorization": "Bearer " + token
+                },
+                success: function (response) {
+                    console.log(response);
+                    $("#notificationCount").text(0);
+                }
+            })
+        })
     }
 
 </script>
