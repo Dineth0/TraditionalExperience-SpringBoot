@@ -1,15 +1,18 @@
 package lk.ijse.gdse.traditionalexperiencebackend.service.impl;
 
+import jakarta.transaction.Transactional;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.UserDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.WorkshopDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.WorkshopRegistrationDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.User;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.Workshop;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.WorkshopRegistration;
+import lk.ijse.gdse.traditionalexperiencebackend.repo.PaymentRepo;
 import lk.ijse.gdse.traditionalexperiencebackend.repo.WorkshopRegistrationRepo;
 import lk.ijse.gdse.traditionalexperiencebackend.service.WorkshopRegistrationService;
 import lk.ijse.gdse.traditionalexperiencebackend.service.WorkshopService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,19 +20,17 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class WorkshopRegistrationServiceImpl implements WorkshopRegistrationService {
 
-    @Autowired
-    WorkshopRegistrationRepo workshopRegistrationRepo;
 
-    @Autowired
-    ModelMapper modelMapper;
-
-    @Autowired
-    WorkshopService workshopService;
+   private final WorkshopRegistrationRepo workshopRegistrationRepo;
+   private final PaymentRepo paymentRepo;
+   private final ModelMapper modelMapper;
+   private final WorkshopService workshopService;
 
     @Override
-    public int registerWorkshop(WorkshopRegistrationDTO workshopRegistrationDTO) {
+    public WorkshopRegistrationDTO registerWorkshop(WorkshopRegistrationDTO workshopRegistrationDTO) {
 
             WorkshopRegistration workshopRegistration = modelMapper.map(workshopRegistrationDTO, WorkshopRegistration.class);
 
@@ -47,14 +48,10 @@ public class WorkshopRegistrationServiceImpl implements WorkshopRegistrationServ
             boolean exists = workshopRegistrationRepo.existsByWorkshopTimeAndSelectWorkshopDateAndWorkshopId(workshopRegistrationDTO.getWorkshopTime(),workshopRegistrationDTO.getSelectWorkshopDate(),workshopRegistrationDTO.getWorkshopId());
 
             if(exists){
-                return VarList.Not_Acceptable;
+                return null;
             }else {
-                try{
-                    workshopRegistrationRepo.save(workshopRegistration) ;
-                    return VarList.Created;
-                }catch(Exception e){
-                    return VarList.Bad_Gateway;
-                }
+              WorkshopRegistration saved = workshopRegistrationRepo.save(workshopRegistration);
+              return modelMapper.map(saved, WorkshopRegistrationDTO.class);
             }
     }
 
@@ -78,8 +75,10 @@ public class WorkshopRegistrationServiceImpl implements WorkshopRegistrationServ
     }
 
     @Override
+    @Transactional
     public boolean cancelBooking(Long id) {
         if(workshopRegistrationRepo.existsById(id)){
+            paymentRepo.deleteByWorkshopRegistrationId(id);
             workshopRegistrationRepo.deleteById(id);
             return true;
         }else {

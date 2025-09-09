@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface WorkshopRegistrationService {
-    int registerWorkshop(WorkshopRegistrationDTO workshopRegistrationDTO);
+    WorkshopRegistrationDTO registerWorkshop(WorkshopRegistrationDTO workshopRegistrationDTO);
     List<Map<String, Object>> checkAvailability(Long workshopId, Date date);
 
     boolean cancelBooking(Long id);

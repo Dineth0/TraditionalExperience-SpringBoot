@@ -35,35 +35,29 @@ public class WorkshopRegistrationController {
 
     @PostMapping("/registerWorkshop")
     public ResponseEntity<ResponseDTO> registerWorkshop(@RequestBody WorkshopRegistrationDTO workshopRegistrationDTO){
-        try {
-            int response = workshopRegistrationService.registerWorkshop(workshopRegistrationDTO);
+        try{
+            WorkshopRegistrationDTO savedDTO = workshopRegistrationService.registerWorkshop(workshopRegistrationDTO);
 
-            switch (response){
-                case VarList.Created -> {
-                    NotificationDTO notificationDTO = new NotificationDTO();
-                    WorkshopDTO workshopDTO = workshopService.getWorkshopById(workshopRegistrationDTO.getWorkshopId());
-                    notificationDTO.setMessage("New workshop booking for: " + workshopDTO.getTitle());
-                    Long adminUserId = 1L;
-                    notificationDTO.setUserId(adminUserId);
-                    notificationDTO.setReadStatus(false);
-                    notificationDTO.setCreateAt(new java.sql.Date(System.currentTimeMillis()));
+            if(savedDTO != null){
+                NotificationDTO notificationDTO = new NotificationDTO();
+                WorkshopDTO workshopDTO = workshopService.getWorkshopById(workshopRegistrationDTO.getWorkshopId());
+                notificationDTO.setMessage("New Workshop Booking For " + workshopDTO.getTitle() );
+                Long adminUserId = 1L;
+                notificationDTO.setUserId(adminUserId);
+                notificationDTO.setReadStatus(false);
+                notificationDTO.setCreateAt(new  java.sql.Date(System.currentTimeMillis()));
 
-                    notificationService.createNotification(notificationDTO);
-                    return ResponseEntity.status(HttpStatus.CREATED)
-                            .body(new ResponseDTO(VarList.Created, "Registration successfully",workshopRegistrationDTO));
-                }
-                case VarList.Not_Acceptable -> {
-                    return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
-                            .body(new ResponseDTO(VarList.Not_Acceptable, "This time has Booked",null));
-                }
-                default -> {
-                    return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
-                            .body(new ResponseDTO(VarList.Bad_Gateway, "Error",null));
-                }
+                notificationService.createNotification(notificationDTO);
+
+                return ResponseEntity.status(HttpStatus.CREATED)
+                        .body(new ResponseDTO(VarList.Created, "Registration successfully", savedDTO));
+            }else {
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
+                        .body(new ResponseDTO(VarList.Not_Acceptable, "This time has not found", null));
             }
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(),null));
+                    .body(new ResponseDTO(VarList.Internal_Server_Error, "Booking Deleted", null));
         }
     }
     @GetMapping("/checkAvailability/{workshopId}")
