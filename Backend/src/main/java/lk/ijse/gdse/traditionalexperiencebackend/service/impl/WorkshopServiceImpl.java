@@ -7,9 +7,11 @@ import lk.ijse.gdse.traditionalexperiencebackend.dto.WorkshopDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.Instructor;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.TraditionalItem;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.Workshop;
+import lk.ijse.gdse.traditionalexperiencebackend.repo.InstructorRepo;
 import lk.ijse.gdse.traditionalexperiencebackend.repo.WorkshopRepo;
 import lk.ijse.gdse.traditionalexperiencebackend.service.WorkshopService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,13 +22,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class WorkshopServiceImpl implements WorkshopService {
 
-    @Autowired
-    WorkshopRepo workshopRepo;
 
-    @Autowired
-    ModelMapper modelMapper;
+   private final WorkshopRepo workshopRepo;
+
+  private final InstructorRepo instructorRepo;
+   private final ModelMapper modelMapper;
 
     @Override
     public int addWorkshop(WorkshopDTO workshopDTO) {
@@ -42,7 +45,18 @@ public class WorkshopServiceImpl implements WorkshopService {
                Instructor instructor = new Instructor();
                instructor.setId(workshopDTO.getInstructorId());
                workshop.setInstructor(instructor);
+
+               workshop.setInstructorName(
+                       instructorRepo.findById(workshopDTO.getInstructorId())
+                               .map(Instructor :: getInstructorName)
+                               .orElse(null)
+               );
            }
+//           if(workshopDTO.getInstructorName() != null){
+//               Instructor instructor = new Instructor();
+//               instructor.setInstructorName(workshopDTO.getInstructorName());
+//               workshop.setInstructor(instructor);
+//           }
            workshopRepo.save(workshop);
            return VarList.Created;
         }catch(Exception e){

@@ -63,14 +63,22 @@ $(document).ready(function(){
 
                 if (instructors && instructors.length > 0) {
                     instructors.forEach(instructor => {
-                        select.append(`<option value="${instructor.id}">${instructor.instructorName}</option>`);
+                        let displayName = instructor.instructorName;
+                        if(instructor.category && instructor.category){
+                            displayName += " - " + instructor.category;
+                        }
+                        select.append(`<option value="${instructor.id}">${displayName}</option>`);
                     });
                     let editSelect = $('#EditInstructorSelect');
                     editSelect.empty();
                     editSelect.append('<option value="">Edit Item</option>');
                     instructors.forEach(instructor => {
+                        let displayName = instructor.instructorName;
+                        if (instructor.category && instructor.category){
+                            displayName += " - " + instructor.category
+                        }
                         let selected = (instructor.id === selectedInstructorId) ? 'selected' : '';
-                        editSelect.append(`<option value="${instructor.id}"${selected}>${instructor.instructorName}</option>`);
+                        editSelect.append(`<option value="${instructor.id}"${selected}>${displayName}</option>`);
                     })
                 }
 
@@ -111,6 +119,7 @@ $(document).ready(function(){
             participantCount: $('#participantCount').val(),
             fee: $('#fees').val(),
             address: $('#address').val(),
+            instructorName:$('#instructorSelect').val(),
             itemId:$('#itemSelect').val(),
             instructorId:$('#instructorSelect').val(),
             time:times,
@@ -195,6 +204,7 @@ $(document).ready(function(){
                     let include = workshops.include;
                     let fee = workshops.fee;
                     let address = workshops.address;
+                    let instructorName = workshops.instructorName;
                     let times= workshops.time;
                     let imagePaths = workshops.image || []
 
@@ -212,6 +222,7 @@ $(document).ready(function(){
                         data-include="${include}"
                         data-fee="${fee}"
                         data-address="${address}"
+                        data-instructorName = "${instructorName}"
                         data-time="${times}"
                        
                         data-image="${imagePaths.join(';')}">
@@ -223,6 +234,7 @@ $(document).ready(function(){
                         <td>${include}</td>
                         <td>${fee}</td>
                         <td>${address}</td>
+                        <td>${instructorName}</td>
                          <td>${times.join(', ')}</td>
                         
                         <td>${imagesHtml}</td>
@@ -285,6 +297,7 @@ $(document).ready(function(){
                     $('#EditParticipantCount').val(workshop.participantCount);
                     $('#EditFees').val(workshop.fee);
                     $('#EditAddress').val(workshop.address);
+                    $('#EditInstructorSelect').val(workshop.instructorName);
                     $('#EditTime').val(workshop.time);
                     $('#EditInclude').val(workshop.include);
 
@@ -345,6 +358,7 @@ $(document).ready(function(){
             participantCount: parseInt($('#EditParticipantCount').val()),
             fee: $('#EditFees').val(),
             address: $('#EditAddress').val(),
+            instructorName: $('#EditInstructorSelect').val(),
             itemId:$('#EditItemSelect').val(),
             instructorId:$('#EditInstructorSelect').val(),
             image: existingImage,

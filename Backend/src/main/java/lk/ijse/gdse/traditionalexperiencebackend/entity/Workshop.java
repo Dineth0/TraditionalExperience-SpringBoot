@@ -25,6 +25,7 @@ public class Workshop {
 //    @Column(columnDefinition = "DOUBLE")
     private String fee;
     private String address;
+    private String instructorName;
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> image;
     @ElementCollection(fetch = FetchType.EAGER)

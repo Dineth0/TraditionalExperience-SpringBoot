@@ -23,4 +23,5 @@ public class WorkshopRegistrationDTO {
     private Long userId;
     private Long workshopId;
     private String workshopName;
+    private String instructorName;
 }
