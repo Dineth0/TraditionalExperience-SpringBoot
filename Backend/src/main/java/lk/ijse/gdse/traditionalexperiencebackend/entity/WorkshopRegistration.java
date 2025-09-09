@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.sql.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,4 +34,7 @@ public class WorkshopRegistration {
     @ManyToOne
     @JoinColumn(name = "workshopId")
     private Workshop workshop;
+
+    @OneToMany(mappedBy = "workshopRegistration", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Payment> payments;
 }

@@ -861,6 +861,10 @@
                             icon:'success',
                             title:'Booking Successfully',
                         });
+
+                        window.location.href = `Payment.html?registrationId=${response.data.id}&userId=${userId}`;
+
+
                     } else {
                         Swal.fire({
                             icon:'error',

@@ -78,8 +78,11 @@ public class WorkshopRegistrationServiceImpl implements WorkshopRegistrationServ
     @Transactional
     public boolean cancelBooking(Long id) {
         if(workshopRegistrationRepo.existsById(id)){
-            paymentRepo.deleteByWorkshopRegistrationId(id);
-            workshopRegistrationRepo.deleteById(id);
+//            paymentRepo.deleteById(id);
+       WorkshopRegistration workshopRegistration = workshopRegistrationRepo.findById(id)
+               .orElseThrow(() -> new RuntimeException("Not found"));
+       workshopRegistration.getPayments().clear();
+       workshopRegistrationRepo.delete(workshopRegistration);
             return true;
         }else {
             return false;
