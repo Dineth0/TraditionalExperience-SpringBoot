@@ -6,6 +6,7 @@ import lk.ijse.gdse.traditionalexperiencebackend.repo.InstructorRepo;
 import lk.ijse.gdse.traditionalexperiencebackend.service.InstructorService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -92,5 +93,13 @@ public class InstructorServiceImpl implements InstructorService {
     public Page<InstructorDTO> getAllInstructorsPage(Pageable pageable) {
         Page<Instructor> instructors = instructorRepo.findAll(pageable);
         return instructors.map(instructor -> modelMapper.map(instructor, InstructorDTO.class));
+    }
+
+    @Override
+    public List<InstructorDTO> searchInstructors(String keyword) {
+        System.out.println("Searching by keyword: " + keyword);
+        List<Instructor> instructors = instructorRepo.findJobByInstructorNameContainingIgnoreCase(keyword);
+        System.out.println("Found jobs: " + instructors.size());
+        return modelMapper.map(instructors, new TypeToken<List<InstructorDTO>>() {}.getType());
     }
 }

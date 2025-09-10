@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.Repository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -161,5 +162,11 @@ public class InstructorController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDTO(VarList.Internal_Server_Error, "Instructor Deleted", null));
         }
+    }
+    @GetMapping("/searchInstructors/{keyword}")
+    public ResponseEntity<ResponseDTO> searchInstructors(@PathVariable("keyword") String keyword) {
+        List<InstructorDTO> instructors = instructorService.searchInstructors(keyword);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDTO(VarList.OK, "Search Success", instructors));
     }
 }

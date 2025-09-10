@@ -81,7 +81,8 @@ public class SecurityConfiguration {
                                 "api/v1/review/deleteReview/**",
                                 "api/v1/review/getReviewById/**",
                                 "api/v1/notification/create",
-                                "api/v1/payment/savePayment"
+                                "api/v1/payment/savePayment",
+                                "api/v1/instructor/searchInstructors/**"
 
                         ).permitAll()
                         .requestMatchers("/api/v1/item/addItem",

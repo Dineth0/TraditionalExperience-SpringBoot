@@ -15,5 +15,7 @@ public interface InstructorService {
     InstructorDTO getInstructorById(Long id);
     boolean deleteInstructor(Long id);
     Page<InstructorDTO> getAllInstructorsPage(Pageable pageable);
+    List<InstructorDTO> searchInstructors(String keyword);
+
 
 }
