@@ -101,4 +101,18 @@ public class WorkshopRegistrationController {
                     .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
         }
     }
+//    @GetMapping("/searchRegistrations/{keyword}")
+//    public ResponseEntity<ResponseDTO> searchRegistrations(@PathVariable("keyword") int keyword){
+//        try {
+//            List<WorkshopRegistrationDTO> workshopRegistrationDTO = workshopRegistrationService.searchWorkshops(keyword);
+//
+//            return ResponseEntity.status(HttpStatus.OK)
+//                    .body(new ResponseDTO(VarList.OK, "suceess", workshopRegistrationDTO));
+//
+//        }catch (Exception e){
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+//        }
+//
+//    }
 }

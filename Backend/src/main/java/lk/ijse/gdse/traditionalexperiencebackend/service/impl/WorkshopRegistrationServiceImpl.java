@@ -14,6 +14,7 @@ import lk.ijse.gdse.traditionalexperiencebackend.service.WorkshopService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -108,6 +109,9 @@ public class WorkshopRegistrationServiceImpl implements WorkshopRegistrationServ
                    WorkshopRegistrationDTO workshopRegistrationDTO = modelMapper.map(reg, WorkshopRegistrationDTO.class);
                     if(reg.getWorkshop() != null){
                         workshopRegistrationDTO.setWorkshopName(reg.getWorkshop().getTitle());
+                        if(reg.getWorkshop().getInstructor() != null){
+                            workshopRegistrationDTO.setInstructorName(reg.getWorkshop().getInstructor().getInstructorName());
+                        }
                     }
                     return workshopRegistrationDTO;
                 }).toList();
@@ -115,5 +119,36 @@ public class WorkshopRegistrationServiceImpl implements WorkshopRegistrationServ
 
     }
 
+//    @Override
+//    public List<WorkshopRegistrationDTO> searchWorkshops(int keyword) {
+//        System.out.println("Searching by keyword: " + keyword);
+//        List<WorkshopRegistration> workshopRegistrations = workshopRegistrationRepo.findWorkshopRegistrationBySelectWorkshopDateContainingIgnoreCase(keyword);
+//        System.out.println("Found jobs: " + workshopRegistrations.size());
+//        return modelMapper.map(workshopRegistrations, new TypeToken<List<WorkshopRegistrationDTO>>() {}.getType());
+//    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

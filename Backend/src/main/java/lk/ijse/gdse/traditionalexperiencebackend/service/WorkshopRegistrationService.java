@@ -15,5 +15,7 @@ public interface WorkshopRegistrationService {
     boolean cancelBooking(Long id);
     List<WorkshopRegistrationDTO> getBookingsByUserId(Long userId);
     List<WorkshopRegistrationDTO> getAlRegistrations();
+//    List<WorkshopRegistrationDTO> searchWorkshops(int keyword);
+
 
 }

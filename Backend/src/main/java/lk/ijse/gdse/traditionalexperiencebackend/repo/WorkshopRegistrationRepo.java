@@ -13,4 +13,6 @@ public interface WorkshopRegistrationRepo extends JpaRepository<WorkshopRegistra
     boolean existsByWorkshopTimeAndSelectWorkshopDateAndWorkshopId(String workshopTime, Date selectWorkshopDate, Long workshop_id);
 
     List<WorkshopRegistration> findByUserId(Long userId);
+
+//    List<WorkshopRegistration> findWorkshopRegistrationBySelectWorkshopDateContainingIgnoreCase(int keyword);
 }
