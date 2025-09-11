@@ -174,7 +174,7 @@
             <td class="${registration.paymentStatus === 'Pending' ? 'bg-warning text-dark' : ''}">${registration.email}</td>
             <td class="${registration.paymentStatus === 'Pending' ? 'bg-warning text-dark' : ''}">${registration.paymentStatus}</td>
             <td>
-                                    <button class="btn btn-sm btn-warning sendMailBtn" data-email="${registration.email}" >
+                                    <button class="btn btn-sm btn-warning sendMailBtn" data-id="${registration.id}" >
                                     Send Mail
                                     </button>
                                 </td>
@@ -333,6 +333,72 @@
                loadPagination(0);
 
 
+
+
+                $(document).on('click', '.sendMailBtn', function () {
+                     const regId = $(this).data('id');
+                     $('#EmailSendModal').data('registrationId', regId);
+                     $("#EmailSendModal").modal('show');
+
+                })
+                $('#EmailSendForm').on('submit', function (e) {
+                    e.preventDefault();
+
+                    let instructorEmail = $('#instructorEmail').val();
+                    let registrationId = $('#EmailSendModal').data('registrationId');
+                    let token = localStorage.getItem("authtoken")
+
+                    if(!instructorEmail) {
+                        Swal.fire('Error',
+                            'Please enter instructor email',
+                            'error');
+                        return;
+                    }
+                    if (!registrationId) {
+                        Swal.fire('Error',
+                            'Registration ID not found. ' +
+                            'Please try again.',
+                            'error');
+                        return;
+                    }
+                    const emailData = {
+                        registrationId: registrationId,
+                        instructorEmail: instructorEmail,
+                    }
+                    $.ajax({
+                        url:`http://localhost:8080/api/v1/email/sendMail`,
+                        method: 'POST',
+                        headers: {
+                            'Authorization': 'Bearer ' + token,
+                            'Content-Type': 'application/json'
+                        },
+                        data: JSON.stringify(emailData),
+                        success: function (response) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Email Sent!',
+                                text: 'Booking details have been sent to the instructor.',
+                                timer: 2000
+                            });
+                            $('#EmailSendModal').modal('hide');
+                            // $('#EmailSendForm')[0].reset();
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Failed to Send Email',
+                                text: 'Something went wrong. Please try again.'
+                            });
+                        }
+
+                    })
+                })
+                $('#EmailSendModal').on('hidden.bs.modal', function () {
+                    $('#EmailSendForm')[0].reset();
+                    $(this).removeData('registrationId')
+                })
+       
 
     })
 </script>
