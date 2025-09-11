@@ -16,6 +16,7 @@ public class Email {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String subject;
+    @Column(length = 5000)
     private String body;
     private LocalDateTime createdAt;
 
