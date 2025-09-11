@@ -1,14 +1,14 @@
 package lk.ijse.gdse.traditionalexperiencebackend.controller;
 
-import lk.ijse.gdse.traditionalexperiencebackend.dto.NotificationDTO;
-import lk.ijse.gdse.traditionalexperiencebackend.dto.ResponseDTO;
-import lk.ijse.gdse.traditionalexperiencebackend.dto.WorkshopDTO;
-import lk.ijse.gdse.traditionalexperiencebackend.dto.WorkshopRegistrationDTO;
+import lk.ijse.gdse.traditionalexperiencebackend.dto.*;
 import lk.ijse.gdse.traditionalexperiencebackend.service.NotificationService;
 import lk.ijse.gdse.traditionalexperiencebackend.service.WorkshopRegistrationService;
 import lk.ijse.gdse.traditionalexperiencebackend.service.WorkshopService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -115,4 +115,20 @@ public class WorkshopRegistrationController {
 //        }
 //
 //    }
+
+    @GetMapping("/RegistrationPagination")
+    public ResponseEntity<ResponseDTO> pagination(@RequestParam(defaultValue = "0") int page,
+                                                  @RequestParam(defaultValue = "5") int size) {
+
+        try{
+            Pageable pageable = PageRequest.of(page, size);
+            Page<WorkshopRegistrationDTO> workshopRegistrations = workshopRegistrationService.getWorkshopRegistrationsForPAge(pageable);
+
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ResponseDTO(VarList.OK, "Page Loaded", workshopRegistrations));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error, "Instructor Deleted", null));
+        }
+    }
 }

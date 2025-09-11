@@ -3,6 +3,8 @@ package lk.ijse.gdse.traditionalexperiencebackend.service;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.WorkshopDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.WorkshopRegistrationDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.Workshop;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Date;
 import java.util.List;
@@ -16,6 +18,7 @@ public interface WorkshopRegistrationService {
     List<WorkshopRegistrationDTO> getBookingsByUserId(Long userId);
     List<WorkshopRegistrationDTO> getAlRegistrations();
 //    List<WorkshopRegistrationDTO> searchWorkshops(int keyword);
+    Page<WorkshopRegistrationDTO> getWorkshopRegistrationsForPAge(Pageable pageable);
 
 
 }

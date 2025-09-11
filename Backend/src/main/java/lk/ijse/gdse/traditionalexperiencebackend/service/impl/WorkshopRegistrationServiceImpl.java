@@ -1,9 +1,11 @@
 package lk.ijse.gdse.traditionalexperiencebackend.service.impl;
 
 import jakarta.transaction.Transactional;
+import lk.ijse.gdse.traditionalexperiencebackend.dto.InstructorDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.UserDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.WorkshopDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.WorkshopRegistrationDTO;
+import lk.ijse.gdse.traditionalexperiencebackend.entity.Instructor;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.User;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.Workshop;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.WorkshopRegistration;
@@ -16,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -118,6 +122,22 @@ public class WorkshopRegistrationServiceImpl implements WorkshopRegistrationServ
 
 
     }
+
+    @Override
+    public Page<WorkshopRegistrationDTO> getWorkshopRegistrationsForPAge(Pageable pageable) {
+        Page<WorkshopRegistration> registrations = workshopRegistrationRepo.findAll(pageable);
+        return registrations.map(reg -> {
+                    WorkshopRegistrationDTO workshopRegistrationDTO = modelMapper.map(reg, WorkshopRegistrationDTO.class);
+                    if(reg.getWorkshop() != null){
+                        workshopRegistrationDTO.setWorkshopName(reg.getWorkshop().getTitle());
+                        if(reg.getWorkshop().getInstructor() != null){
+                            workshopRegistrationDTO.setInstructorName(reg.getWorkshop().getInstructor().getInstructorName());
+                        }
+                    }
+                    return workshopRegistrationDTO;
+                });
+    }
+
 
 //    @Override
 //    public List<WorkshopRegistrationDTO> searchWorkshops(int keyword) {
