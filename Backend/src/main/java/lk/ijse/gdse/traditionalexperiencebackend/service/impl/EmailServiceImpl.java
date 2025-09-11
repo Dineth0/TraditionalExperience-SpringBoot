@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -38,6 +39,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    @Transactional
     public Email sendBookingDetailsEmail(Long registrationId, String toEmail) {
         WorkshopRegistration workshopRegistration = registrationRepo.findById(registrationId)
                 .orElseThrow(() -> new RuntimeException("Registration not found"));
@@ -53,6 +55,7 @@ public class EmailServiceImpl implements EmailService {
         workshopRegistrationDTO.setMember(workshopRegistration.getMember());
         workshopRegistrationDTO.setTotalFee(workshopRegistration.getTotalFee());
         workshopRegistrationDTO.setPaymentStatus(workshopRegistration.getPaymentStatus());
+
 
         if(workshopRegistration.getUser() != null){
             workshopRegistrationDTO.setUserId(workshopRegistration.getUser().getId());
@@ -107,6 +110,8 @@ public class EmailServiceImpl implements EmailService {
         }
         try {
             this.sendEmail(toEmail, subject, body);
+            workshopRegistration.setEmailSent(true);
+            registrationRepo.save(workshopRegistration);
             return emailRepo.save(email);
         }catch (Exception e){
             throw new RuntimeException(e);

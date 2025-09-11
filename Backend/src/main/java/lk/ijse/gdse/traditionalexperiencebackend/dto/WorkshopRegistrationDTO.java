@@ -20,6 +20,7 @@ public class WorkshopRegistrationDTO {
     private int member;
     private double totalFee;
     private String PaymentStatus;
+    private boolean isEmailSent;
     private Long userId;
     private Long workshopId;
     private String workshopName;

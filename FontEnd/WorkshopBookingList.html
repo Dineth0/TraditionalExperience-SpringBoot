@@ -11,8 +11,12 @@
         body {
             background-color: #433c3b;
             font-family: 'Inter', sans-serif;
-            color: #f4e2c6; /* Light beige text for readability */
+            color: #f4e2c6;
             font-size: 10px;
+        }
+        table.table tr.row-success > td {
+            background-color: #09b032 !important;
+            transition: background-color 0.5s ease;
         }
     </style>
 </head>
@@ -157,10 +161,10 @@
                         return;
                     }
                     registrations.forEach((registration) => {
+                        let rowClass = registration.emailSent ? 'row-success' : ''
                         let paymentClass = registration.paymentStatus === 'Pending' ? 'bg-warning text-dark' : '';
-
                         let row = `
-                            <tr ">
+                            <tr class = "${rowClass}">
                                <td class="${registration.paymentStatus === 'Pending' ? 'bg-warning text-dark' : ''}">${registration.workshopName}</td>
                                                               <td class="${registration.paymentStatus === 'Pending' ? 'bg-warning text-dark' : ''}">${registration.instructorName}</td>
 
@@ -174,8 +178,8 @@
             <td class="${registration.paymentStatus === 'Pending' ? 'bg-warning text-dark' : ''}">${registration.email}</td>
             <td class="${registration.paymentStatus === 'Pending' ? 'bg-warning text-dark' : ''}">${registration.paymentStatus}</td>
             <td>
-                                    <button class="btn btn-sm btn-warning sendMailBtn" data-id="${registration.id}" >
-                                    Send Mail
+                                    <button style="font-size: 8px" class="btn btn-sm btn-warning sendMailBtn" data-id="${registration.id}" >
+                                    SendMail
                                     </button>
                                 </td>
                             </tr>
@@ -338,6 +342,7 @@
                 $(document).on('click', '.sendMailBtn', function () {
                      const regId = $(this).data('id');
                      $('#EmailSendModal').data('registrationId', regId);
+
                      $("#EmailSendModal").modal('show');
 
                 })
@@ -380,8 +385,13 @@
                                 text: 'Booking details have been sent to the instructor.',
                                 timer: 2000
                             });
+                           $('.sendMailBtn[data-id="' + registrationId + '"]')
+                               .closest('tr')
+                               .addClass('row-success')
+
                             $('#EmailSendModal').modal('hide');
                             // $('#EmailSendForm')[0].reset();
+
                         },
                         error: function (xhr, status, error) {
                             console.error(error);

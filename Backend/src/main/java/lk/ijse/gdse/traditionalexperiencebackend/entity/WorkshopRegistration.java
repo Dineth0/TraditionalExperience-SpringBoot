@@ -1,5 +1,6 @@
 package lk.ijse.gdse.traditionalexperiencebackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +27,7 @@ public class WorkshopRegistration {
     private int member;
     private double totalFee;
     private String PaymentStatus;
+    private boolean isEmailSent;
 
     @ManyToOne
     @JoinColumn(name = "userId")
