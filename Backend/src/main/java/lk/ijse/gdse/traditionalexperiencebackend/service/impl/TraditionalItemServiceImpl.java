@@ -9,7 +9,10 @@ import lk.ijse.gdse.traditionalexperiencebackend.repo.TraditionalItemRepo;
 import lk.ijse.gdse.traditionalexperiencebackend.service.TraditionalItemService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -84,6 +87,18 @@ public class TraditionalItemServiceImpl implements TraditionalItemService {
             e.printStackTrace();
             return VarList.Bad_Gateway;
         }
+    }
+
+    @Override
+    public List<TraditionalItemDTO> getItemsForPage(int page, int size) {
+        int offset = page * size;
+        List<TraditionalItem> traditionalItems = itemRepo.findTraditionalItemPaginated(size, offset);
+        return modelMapper.map(traditionalItems, new TypeToken<List<TraditionalItemDTO>>() {}.getType());    }
+
+    @Override
+    public int getTotalPages(int size) {
+        int itemCount = itemRepo.getTotalTraditionalItemCount();
+        return (int) Math.ceil((double) itemCount / size);
     }
 
 

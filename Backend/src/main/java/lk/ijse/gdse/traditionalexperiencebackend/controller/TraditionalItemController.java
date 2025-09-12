@@ -1,5 +1,6 @@
 package lk.ijse.gdse.traditionalexperiencebackend.controller;
 
+import lk.ijse.gdse.traditionalexperiencebackend.dto.InstructorDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.ResponseDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.TraditionalItemDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.WorkshopDTO;
@@ -8,6 +9,9 @@ import lk.ijse.gdse.traditionalexperiencebackend.service.TraditionalItemService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.ResponseUtil;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -142,4 +146,13 @@ public class TraditionalItemController {
         }
     }
 
+    @GetMapping("/paginated")
+    public List<TraditionalItemDTO> getPaginatedItems(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "2") int size) {
+        return itemService.getItemsForPage(page, size);
+    }
+
+    @GetMapping("/total-pages")
+    public int getTotalPages(@RequestParam(defaultValue = "2") int size) {
+        return itemService.getTotalPages(size);
+    }
 }

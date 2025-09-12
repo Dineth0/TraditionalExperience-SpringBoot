@@ -1,5 +1,9 @@
 $(document).ready(function () {
-    loadItems();
+    let currentPage = 0;
+    const pageSize = 2;
+    let totalPages = 0;
+    // loadItems();
+    loadItemsForPage();
     $('#itemForm').on('submit', function (e) {
         e.preventDefault();
 
@@ -266,6 +270,101 @@ $(document).ready(function () {
             }
         })
     })
+
+
+    function loadItemsForPage() {
+        let token = localStorage.getItem("authtoken")
+        $.ajax({
+            url: `http://localhost:8080/api/v1/item/paginated?page=${currentPage}&size=${pageSize}`,
+            type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+            success: function (res) {
+                const items = res || []; // backend returns raw array
+                let rows = "";
+                items.forEach(item => {
+                                    let itemName = item.itemName;
+                                    let shortDescription = item.itemShortDescription;
+                                    let imagePaths = item.itemImage || [];
+
+                                    let imagesHtml = imagePaths.length > 0
+                                        ? imagePaths.map(img => `<img src="http://localhost:8080/uploads/${img}" alt="Item Image" width="40" style="margin-right: 5px">`).join('')
+                                        : 'No Images Found';
+
+                                    rows += `
+                                    <tr class="item-row"
+                                        data-item-name="${itemName}"
+                                        data-description="${shortDescription}"
+                                        data-image="${imagePaths.join(';')}">
+                                        <td>${itemName}</td>
+                                        <td>${shortDescription}</td>
+                                        <td>${imagesHtml}</td>
+                                        <td>
+                                            <button class="btn btn-sm" style="background-color:bisque" data-id="${item.id}" id="editBtn">Edit</button>
+                                            <button class="btn btn-sm" style="background-color: cornflowerblue">Delete</button>
+                                        </td>
+                                    </tr>`;
+                });
+                $('.item-tbody').html(rows);
+                loadPagination();
+            },
+
+            error: function(err){
+                console.log(err);
+                alert("Failed to load Feedback");
+            }
+        });
+    }
+
+    function loadPagination() {
+        let token = localStorage.getItem("authtoken")
+        $.ajax({
+            url: `http://localhost:8080/api/v1/item/total-pages?size=${pageSize}`,
+            method: "GET",
+            headers:{
+                'Authorization': 'Bearer ' + token
+            },
+            success: function (tp) {
+                totalPages = tp
+                let paginationHTML = "";
+                for (let i = 0; i < totalPages; i++) {
+                    paginationHTML += `
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="goToPage(${i})">${i + 1}</a>
+                    </li>
+                `;
+                }
+                $('.pagination').html(paginationHTML);
+            },
+            error: function (xhr) {
+                console.error("Error loading pagination:", xhr.responseText);
+            }
+        });
+    }
+
+    window.goToPage = function(page) {
+        currentPage = page;
+        loadItemsForPage();
+    }
+    // $('#prevPage').click(function(e){
+    //     e.preventDefault();
+    //     if(currentPage > 0){
+    //         currentPage--;
+    //         loadItemsForPage();
+    //     }
+    // });
+    //
+    // $('#nextPage').click(function(e){
+    //     e.preventDefault();
+    //     if(currentPage < totalPages - 1){
+    //         currentPage++;
+    //         loadItemsForPage();
+    //     }
+    //
+    // });
+
+
 })
 
 

@@ -98,7 +98,10 @@ public class SecurityConfiguration {
                                 "api/v1/notification/markAsRead/**",
                                 "api/v1/instructor/instructorPagination",
                                 "api/v1/email/sendMail",
-                                "api/v1/workshopRegistration/RegistrationPagination")
+                                "api/v1/workshopRegistration/RegistrationPagination",
+                                "api/v1/item/traditionalItemPagination",
+                                "api/v1/item/paginated",
+                                "api/v1/item/total-pages")
                         .hasAuthority("ADMIN")
                         .anyRequest().authenticated()
 
