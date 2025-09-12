@@ -169,4 +169,13 @@ public class InstructorController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseDTO(VarList.OK, "Search Success", instructors));
     }
+    @GetMapping("/paginated")
+    public List<InstructorDTO> getPaginatedInstructors(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "2") int size) {
+        return instructorService.getInstructorForPage(page, size);
+    }
+
+    @GetMapping("/total-pages")
+    public int getTotalPages(@RequestParam(defaultValue = "2") int size) {
+        return instructorService.getTotalPages(size);
+    }
 }

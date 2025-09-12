@@ -1,5 +1,9 @@
 $(document).ready(function(){
-    loadInstructors();
+    // loadInstructors();
+    let currentPage = 0;
+    const pageSize = 2;
+    let totalPages = 0;
+    loadInstructorForPage();
     let token = localStorage.getItem('authtoken');
     if (!token) {
         window.location.href = 'signIn.html';
@@ -315,4 +319,95 @@ $(document).ready(function(){
             }
         })
     })
+
+    function loadInstructorForPage() {
+        let token = localStorage.getItem("authtoken")
+        $.ajax({
+            url: `http://localhost:8080/api/v1/instructor/paginated?page=${currentPage}&size=${pageSize}`,
+            type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+            success: function (res) {
+                const instructors = res || [];
+                let rows = "";
+                instructors.forEach(instructor => {
+                    let instructorName = instructor.instructorName;
+                    let age = instructor.age;
+                    let category = instructor.category;
+                    let instructorEmail = instructor.instructorEmail;
+                    let instructorPhone = instructor.instructorPhone;
+                    let imagePath = instructor.image;
+
+                    let imageUrl = imagePath
+                        ?`http://localhost:8080/uploads/${imagePath}`
+                        :null
+
+                    let imagesHtml = imageUrl
+                        ?`<img src="${imageUrl}" alt="image" width="40" style="margin-right: 5px;">:`
+                        :'No Images Found';
+
+
+
+                     rows += `
+                    <tr class="item-row" 
+                        data-item-name="${instructorName}"
+                        data-age="${age}"
+                        data-category="${category}"
+                        data-email="${instructorEmail}"
+                        data-phone="${instructorPhone}"
+                        data-image="${imagePath}">
+                        <td>${instructorName}</td>
+                        <td>${age}</td>
+                        <td>${category}</td>
+                        <td>${instructorEmail}</td>
+                        <td>${instructorPhone}</td>
+                        <td>${imagesHtml}</td>
+                        <td>
+                            <button class="btn btn-sm" style="background-color:bisque" data-id="${instructor.id}" id="editBtn">Edit</button>
+                            <button class="btn btn-sm" style="background-color: cornflowerblue " id="deleteBtn" data-id="${instructor.id}">Delete</button>
+                        </td>
+                    </tr>`;
+                });
+                $('.instructor-tbody').html(rows);
+                loadPagination();
+            },
+
+            error: function(err){
+                console.log(err);
+                alert("Failed to load Feedback");
+            }
+        });
+    }
+
+    function loadPagination() {
+        let token = localStorage.getItem("authtoken")
+        $.ajax({
+            url: `http://localhost:8080/api/v1/instructor/total-pages?size=${pageSize}`,
+            method: "GET",
+            headers:{
+                'Authorization': 'Bearer ' + token
+            },
+            success: function (tp) {
+                totalPages = tp
+                let paginationHTML = "";
+                for (let i = 0; i < totalPages; i++) {
+                    paginationHTML += `
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="goToPage(${i})">${i + 1}</a>
+                    </li>
+                `;
+                }
+                $('.pagination').html(paginationHTML);
+            },
+            error: function (xhr) {
+                console.error("Error loading pagination:", xhr.responseText);
+            }
+        });
+    }
+
+    window.goToPage = function(page) {
+        currentPage = page;
+        loadInstructorForPage();
+    }
 })

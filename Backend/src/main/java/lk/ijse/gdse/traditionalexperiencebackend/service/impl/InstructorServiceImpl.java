@@ -1,7 +1,9 @@
 package lk.ijse.gdse.traditionalexperiencebackend.service.impl;
 
 import lk.ijse.gdse.traditionalexperiencebackend.dto.InstructorDTO;
+import lk.ijse.gdse.traditionalexperiencebackend.dto.TraditionalItemDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.Instructor;
+import lk.ijse.gdse.traditionalexperiencebackend.entity.TraditionalItem;
 import lk.ijse.gdse.traditionalexperiencebackend.repo.InstructorRepo;
 import lk.ijse.gdse.traditionalexperiencebackend.service.InstructorService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
@@ -102,4 +104,21 @@ public class InstructorServiceImpl implements InstructorService {
         System.out.println("Found jobs: " + instructors.size());
         return modelMapper.map(instructors, new TypeToken<List<InstructorDTO>>() {}.getType());
     }
+
+    @Override
+    public List<InstructorDTO> getInstructorForPage(int page, int size) {
+        int offset = page * size;
+        List<Instructor> instructors = instructorRepo.findInstructorPaginated(size, offset);
+        return modelMapper.map(instructors, new TypeToken<List<InstructorDTO>>() {}.getType());    }
+
+    @Override
+    public int getTotalPages(int size) {
+        int itemCount = instructorRepo.getTotalInstructorCount();
+        return (int) Math.ceil((double) itemCount / size);
+    }
+
+
+
+
+
 }

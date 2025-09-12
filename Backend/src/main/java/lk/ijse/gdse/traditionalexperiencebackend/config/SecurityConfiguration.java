@@ -101,7 +101,9 @@ public class SecurityConfiguration {
                                 "api/v1/workshopRegistration/RegistrationPagination",
                                 "api/v1/item/traditionalItemPagination",
                                 "api/v1/item/paginated",
-                                "api/v1/item/total-pages")
+                                "api/v1/item/total-pages",
+                                "api/v1/instructor/paginated",
+                                "api/v1/instructor/total-pages")
                         .hasAuthority("ADMIN")
                         .anyRequest().authenticated()
 
