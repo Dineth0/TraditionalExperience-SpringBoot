@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$Title$</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #433c3b;
+      font-family: 'Inter', sans-serif;
+      color: #f4e2c6; /* Light beige text for readability */
+      font-size: 10px;
+
+    }
+
+    .form-section-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #e0b84b; /* Gold accent */
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(244, 226, 198, 0.4);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-control {
+      border: 1px solid #e0b84b;
+      background-color: #5a4e4c; /* Slightly lighter than background */
+      border-radius: 8px;
+      padding: 10px 15px;
+      transition: all 0.3s ease;
+      color: #ffffff;
+    }
+
+    .form-control:focus {
+      border-color: #c97b63;
+      background-color: #6e5d5a;
+      box-shadow: 0 0 8px rgba(224, 184, 75, 0.5);
+      outline: none;
+      color: #fff;
+    }
+
+    .form-control::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .file-input-container label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .file-input-container input[type="file"] {
+      display: block;
+      margin-top: 5px;
+      padding: 6px;
+      border-radius: 8px;
+      background-color: #5a4e4c;
+      border: 1px solid #e0b84b;
+      color: #fff;
+    }
+
+    .file-input-container p {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-top: 5px;
+    }
+
+    .submit-btn {
+      background-color: #e0b84b;
+      color: #433c3b;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 25px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background-color: #c97b63;
+      color: #fff;
+    }
+    .modal-content{
+      background-color: #32302b;
+    }
+
+  </style>
+</head>
+<body>
+<div class="container my-5">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="mb-0">Payment List</h4>
+
+      </div>
+      <div class="mb-3">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search Payments...">
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead class="table-light">
+          <tr>
+            <th scope="col">Workshop Name</th>
+            <th scope="col">Date</th>
+            <th scope="col">Time</th>
+            <th scope="col">Payment Method</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Status</th>
+            <th scope="col">Payment Date</th>
+
+            <!--                        <th scope="col">Item</th>-->
+            <!--                        <th scope="col">Instructor</th>-->
+
+
+          </tr>
+          </thead>
+          <tbody class="payment-tbody">
+          <!-- Populated via script.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

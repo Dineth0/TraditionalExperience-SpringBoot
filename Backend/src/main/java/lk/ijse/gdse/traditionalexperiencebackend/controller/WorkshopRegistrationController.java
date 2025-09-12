@@ -131,4 +131,11 @@ public class WorkshopRegistrationController {
                     .body(new ResponseDTO(VarList.Internal_Server_Error, "Instructor Deleted", null));
         }
     }
+
+//    @GetMapping("/searchWorkshopBookings/{keyword}")
+//    public ResponseEntity<ResponseDTO> searchWorkshopBookings(@PathVariable("keyword") int keyword){
+//        List<WorkshopRegistrationDTO> workshopRegistrations = workshopRegistrationService.searchWorkshopRegistrations(keyword);
+//        return ResponseEntity.status(HttpStatus.OK)
+//                .body(new ResponseDTO(VarList.OK, "Search Success", workshopRegistrations));
+//    }
 }

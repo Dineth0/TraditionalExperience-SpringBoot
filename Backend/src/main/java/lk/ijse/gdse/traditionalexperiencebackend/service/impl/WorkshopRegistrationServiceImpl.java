@@ -138,6 +138,14 @@ public class WorkshopRegistrationServiceImpl implements WorkshopRegistrationServ
                 });
     }
 
+//    @Override
+//    public List<WorkshopRegistrationDTO> searchWorkshopRegistrations(int keyword) {
+//        System.out.println("Searching by keyword: " + keyword);
+//        List<WorkshopRegistration> workshopRegistrations = workshopRegistrationRepo.findWorkshopRegistrationBySelectWorkshopDateContainingIgnoreCase(keyword);
+//        System.out.println("Found jobs: " + workshopRegistrations.size());
+//        return modelMapper.map(workshopRegistrations, new TypeToken<List<WorkshopRegistrationDTO>>() {}.getType());
+//    }
+
 
 //    @Override
 //    public List<WorkshopRegistrationDTO> searchWorkshops(int keyword) {

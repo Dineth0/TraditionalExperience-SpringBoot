@@ -19,6 +19,7 @@ public interface WorkshopRegistrationService {
     List<WorkshopRegistrationDTO> getAlRegistrations();
 //    List<WorkshopRegistrationDTO> searchWorkshops(int keyword);
     Page<WorkshopRegistrationDTO> getWorkshopRegistrationsForPAge(Pageable pageable);
+//    List<WorkshopRegistrationDTO> searchWorkshopRegistrations(int keyword);
 
 
 }

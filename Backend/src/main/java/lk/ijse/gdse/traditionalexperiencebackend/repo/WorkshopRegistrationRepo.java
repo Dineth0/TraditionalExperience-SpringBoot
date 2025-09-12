@@ -15,4 +15,6 @@ public interface WorkshopRegistrationRepo extends JpaRepository<WorkshopRegistra
     List<WorkshopRegistration> findByUserId(Long userId);
 
 //    List<WorkshopRegistration> findWorkshopRegistrationBySelectWorkshopDateContainingIgnoreCase(int keyword);
+
+//    List<WorkshopRegistration> findWorkshopRegistrationBySelectWorkshopDateContainingIgnoreCase(int keyword);
 }
