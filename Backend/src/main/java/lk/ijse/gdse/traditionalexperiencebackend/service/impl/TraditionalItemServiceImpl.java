@@ -52,5 +52,39 @@ public class TraditionalItemServiceImpl implements TraditionalItemService {
                 .map(item -> modelMapper.map(item, TraditionalItemDTO.class))
                 .orElse(null);    }
 
+    @Override
+    public int updateItem(TraditionalItemDTO itemDTO) {
+        try {
+
+            TraditionalItem existingItem = itemRepo.findById(itemDTO.getId()).orElse(null);
+            if (existingItem == null) {
+                return VarList.Not_Found;
+            }
+
+
+            TraditionalItem itemWithSameName = itemRepo.findByItemName(itemDTO.getItemName());
+            if(itemWithSameName != null && !itemWithSameName.getId().equals(itemDTO.getId())) {
+                return VarList.Not_Acceptable;
+            }
+
+
+            existingItem.setItemName(itemDTO.getItemName());
+            existingItem.setItemShortDescription(itemDTO.getItemShortDescription());
+            existingItem.setItemDescription(itemDTO.getItemDescription());
+
+
+            if(itemDTO.getItemImage() != null && !itemDTO.getItemImage().isEmpty()) {
+                existingItem.setItemImage(itemDTO.getItemImage());
+            }
+
+
+            itemRepo.save(existingItem);
+            return VarList.OK;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return VarList.Bad_Gateway;
+        }
+    }
+
 
 }

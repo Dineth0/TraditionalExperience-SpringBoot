@@ -1,15 +1,14 @@
-
-$(document).ready(function(){
+$(document).ready(function () {
     loadItems();
-    $('#itemForm').on('submit', function(e){
+    $('#itemForm').on('submit', function (e) {
         e.preventDefault();
 
         let token = localStorage.getItem("authtoken");
 
         let item = {
             itemName: $('#itemName').val(),
-            itemShortDescription:$('#itemShortDescription').val(),
-            itemDescription:$('#itemDescription').val(),
+            itemShortDescription: $('#itemShortDescription').val(),
+            itemDescription: $('#itemDescription').val(),
 
 
         };
@@ -17,7 +16,7 @@ $(document).ready(function(){
         formData.append('item', new Blob([JSON.stringify(item)], {type: 'application/json'}));
 
         let files = $('#itemImg')[0].files;
-        for(let i = 0; i < files.length; i++) {
+        for (let i = 0; i < files.length; i++) {
             formData.append('file', files[i]);
         }
         $.ajax({
@@ -30,7 +29,7 @@ $(document).ready(function(){
             processData: false,
             contentType: false,
             success: function (response) {
-                if(response.code === 201) {
+                if (response.code === 201) {
                     Swal.fire({
                         icon: "success",
                         title: "Added Successful",
@@ -40,7 +39,7 @@ $(document).ready(function(){
                         loadItems();
                         window.location.href = "items.html";
                     })
-                }else if (response.code === 502) {
+                } else if (response.code === 502) {
                     Swal.fire({
                         icon: "error",
                         title: response.message,
@@ -51,7 +50,7 @@ $(document).ready(function(){
 
             },
             error: function (xhr) {
-                if(xhr.status === 403){
+                if (xhr.status === 403) {
                     Swal.fire({
                         icon: "error",
                         title: "Not Authenticated",
@@ -68,7 +67,7 @@ $(document).ready(function(){
         $.ajax({
             url: 'http://localhost:8080/api/v1/item/getAllItems',
             method: 'GET',
-            headers: token ? { 'Authorization': 'Bearer ' + token } : {},
+            headers: token ? {'Authorization': 'Bearer ' + token} : {},
 
             success: function (response) {
                 let items = response.data;
@@ -101,7 +100,7 @@ $(document).ready(function(){
                         <td>${shortDescription}</td>
                         <td>${imagesHtml}</td>
                         <td>
-                            <button class="btn btn-sm" style="background-color:bisque" ">Edit</button>
+                            <button class="btn btn-sm" style="background-color:bisque" data-id="${item.id}" id="editBtn">Edit</button>
                             <button class="btn btn-sm" style="background-color: cornflowerblue">Delete</button>
                         </td>
                     </tr>`;
@@ -150,12 +149,12 @@ $(document).ready(function(){
 
 
     let token = localStorage.getItem("authtoken");
-    if(!token){
+    if (!token) {
         window.location.href = "SignIn.html"
         return
     }
     let payload = JSON.parse(atob(token.split('.')[1]));
-    if(payload.role !== "ADMIN"){
+    if (payload.role !== "ADMIN") {
         Swal.fire({
             icon: "Error",
             title: "Not Authenticated",
@@ -164,22 +163,110 @@ $(document).ready(function(){
         })
         window.location.href = "home.html";
     }
-})
-function editJob(id) {
-    $.ajax({
-        method: "GET",
-        url: `http://localhost:8080/api/v1/item/getItem/${id}`,
-        success: function (job) {
-            $('#editItemName').val(job.jobTitle);
-            $('#editItemShortDescription').val(job.company);
-            $('#editItemDescription').val(job.location);
 
-
-            $('#editItemModal').modal('show');
-        },
-        error: function (xhr, status, error) {
-            console.log(xhr.responseText);
-            alert("Failed to edit job!");
-        }
+    $(document).on('click', '#editBtn', function () {
+        let id = $(this).data('id');
+        editJob(id)
     })
-}
+
+    function editJob(id) {
+        $.ajax({
+            method: "GET",
+            url: `http://localhost:8080/api/v1/item/getItem/${id}`,
+            success: function (response) {
+                let item = response.data
+                $('#editItemId').val(item.id)
+                $('#editItemName').val(item.itemName);
+                $('#editItemShortDescription').val(item.itemShortDescription);
+                $('#editItemDescription').val(item.itemDescription);
+
+                let imagesHtml = '';
+                if (item.itemImage && item.itemImage.length > 0) {
+                    item.itemImage.forEach(img => {
+                        imagesHtml += `<img src="http://localhost:8080/uploads/${img}" width="100" style="margin-right:10px"/>`;
+                    });
+                } else {
+                    imagesHtml = 'No Images';
+                }
+                $('#EditItemImg').html(imagesHtml)
+                $('#editItemModal').modal('show');
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                alert("Failed to edit job!");
+            }
+        })
+    }
+
+    $('#editItemForm').submit(function (event) {
+        event.preventDefault();
+
+        let token = localStorage.getItem("authtoken");
+
+        let existingImages = $('#EditItemImg img').map(function () {
+            return $(this).attr('src').replace("http://localhost:8080/uploads/", "");
+        }).get();
+        let formData = new FormData();
+
+        let item = {
+            id: $('#editItemId').val(),
+            itemName: $('#editItemName').val(),
+            itemShortDescription: $('#editItemShortDescription').val(),
+            itemDescription: $('#editItemDescription').val(),
+            itemImage: existingImages
+
+
+        };
+        formData.append('item', new Blob([JSON.stringify(item)], {type: 'application/json'}));
+        let files = $('#EditItemFileInput')[0].files;
+        for (let i = 0; i < files.length; i++) {
+            formData.append('file', files[i]);
+        }
+
+        $.ajax({
+            url: 'http://localhost:8080/api/v1/item/updateItem',
+            method: 'PUT',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.code === 200) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Updated Successful",
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        loadItems();
+                        window.location.href = "items.html";
+                    })
+                } else if (response.code === 502) {
+                    Swal.fire({
+                        icon: "error",
+                        title: response.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                }
+
+            },
+            error: function (xhr) {
+                if (xhr.status === 403) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Not Authenticated",
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                }
+
+            }
+        })
+    })
+})
+
+
+

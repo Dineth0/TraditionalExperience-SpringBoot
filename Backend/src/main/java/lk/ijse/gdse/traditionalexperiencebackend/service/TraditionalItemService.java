@@ -10,4 +10,5 @@ public interface TraditionalItemService {
     List<TraditionalItemDTO> getAllItems();
 
     TraditionalItemDTO getItemById(Long id);
+    int updateItem(TraditionalItemDTO itemDTO);
 }

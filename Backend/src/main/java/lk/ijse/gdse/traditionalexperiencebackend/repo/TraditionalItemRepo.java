@@ -8,5 +8,7 @@ import java.util.UUID;
 
 public interface TraditionalItemRepo extends JpaRepository<TraditionalItem, Long> {
     boolean existsByItemName(String itemName);
+
+    TraditionalItem findByItemName(String itemName);
 //    void findById(UUID id);
 }

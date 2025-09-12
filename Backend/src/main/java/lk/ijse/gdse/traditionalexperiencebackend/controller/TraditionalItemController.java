@@ -61,6 +61,58 @@ public class TraditionalItemController {
         }
     }
 
+    @PutMapping( value = "/updateItem",  consumes = {"multipart/form-data"})
+    public ResponseEntity<ResponseDTO> updateWorkshop(@RequestPart("item") TraditionalItemDTO traditionalItemDTO
+            , @RequestPart(value = "file", required = false) MultipartFile[] multipartFiles) throws IOException {
+        try {
+            List<String> fileNames = new ArrayList<>();
+            Path uploadDir = Paths.get("uploads/");
+            Files.createDirectories(uploadDir);
+
+            if(multipartFiles != null && multipartFiles.length > 0) {
+
+
+                for (MultipartFile multipartFile : multipartFiles) {
+                    String fileName = System.currentTimeMillis() + "_" + multipartFile.getOriginalFilename();
+                    Path filePath = uploadDir.resolve(fileName);
+                    Files.write(filePath, multipartFile.getBytes());
+                    fileNames.add(fileName);
+                }
+                if (traditionalItemDTO.getItemImage() != null) {
+                    fileNames.addAll(traditionalItemDTO.getItemImage());
+                }
+                traditionalItemDTO.setItemImage(fileNames);
+            }else {
+                traditionalItemDTO.setItemImage(traditionalItemDTO.getItemImage());
+            }
+
+
+
+            int response = itemService.updateItem(traditionalItemDTO);
+            switch (response) {
+                case VarList.Updated -> {
+                    return ResponseEntity.status(HttpStatus.OK)
+                            .body(new ResponseDTO(VarList.Updated, "Instructor Saved", traditionalItemDTO));
+                }
+                case VarList.Not_Acceptable -> {
+                    return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
+                            .body(new ResponseDTO(VarList.Not_Acceptable, "Instructor Already exists", null));
+
+                }
+                default -> {
+                    return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                            .body(new ResponseDTO(VarList.Bad_Gateway, "Error While Saving", null));
+
+                }
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error,"file Upload Failed" + e.getMessage(),null));
+
+
+        }
+    }
+
     @GetMapping("/getAllItems")
     public ResponseEntity<ResponseDTO> getAllItems(){
         try{
