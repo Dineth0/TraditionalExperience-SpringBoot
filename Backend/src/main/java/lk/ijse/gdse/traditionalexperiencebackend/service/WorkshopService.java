@@ -1,5 +1,6 @@
 package lk.ijse.gdse.traditionalexperiencebackend.service;
 
+import lk.ijse.gdse.traditionalexperiencebackend.dto.TraditionalItemDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.WorkshopDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.Workshop;
 
@@ -13,4 +14,7 @@ public interface WorkshopService {
     int getParticipantsById(Long id);
     int updateWorkshop(WorkshopDTO workshopDTO);
     boolean deleteWorkshop(Long id);
-}
+    public List<WorkshopDTO> getWorkshopsForPage(int page, int size);
+    public int getTotalPages(int size);
+
+    }

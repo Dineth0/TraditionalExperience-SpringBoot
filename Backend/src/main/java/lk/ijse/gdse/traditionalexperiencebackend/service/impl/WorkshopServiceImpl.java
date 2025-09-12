@@ -13,6 +13,7 @@ import lk.ijse.gdse.traditionalexperiencebackend.service.WorkshopService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -134,6 +135,19 @@ public class WorkshopServiceImpl implements WorkshopService {
         }else {
             return false;
         }
+    }
+
+    @Override
+    public List<WorkshopDTO> getWorkshopsForPage(int page, int size) {
+        int offset = page * size;
+        List<Workshop> workshops = workshopRepo.findWorkshopPaginated(size, offset);
+        return modelMapper.map(workshops, new TypeToken<List<WorkshopDTO>>() {}.getType());
+    }
+
+    @Override
+    public int getTotalPages(int size) {
+        int itemCount = workshopRepo.getTotalWorkshopCount();
+        return (int) Math.ceil((double) itemCount / size);
     }
 
 

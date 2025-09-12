@@ -1,6 +1,7 @@
 package lk.ijse.gdse.traditionalexperiencebackend.repo;
 
 import lk.ijse.gdse.traditionalexperiencebackend.dto.WorkshopDTO;
+import lk.ijse.gdse.traditionalexperiencebackend.entity.TraditionalItem;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.Workshop;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,4 +15,9 @@ public interface WorkshopRepo extends JpaRepository<Workshop, Long> {
     Integer getParticipantCountById(@Param("id") Long id);
 
     Workshop findByTitle(String title);
+
+    @Query(value = "SELECT * FROM Workshop  LIMIT :limit OFFSET :offset", nativeQuery = true)
+    List<Workshop> findWorkshopPaginated(@Param("limit") int limit, @Param("offset") int offset);
+    @Query(value = "SELECT COUNT(*) FROM Workshop ", nativeQuery = true)
+    int getTotalWorkshopCount();
 }

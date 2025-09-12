@@ -182,4 +182,13 @@ public class WorkshopController {
                     .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
         }
     }
+    @GetMapping("/paginated")
+    public List<WorkshopDTO> getPaginatedWorkshop(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "2") int size) {
+        return workshopService.getWorkshopsForPage(page, size);
+    }
+
+    @GetMapping("/total-pages")
+    public int getTotalPages(@RequestParam(defaultValue = "2") int size) {
+        return workshopService.getTotalPages(size);
+    }
 }

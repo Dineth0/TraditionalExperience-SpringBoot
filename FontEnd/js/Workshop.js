@@ -2,7 +2,13 @@ $(document).ready(function(){
     let params = new URLSearchParams(window.location.search);
     loadInstructorsDropDown();
     loadItemsDropDown();
-    loadWorkshopsForTable();
+    // loadWorkshopsForTable();
+
+    let currentPage = 0;
+    const pageSize = 2;
+    let totalPages = 0;
+    loadWorkshopForPage();
+
     let token = localStorage.getItem("authtoken");
     if (!token) {
         window.location.href = 'SignIn.html';
@@ -442,6 +448,108 @@ $(document).ready(function(){
             }
         })
     })
+
+    function loadWorkshopForPage() {
+        let token = localStorage.getItem("authtoken")
+        $.ajax({
+            url: `http://localhost:8080/api/v1/workshop/paginated?page=${currentPage}&size=${pageSize}`,
+            type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+            success: function (res) {
+                const workshops = res || []; // backend returns raw array
+                let rows = "";
+                workshops.forEach(workshops => {
+                    let workshopTitle = workshops.title;
+                    let workshopDescription = workshops.description;
+                    let duration = workshops.duration;
+                    let language = workshops.language;
+                    let participantCount = workshops.participantCount;
+                    let include = workshops.include;
+                    let fee = workshops.fee;
+                    let address = workshops.address;
+                    let instructorName = workshops.instructorName;
+                    let times= workshops.time;
+                    let imagePaths = workshops.image || []
+
+                    let imagesHtml = imagePaths.length > 0
+                        ? imagePaths.map(img => `<img src="http://localhost:8080/uploads/${img}" alt="Item Image" width="40" style="margin-right: 5px;">`).join('')
+                        : 'No Images Found';
+
+                     rows += `
+                    <tr class="workshop-row" 
+                        data-workshop-title="${workshopTitle}"
+                        data-description="${workshopDescription}"
+                        data-duration="${duration}"
+                        data-language="${language}"
+                        data-participantCount="${participantCount}"
+                        data-include="${include}"
+                        data-fee="${fee}"
+                        data-address="${address}"
+                        data-instructorName = "${instructorName}"
+                        data-time="${times}"
+                       
+                        data-image="${imagePaths.join(';')}">
+                        <td>${workshopTitle}</td>
+                        <td>${workshopDescription}></td>
+                        <td>${duration}</td>
+                        <td>${language}</td>
+                        <td>${participantCount}</td>
+                        <td>${include}</td>
+                        <td>${fee}</td>
+                        <td>${address}</td>
+                        <td>${instructorName}</td>
+                         <td>${times.join(', ')}</td>
+                        
+                        <td>${imagesHtml}</td>
+                        <td>
+                            <button class="btn btn-sm editBtn" style="background-color:bisque" data-id="${workshops.id}" >Edit</button>
+                            <button class="btn btn-sm" style="background-color: cornflowerblue" data-id="${workshops.id}" id="deleteBtn">Delete</button>
+                        </td>
+                    </tr>`;
+                });
+                $('.workshop-tbody').html(rows);
+                loadPagination();
+            },
+
+            error: function(err){
+                console.log(err);
+                alert("Failed to load Feedback");
+            }
+        });
+    }
+
+    function loadPagination() {
+        let token = localStorage.getItem("authtoken")
+        $.ajax({
+            url: `http://localhost:8080/api/v1/workshop/total-pages?size=${pageSize}`,
+            method: "GET",
+            headers:{
+                'Authorization': 'Bearer ' + token
+            },
+            success: function (tp) {
+                totalPages = tp
+                let paginationHTML = "";
+                for (let i = 0; i < totalPages; i++) {
+                    paginationHTML += `
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="goToPage(${i})">${i + 1}</a>
+                    </li>
+                `;
+                }
+                $('.pagination').html(paginationHTML);
+            },
+            error: function (xhr) {
+                console.error("Error loading pagination:", xhr.responseText);
+            }
+        });
+    }
+
+    window.goToPage = function(page) {
+        currentPage = page;
+        loadWorkshopForPage();
+    }
 
 
 
