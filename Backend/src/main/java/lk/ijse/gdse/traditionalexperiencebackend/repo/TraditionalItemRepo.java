@@ -1,5 +1,6 @@
 package lk.ijse.gdse.traditionalexperiencebackend.repo;
 
+import lk.ijse.gdse.traditionalexperiencebackend.entity.Instructor;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.TraditionalItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,4 +23,6 @@ public interface TraditionalItemRepo extends JpaRepository<TraditionalItem, Long
 
     @Query(value = "SELECT COUNT(*) FROM traditional_item ", nativeQuery = true)
     int getTotalTraditionalItemCount();
+
+    List<TraditionalItem> findTraditionalItemByItemNameContainingIgnoreCase(String keyword);
 }

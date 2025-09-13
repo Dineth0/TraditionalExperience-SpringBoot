@@ -1,5 +1,6 @@
 package lk.ijse.gdse.traditionalexperiencebackend.service;
 
+import lk.ijse.gdse.traditionalexperiencebackend.dto.InstructorDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.TraditionalItemDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +23,8 @@ public interface TraditionalItemService {
 
     public List<TraditionalItemDTO> getItemsForCardPage(int page, int size);
     public int getTotalCardPages(int size);
+
+    public List<TraditionalItemDTO> searchItems(String keyword);
 
 
     }

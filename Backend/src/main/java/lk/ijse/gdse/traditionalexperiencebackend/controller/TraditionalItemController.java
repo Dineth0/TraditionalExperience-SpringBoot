@@ -165,4 +165,13 @@ public class TraditionalItemController {
     public int getTotalCardPages(@RequestParam(defaultValue = "3") int size) {
         return itemService.getTotalPages(size);
     }
+
+    @GetMapping("/searchItems/{keyword}")
+    public ResponseEntity<ResponseDTO> searchItems(@PathVariable("keyword") String keyword) {
+        List<TraditionalItemDTO> traditionalItems = itemService.searchItems(keyword);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDTO(VarList.OK, "Search Success", traditionalItems));
+    }
+
+
 }

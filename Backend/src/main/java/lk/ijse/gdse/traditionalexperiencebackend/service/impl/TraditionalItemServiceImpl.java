@@ -114,5 +114,13 @@ public class TraditionalItemServiceImpl implements TraditionalItemService {
         return (int) Math.ceil((double) itemCount / size);
     }
 
+    @Override
+    public List<TraditionalItemDTO> searchItems(String keyword) {
+        System.out.println("Searching by keyword: " + keyword);
+        List<TraditionalItem> traditionalItems = itemRepo.findTraditionalItemByItemNameContainingIgnoreCase(keyword);
+        System.out.println("Found jobs: " + traditionalItems.size());
+        return modelMapper.map(traditionalItems, new TypeToken<List<TraditionalItemDTO>>() {}.getType());
+    }
+
 
 }
