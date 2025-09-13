@@ -86,7 +86,8 @@ public class SecurityConfiguration {
                                 "api/v1/item/paginated",
                                 "api/v1/item/total-pages",
                                 "api/v1/item/CardPaginated",
-                                "api/v1/item/total-CardPages"
+                                "api/v1/item/total-CardPages",
+                                "api/v1/item/searchItems/**"
 
                         ).permitAll()
                         .requestMatchers("/api/v1/item/addItem",

@@ -1,5 +1,11 @@
 $(document).ready(function () {
-    loadAllReview();
+    // loadAllReview();
+    let currentPage = 0;
+    const pageSize = 2;
+    let totalPages = 0;
+
+    loadReviewsForPage();
+
     $(document).on('click', '#ReviewBtn', function () {
         $('#ReviewModal').modal('show')
     })
@@ -175,6 +181,76 @@ $(document).ready(function () {
         })
     }
 
+    function loadReviewsForPage() {
+        let token = localStorage.getItem("authtoken")
+        $.ajax({
+            url: `http://localhost:8080/api/v1/review/paginated?page=${currentPage}&size=${pageSize}`,
+            type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+            success: function (res) {
+                const reviews = res || []; // backend returns raw array
+                let rows = "";
+                reviews.forEach((review) => {
+                    rows += `
+                            <tr class="review-row">
+                                <td>${review.workshopName}</td>
+                                <td>${review.visitorName}             </td>
+                                <td>${renderStars(review.rating)}</td>
+                                <td>${review.title}</td>
+                                <td>${review.description}</td>
+                                <td>${review.wentDate}</td>
+                                <td>${review.reviewDate}</td>
 
+                                <td>
+                                    <button class="btn btn-sm btn-warning deleteBtn" data-id="${review.id}" >
+                                    Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                });
+                $('.review-tbody').html(rows);
+                loadPagination();
+            },
+
+            error: function(err){
+                // console.log(err);
+                // alert("Failed to load Feedback");
+            }
+        });
+    }
+
+    function loadPagination() {
+        let token = localStorage.getItem("authtoken")
+        $.ajax({
+            url: `http://localhost:8080/api/v1/review/total-pages?size=${pageSize}`,
+            method: "GET",
+            headers:{
+                'Authorization': 'Bearer ' + token
+            },
+            success: function (tp) {
+                totalPages = tp
+                let paginationHTML = "";
+                for (let i = 0; i < totalPages; i++) {
+                    paginationHTML += `
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="goToPage(${i})">${i + 1}</a>
+                    </li>
+                `;
+                }
+                $('.pagination').html(paginationHTML);
+            },
+            error: function (xhr) {
+                console.error("Error loading pagination:", xhr.responseText);
+            }
+        });
+    }
+
+    window.goToPage = function(page) {
+        currentPage = page;
+        loadReviewsForPage();
+    }
 
 })

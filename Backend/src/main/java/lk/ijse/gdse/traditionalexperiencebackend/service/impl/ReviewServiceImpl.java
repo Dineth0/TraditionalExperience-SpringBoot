@@ -1,6 +1,7 @@
 package lk.ijse.gdse.traditionalexperiencebackend.service.impl;
 
 import lk.ijse.gdse.traditionalexperiencebackend.dto.ReviewDTO;
+import lk.ijse.gdse.traditionalexperiencebackend.dto.TraditionalItemDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.WorkshopDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.WorkshopRegistrationDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.*;
@@ -9,6 +10,7 @@ import lk.ijse.gdse.traditionalexperiencebackend.repo.TraditionalItemRepo;
 import lk.ijse.gdse.traditionalexperiencebackend.service.ReviewService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -120,6 +122,27 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewRepo.findById(id)
                 .map(review -> modelMapper.map(review, ReviewDTO.class))
                 .orElse(null);
+    }
+
+    @Override
+    public List<ReviewDTO> getReviewsForPage(int page, int size) {
+        int offset = page * size;
+        List<Review> reviews = reviewRepo.findReviewPaginated(size, offset);
+        return reviews.stream()
+                .map(rag -> {
+                    ReviewDTO reviewDTO = modelMapper.map(rag, ReviewDTO.class);
+                    if(rag.getWorkshop() != null){
+                        reviewDTO.setWorkshopName(rag.getWorkshop().getTitle());
+                    }
+                    return reviewDTO;
+                }).toList();
+
+    }
+
+    @Override
+    public int getTotalPages(int size) {
+        int itemCount = reviewRepo.getTotalReviewCount();
+        return (int) Math.ceil((double) itemCount / size);
     }
 
 }

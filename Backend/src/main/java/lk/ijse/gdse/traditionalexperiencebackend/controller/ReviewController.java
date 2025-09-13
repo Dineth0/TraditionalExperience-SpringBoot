@@ -1,9 +1,6 @@
 package lk.ijse.gdse.traditionalexperiencebackend.controller;
 
-import lk.ijse.gdse.traditionalexperiencebackend.dto.ResponseDTO;
-import lk.ijse.gdse.traditionalexperiencebackend.dto.ReviewDTO;
-import lk.ijse.gdse.traditionalexperiencebackend.dto.WorkshopDTO;
-import lk.ijse.gdse.traditionalexperiencebackend.dto.WorkshopRegistrationDTO;
+import lk.ijse.gdse.traditionalexperiencebackend.dto.*;
 import lk.ijse.gdse.traditionalexperiencebackend.service.ReviewService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,6 +136,15 @@ public class ReviewController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
         }
+    }
+    @GetMapping("/paginated")
+    public List<ReviewDTO> getPaginatedItems(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "2") int size) {
+        return reviewService.getReviewsForPage(page, size);
+    }
+
+    @GetMapping("/total-pages")
+    public int getTotalPages(@RequestParam(defaultValue = "2") int size) {
+        return reviewService.getTotalPages(size);
     }
 
 }

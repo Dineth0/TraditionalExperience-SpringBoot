@@ -1,6 +1,7 @@
 package lk.ijse.gdse.traditionalexperiencebackend.service;
 
 import lk.ijse.gdse.traditionalexperiencebackend.dto.ReviewDTO;
+import lk.ijse.gdse.traditionalexperiencebackend.dto.TraditionalItemDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.Review;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface ReviewService {
     int updateReview(ReviewDTO reviewDTO);
     boolean deleteReview(Long id);
     ReviewDTO getReviewById(Long id);
+    public List<ReviewDTO> getReviewsForPage(int page, int size);
+    public int getTotalPages(int size);
 }
