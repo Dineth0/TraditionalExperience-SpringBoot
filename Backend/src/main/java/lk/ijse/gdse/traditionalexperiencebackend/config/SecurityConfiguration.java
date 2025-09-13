@@ -82,7 +82,11 @@ public class SecurityConfiguration {
                                 "api/v1/review/getReviewById/**",
                                 "api/v1/notification/create",
                                 "api/v1/payment/savePayment",
-                                "api/v1/instructor/searchInstructors/**"
+                                "api/v1/instructor/searchInstructors/**",
+                                "api/v1/item/paginated",
+                                "api/v1/item/total-pages",
+                                "api/v1/item/CardPaginated",
+                                "api/v1/item/total-CardPages"
 
                         ).permitAll()
                         .requestMatchers("/api/v1/item/addItem",
@@ -100,10 +104,12 @@ public class SecurityConfiguration {
                                 "api/v1/email/sendMail",
                                 "api/v1/workshopRegistration/RegistrationPagination",
                                 "api/v1/item/traditionalItemPagination",
-                                "api/v1/item/paginated",
-                                "api/v1/item/total-pages",
+
                                 "api/v1/instructor/paginated",
-                                "api/v1/instructor/total-pages")
+                                "api/v1/instructor/total-pages",
+                                "api/v1/review/paginated",
+                                "api/v1/review/total-pages",
+                                "api/v1/payment/getPayments")
                         .hasAuthority("ADMIN")
                         .anyRequest().authenticated()
 

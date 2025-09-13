@@ -2,59 +2,360 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Workshop Map</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../Assets/lib/fontawasome/fontawesome-free-6.7.2-web/css/all.css">
+
 </head>
 <body>
-<div id="map" style="width:100%; height:400px;"></div>
 
-<!-- jQuery -->
-<script src="js/jquery-3.7.1.min.js"></script>
+<section class="container py-2">
+    <div>
+        <a href="adminDashBoard.html" style="text-decoration: none"><i class="fa-solid fa-arrow-left" style="font-size: 20px; color: black"></i></a>
+    </div>
+    <h1 class="text-center mb-4">Manage Feedback</h1>
+    <!-- Add Menu Item Button -->
+    <div class="text-end mb-3">
+        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#addCustomerModal">
+            + Add Feedback
+        </button>
+    </div>
 
-<!-- Leaflet -->
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- Menu Items Table -->
+    <div class="table-responsive shadow-sm  bg-white">
+        <table class="table table-bordered table-hover">
+            <thead class="table-white">
+            <tr>
+                <!--        <th>#</th>-->
+                <th>Email</th>
+                <th>full name</th>
+                <th>Services</th>
+                <th>ratings</th>
+                <th>massage</th>
+                <th class="text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody id="feedbackTableBody">
+            <!-- JS will populate rows -->
+            </tbody>
+        </table>
+    </div>
+</section>
 
+<nav aria-label="...">
+    <div class="d-flex justify-content-center align-items-center mb-3">
+        <ul class="pagination pagination-md">
+            <li class="page-item active" aria-current="page">
+                <span class="page-link">1</span>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">4</a></li>
+            <li class="page-item"><a class="page-link" href="#">5</a></li>
+            <li class="page-item"><a class="page-link" href="#">6</a></li>
+            <li class="page-item"><a class="page-link" href="#">7</a></li>
+            <li class="page-item"><a class="page-link" href="#">8</a></li>
+            <li class="page-item"><a class="page-link" href="#">9</a></li>
+            <li class="page-item"><a class="page-link" href="#">10</a></li>
+        </ul>
+    </div>
+</nav>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    <div id="map" style="width: 100%; height: 400px;"></div>
 
-    <!-- Leaflet CSS & JS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    let currentPage = 0;
+    const pageSize = 5;
 
-<script>
-    function loadWorkshopMap(address) {
-        // Default Sri Lanka center
-        var map = L.map('map').setView([7.8731, 80.7718], 7);
+    const token = localStorage.getItem('token');
+    $(document).ready(function () {
+        loadFeeBack();
+    });
 
-        // Free OpenStreetMap tiles
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
+    function authHeaders() {
+        return {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+        };
+    }
+    function loadFeeBack() {
+        $.ajax({
+            url: `http://localhost:8080/api/v1/feedback/paginated?page=${currentPage}&size=${pageSize}`,
+            type: 'GET',
+            headers: authHeaders(),
+            success: function (res) {
+                const feedback = res || []; // backend returns raw array
+                let rows = "";
+                feedback.forEach(fb => {
+                    rows += `
+                    <tr>
+                        <td>${fb.email}</td>
+                        <td>${fb.fullname}</td>
+                        <td>${fb.services}</td>
+                        <td>${fb.ratings}</td>
+                        <td>${fb.message}</td>
+                        <td>
+                            <button class="btn btn-warning me-2">Edit</button>
+                            <button class="btn btn-sm btn-danger">Delete</button>
+                        </td>
+                    </tr>`;
+                });
+                $('#feedbackTableBody').html(rows);
+                loadPagination();
+            },
 
-        // Geocode address using Nominatim
-        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data && data.length > 0) {
-                    let lat = data[0].lat;
-                    let lon = data[0].lon;
-                    map.setView([lat, lon], 15);
-
-                    L.marker([lat, lon]).addTo(map)
-                        .bindPopup(address)
-                        .openPopup();
-                } else {
-                    alert("Address not found!");
-                }
-            });
+            error: function(err){
+                console.log(err);
+                alert("Failed to load Feedback");
+            }
+        });
     }
 
-    // Example: backend එකෙන් ගත් workshop එකේ address
-    let workshopAddress = "Mathugama, Sri Lanka"; // <- backend response එකෙන් set කරන්න
-    loadWorkshopMap(workshopAddress);
+    function loadPagination() {
+        $.ajax({
+            url: `http://localhost:8080/api/v1/feedback/total-pages?size=${pageSize}`,
+            method: "GET",
+            success: function (totalPages) {
+                let paginationHTML = "";
+                for (let i = 0; i < totalPages; i++) {
+                    paginationHTML += `
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="goToPage(${i})">${i + 1}</a>
+                    </li>
+                `;
+                }
+                $('.pagination').html(paginationHTML);
+            },
+            error: function (xhr) {
+                console.error("Error loading pagination:", xhr.responseText);
+            }
+        });
+    }
+
+    function goToPage(page) {
+        currentPage = page;
+        loadFeeBack();
+    }
+
 </script>
 
+<script>
+    function loadItemsForPage() {
+        let token = localStorage.getItem("authtoken")
+        $.ajax({
+            url: `http://localhost:8080/api/v1/item/paginated?page=${currentPage}&size=${pageSize}`,
+            type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+            success: function (res) {
+                const items = res || []; // backend returns raw array
+                let rows = "";
+                let cards = ""
+                items.forEach(item => {
+                    let itemName = item.itemName;
+                    let shortDescription = item.itemShortDescription;
+                    let imagePaths = item.itemImage || [];
 
+                    let imagesHtml = imagePaths.length > 0
+                        ? imagePaths.map(img => `<img src="http://localhost:8080/uploads/${img}" alt="Item Image" width="40" style="margin-right: 5px">`).join('')
+                        : 'No Images Found';
+
+                    rows += `
+                                    <tr class="item-row"
+                                        data-item-name="${itemName}"
+                                        data-description="${shortDescription}"
+                                        data-image="${imagePaths.join(';')}">
+                                        <td>${itemName}</td>
+                                        <td>${shortDescription}</td>
+                                        <td>${imagesHtml}</td>
+                                        <td>
+                                            <button class="btn btn-sm" style="background-color:bisque" data-id="${item.id}" id="editBtn">Edit</button>
+                                            <button class="btn btn-sm" style="background-color: cornflowerblue">Delete</button>
+                                        </td>
+                                    </tr>`;
+                    let firstImageUrl = imagePaths.length > 0
+                        ? `http://localhost:8080/uploads/${imagePaths[0]}`
+                        : 'default-placeholder.png';
+
+                    cards += `
+            <div class="card">
+                <img src="${firstImageUrl}" alt="${itemName}">
+                <div class="card-body">
+                    <div class="card-title">${itemName}</div>
+                    <div class="card-text">${shortDescription}</div>
+                    <a href="Item-Details.html?id=${item.id}" class="btn">View More</a>
+                </div>
+            </div>`;
+
+                });
+                $('.item-tbody').html(rows);
+                $('.card-container').html(cards);
+                loadPagination();
+            },
+
+            error: function(err){
+                console.log(err);
+                alert("Failed to load Feedback");
+            }
+        });
+    }
+
+    function loadPagination() {
+        let token = localStorage.getItem("authtoken");
+        $.ajax({
+            url: `http://localhost:8080/api/v1/item/total-pages?size=${pageSize}`,
+            method: "GET",
+            headers: { 'Authorization': 'Bearer ' + token },
+            success: function (tp) {
+                totalPages = tp;
+
+                let html = `<li class="page-item"><a class="page-link prev-page" href="#">Previous</a></li>`;
+                for (let i = 0; i < totalPages; i++) {
+                    html += `<li class="page-item ${i === currentPage ? 'active' : ''}">
+                            <a class="page-link page-number" href="#" data-page="${i}">${i + 1}</a>
+                         </li>`;
+                }
+                html += `<li class="page-item"><a class="page-link next-page" href="#">Next</a></li>`;
+
+                $('.cards-pagination').html(html);
+            },
+            error: function (xhr) {
+                console.error("Error loading pagination:", xhr.responseText);
+            }
+        });
+    }
+
+    // Use event delegation to handle dynamically added pagination links
+    $(document).on('click', '.cards-pagination .page-number', function(e) {
+        e.preventDefault();
+        let page = $(this).data('page');
+        goToPage(page);
+    });
+
+    $(document).on('click', '.cards-pagination .prev-page', function(e) {
+        e.preventDefault();
+        if (currentPage > 0) goToPage(currentPage - 1);
+    });
+
+    $(document).on('click', '.cards-pagination .next-page', function(e) {
+        e.preventDefault();
+        if (currentPage < totalPages - 1) goToPage(currentPage + 1);
+    });
+
+
+
+
+
+
+    window.goToPage = function(page) {
+        currentPage = page;
+        loadItemsForPage();
+    }
+</script>
+<script>
+    function loadItemsForPage() {
+        let token = localStorage.getItem("authtoken")
+        $.ajax({
+            url: `http://localhost:8080/api/v1/item/paginated?page=${currentPage}&size=${pageSize}`,
+            type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+            success: function (res) {
+                const items = res || []; // backend returns raw array
+                let rows = "";
+                items.forEach(item => {
+                    let itemName = item.itemName;
+                    let shortDescription = item.itemShortDescription;
+                    let imagePaths = item.itemImage || [];
+
+                    let imagesHtml = imagePaths.length > 0
+                        ? imagePaths.map(img => `<img src="http://localhost:8080/uploads/${img}" alt="Item Image" width="40" style="margin-right: 5px">`).join('')
+                        : 'No Images Found';
+
+                    rows += `
+                                    <tr class="item-row"
+                                        data-item-name="${itemName}"
+                                        data-description="${shortDescription}"
+                                        data-image="${imagePaths.join(';')}">
+                                        <td>${itemName}</td>
+                                        <td>${shortDescription}</td>
+                                        <td>${imagesHtml}</td>
+                                        <td>
+                                            <button class="btn btn-sm" style="background-color:bisque" data-id="${item.id}" id="editBtn">Edit</button>
+                                            <button class="btn btn-sm" style="background-color: cornflowerblue">Delete</button>
+                                        </td>
+                                    </tr>`;
+                });
+                $('.item-tbody').html(rows);
+                loadPagination();
+            },
+
+            error: function (err) {
+                console.log(err);
+                alert("Failed to load Feedback");
+            }
+        });
+    }
+
+    function loadPagination() {
+        let token = localStorage.getItem("authtoken")
+        $.ajax({
+            url: `http://localhost:8080/api/v1/item/total-pages?size=${pageSize}`,
+            method: "GET",
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+            success: function (tp) {
+                totalPages = tp
+                let paginationHTML = "";
+                paginationHTML += `
+                <li class="page-item ${currentPage === 0 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" id="prevPage">Previous</a>
+                </li>
+            `;
+
+                // Page numbers
+                for (let i = 0; i < totalPages; i++) {
+                    paginationHTML += `
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="goToPage(${i})">${i + 1}</a>
+                    </li>
+                `;
+                }
+
+                // Next button
+                paginationHTML += `
+                <li class="page-item ${currentPage === totalPages - 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" id="nextPage">Next</a>
+                </li>
+            `;
+
+
+                $('.pagination').html(paginationHTML);
+            },
+            error: function (xhr) {
+                console.error("Error loading pagination:", xhr.responseText);
+            }
+        });
+
+
+    }
+
+    window.goToPage = function (page) {
+        currentPage = page;
+        loadItemsForPage();
+    }
+    $(document).on('click', '#prevPage', function(e) {
+        e.preventDefault();
+        if (currentPage > 0) goToPage(currentPage - 1);
+    });
+
+    $(document).on('click', '#nextPage', function(e) {
+        e.preventDefault();
+        if (currentPage < totalPages - 1) goToPage(currentPage + 1);
+    });
 </script>
 </body>
 </html>

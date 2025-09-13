@@ -101,5 +101,18 @@ public class TraditionalItemServiceImpl implements TraditionalItemService {
         return (int) Math.ceil((double) itemCount / size);
     }
 
+    @Override
+    public List<TraditionalItemDTO> getItemsForCardPage(int page, int size) {
+        int offset = page * size;
+        List<TraditionalItem> traditionalItems = itemRepo.findTraditionalItemPaginated(size, offset);
+        return modelMapper.map(traditionalItems, new TypeToken<List<TraditionalItemDTO>>() {}.getType());
+    }
+
+    @Override
+    public int getTotalCardPages(int size) {
+        int itemCount = itemRepo.getTotalTraditionalItemCount();
+        return (int) Math.ceil((double) itemCount / size);
+    }
+
 
 }

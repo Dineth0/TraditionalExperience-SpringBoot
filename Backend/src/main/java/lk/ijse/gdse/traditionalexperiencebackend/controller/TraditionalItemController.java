@@ -147,12 +147,22 @@ public class TraditionalItemController {
     }
 
     @GetMapping("/paginated")
-    public List<TraditionalItemDTO> getPaginatedItems(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "2") int size) {
+    public List<TraditionalItemDTO> getPaginatedItems(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size) {
         return itemService.getItemsForPage(page, size);
     }
 
     @GetMapping("/total-pages")
-    public int getTotalPages(@RequestParam(defaultValue = "2") int size) {
+    public int getTotalPages(@RequestParam(defaultValue = "3") int size) {
+        return itemService.getTotalPages(size);
+    }
+
+    @GetMapping("/CardPaginated")
+    public List<TraditionalItemDTO> getPaginatedItemsForCard(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size) {
+        return itemService.getItemsForPage(page, size);
+    }
+
+    @GetMapping("/total-CardPages")
+    public int getTotalCardPages(@RequestParam(defaultValue = "3") int size) {
         return itemService.getTotalPages(size);
     }
 }

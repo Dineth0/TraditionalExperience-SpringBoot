@@ -2,8 +2,13 @@ $(document).ready(function () {
     let currentPage = 0;
     const pageSize = 2;
     let totalPages = 0;
+
+    let currentCardPage = 0;
+    const CardPageSize = 3;
+    let totalCardPages = 0;
     // loadItems();
     loadItemsForPage();
+    loadItemsForCardPage();
     $('#itemForm').on('submit', function (e) {
         e.preventDefault();
 
@@ -284,15 +289,15 @@ $(document).ready(function () {
                 const items = res || []; // backend returns raw array
                 let rows = "";
                 items.forEach(item => {
-                                    let itemName = item.itemName;
-                                    let shortDescription = item.itemShortDescription;
-                                    let imagePaths = item.itemImage || [];
+                    let itemName = item.itemName;
+                    let shortDescription = item.itemShortDescription;
+                    let imagePaths = item.itemImage || [];
 
-                                    let imagesHtml = imagePaths.length > 0
-                                        ? imagePaths.map(img => `<img src="http://localhost:8080/uploads/${img}" alt="Item Image" width="40" style="margin-right: 5px">`).join('')
-                                        : 'No Images Found';
+                    let imagesHtml = imagePaths.length > 0
+                        ? imagePaths.map(img => `<img src="http://localhost:8080/uploads/${img}" alt="Item Image" width="40" style="margin-right: 5px">`).join('')
+                        : 'No Images Found';
 
-                                    rows += `
+                    rows += `
                                     <tr class="item-row"
                                         data-item-name="${itemName}"
                                         data-description="${shortDescription}"
@@ -310,7 +315,7 @@ $(document).ready(function () {
                 loadPagination();
             },
 
-            error: function(err){
+            error: function (err) {
                 console.log(err);
                 alert("Failed to load Feedback");
             }
@@ -322,12 +327,19 @@ $(document).ready(function () {
         $.ajax({
             url: `http://localhost:8080/api/v1/item/total-pages?size=${pageSize}`,
             method: "GET",
-            headers:{
+            headers: {
                 'Authorization': 'Bearer ' + token
             },
             success: function (tp) {
                 totalPages = tp
                 let paginationHTML = "";
+                paginationHTML += `
+                <li class="page-item ${currentPage === 0 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" id="prevPage">Previous</a>
+                </li>
+            `;
+
+                // Page numbers
                 for (let i = 0; i < totalPages; i++) {
                     paginationHTML += `
                     <li class="page-item ${i === currentPage ? 'active' : ''}">
@@ -335,37 +347,154 @@ $(document).ready(function () {
                     </li>
                 `;
                 }
-                $('.pagination').html(paginationHTML);
+
+                // Next button
+                paginationHTML += `
+                <li class="page-item ${currentPage === totalPages - 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" id="nextPage">Next</a>
+                </li>
+            `;
+
+
+                $('#ItemPagination').html(paginationHTML);
             },
             error: function (xhr) {
                 console.error("Error loading pagination:", xhr.responseText);
             }
         });
+
+
     }
 
-    window.goToPage = function(page) {
+    window.goToPage = function (page) {
         currentPage = page;
         loadItemsForPage();
     }
-    // $('#prevPage').click(function(e){
+    $(document).on('click', '#prevPage', function(e) {
+        e.preventDefault();
+        if (currentPage > 0) goToPage(currentPage - 1);
+    });
+
+    $(document).on('click', '#nextPage', function(e) {
+        e.preventDefault();
+        if (currentPage < totalPages - 1) goToPage(currentPage + 1);
+    });
+
+    // function loadItemsForCardPage() {
+    //     let token = localStorage.getItem("authtoken")
+    //     $.ajax({
+    //         url: `http://localhost:8080/api/v1/item/CardPaginated?page=${currentCardPage}&size=${CardPageSize}`,
+    //         type: 'GET',
+    //         headers: {
+    //             'Authorization': 'Bearer ' + token
+    //         },
+    //         success: function (res) {
+    //             const items = res || []; // backend returns raw array
+    //             let cards = "";
+    //             items.forEach(item => {
+    //                 let itemName = item.itemName;
+    //                 let shortDescription = item.itemShortDescription;
+    //                 let imagePaths = item.itemImage || [];
+    //
+    //
+    //                 let firstImageUrl = imagePaths.length > 0
+    //                     ? `http://localhost:8080/uploads/${imagePaths[0]}`
+    //                     : 'default-placeholder.png';
+    //
+    //                 cards += `
+    //         <div class="card">
+    //             <img src="${firstImageUrl}" alt="${itemName}">
+    //             <div class="card-body">
+    //                 <div class="card-title">${itemName}</div>
+    //                 <div class="card-text">${shortDescription}</div>
+    //                 <a href="Item-Details.html?id=${item.id}" class="btn">View More</a>
+    //             </div>
+    //         </div>`;
+    //             });
+    //             $('.card-container').html(cards);
+    //             loadPaginationForCard();
+    //         },
+    //
+    //         error: function (err) {
+    //             console.log(err);
+    //             alert("Failed to load Feedback");
+    //         }
+    //     });
+    // }
+    // function loadPaginationForCard() {
+    //     let token = localStorage.getItem("authtoken")
+    //     $.ajax({
+    //         url: `http://localhost:8080/api/v1/item/total-CardPages?size=${CardPageSize}`,
+    //         method: "GET",
+    //         headers: { 'Authorization': 'Bearer ' + token },
+    //         success: function (tp) {
+    //             totalCardPages = tp;
+    //             let paginationHTML = "";
+    //
+    //
+    //
+    //             paginationHTML += `
+    //                     <li class="CardPage-item ${currentCardPage === 0 ? 'disabled' : ''}">
+    //                         <a class="CardPage-link prev-card" href="#">Previous</a>
+    //                     </li>
+    //                 `;
+    //             for (let i = 0; i < totalCardPages; i++) {
+    //                 paginationHTML += `
+    //                     <li class="CardPage-item ${i === currentCardPage ? 'active' : ''}">
+    //                         <a class="CardPage-link" href="#" data-page="${i}">${i + 1}</a>
+    //                     </li>
+    //                 `;
+    //             }
+    //                                 paginationHTML += `
+    //                     <li class="CardPage-item ${currentCardPage === totalCardPages - 1 ? 'disabled' : ''}">
+    //                         <a class="CardPage-link next-card" href="#">Next</a>
+    //                     </li>
+    //                 `;
+    //
+    //
+    //
+    //             $('#CardPagination').html(paginationHTML);
+    //         },
+    //         error: function (xhr) {
+    //             console.error("Error loading pagination:", xhr.responseText);
+    //         }
+    //     });
+    // }
+    //
+    // // Event delegation for page numbers
+    // $(document).on('click', '.CardPage-link[data-page]', function(e) {
     //     e.preventDefault();
-    //     if(currentPage > 0){
-    //         currentPage--;
-    //         loadItemsForPage();
+    //     let page = parseInt($(this).data('page'));
+    //     currentCardPage = page;
+    //     loadItemsForCardPage();
+    // });
+    //
+    // // Previous button
+    // $(document).on('click', '.CardPage-link.prev-card', function(e) {
+    //     e.preventDefault();
+    //     if(currentCardPage > 0) {
+    //         currentCardPage--;
+    //         loadItemsForCardPage();
     //     }
     // });
     //
-    // $('#nextPage').click(function(e){
+    // $(document).on('click', '.CardPage-link.next-card', function(e) {
     //     e.preventDefault();
-    //     if(currentPage < totalPages - 1){
-    //         currentPage++;
-    //         loadItemsForPage();
+    //     if(currentCardPage < totalCardPages - 1) {
+    //         currentCardPage++;
+    //         loadItemsForCardPage();
     //     }
-    //
     // });
+    // window.goToCardPage = function(page){
+    //     currentCardPage = page;
+    //     loadItemsForCardPage();
+    // }
 
 
-})
 
 
 
+
+
+
+});

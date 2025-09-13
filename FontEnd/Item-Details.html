@@ -162,6 +162,7 @@
                 font-weight: 600;
                 transition: 0.3s;
             }
+
         </style>
 
     </head>
@@ -198,7 +199,27 @@
         </div>
     </div>
     <h3 style="color: white; text-align: center">Workshops Here</h3>
-    <section class="card-container"></section>
+    <section class="card-container">
+
+    </section>
+    <nav aria-label="Cards-Page navigation">
+        <ul  id="CardPagination" class="pagination justify-content-center cards-pagination">
+            <li class="CardPage-item">
+                <a class="CardPage-link prev-card" href="#">Previous</a>
+            </li>
+            <li class="CardPage-item active" aria-current="page">
+                <span class="CardPage-link">1</span>
+            </li>
+            <li class="CardPage-item"><a class="CardPage-link" href="#">2</a></li>
+
+
+            <li class="CardPage-item">
+                <a class="CardPage-link next-card" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+
+
 </main>
 
 <footer class="pt-5 pb-3" style="background-color: #4c2417; color: #f5f5f5;">
@@ -258,7 +279,14 @@
     $(document).ready(function () {
         let params = new URLSearchParams(window.location.search);
         let itemId = params.get('id');
-        loadWorkshopsForCard(itemId);
+        // loadWorkshopsForCard(itemId);
+
+
+
+        let currentCardPage = 0;
+        const CardPageSize = 3;
+        let totalCardPages = 0;
+        // loadItemsForCardPage();
 
         if (!itemId) {
             $("body").html("<p class='text-danger text-center mt-5'>Item Id not provided</p>")
@@ -329,6 +357,116 @@
                 }
             });
         }
+
+        // function loadItemsForCardPage() {
+        //     let token = localStorage.getItem("authtoken")
+        //     $.ajax({
+        //         url: `http://localhost:8080/api/v1/workshop/paginated?page=${currentCardPage}&size=${CardPageSize}`,
+        //         type: 'GET',
+        //         headers: {
+        //             'Authorization': 'Bearer ' + token
+        //         },
+        //         success: function (res) {
+        //             let workshops = res || [];
+        //             let cards = ""
+        //
+        //
+        //             workshops.forEach(workshop => {
+        //                 let firstImageUrl = workshop.image && workshop.image.length > 0
+        //                     ? `http://localhost:8080/uploads/${workshop.image[0]}`
+        //                     : "default-placeholder.png";
+        //
+        //                  cards += `
+        //         <div class="cards">
+        //             <img src="${firstImageUrl}" alt="${workshop.title}">
+        //             <div class="card-body">
+        //                 <h3 class="card-title" style="font-weight: bold">${workshop.title}</h3>
+        //                 <div class="card-text">${workshop.location}</div>
+        //                 <div class="card-text">${workshop.duration}</div>
+        //                 <div class="card-text">Fee: ${workshop.fee}</div>
+        //                             <a href="Workshop-Details.html?id=${workshop.id}" class="btn">View More</a>
+        //
+        //             </div>
+        //         </div>`;
+        //             });
+        //             $('.card-container').html(cards);
+        //             loadPaginationForCard();
+        //         },
+        //
+        //         error: function (err) {
+        //             console.log(err);
+        //             alert("Failed to load Feedback");
+        //         }
+        //     });
+        // }
+        // function loadPaginationForCard() {
+        //     let token = localStorage.getItem("authtoken")
+        //     $.ajax({
+        //         url: `http://localhost:8080/api/v1/workshop/total-pages?size=${CardPageSize}`,
+        //         method: "GET",
+        //         headers: { 'Authorization': 'Bearer ' + token },
+        //         success: function (tp) {
+        //             totalCardPages = tp;
+        //             let paginationHTML = "";
+        //
+        //
+        //
+        //             paginationHTML += `
+        //                 <li class="CardPage-item ${currentCardPage === 0 ? 'disabled' : ''}">
+        //                     <a class="CardPage-link prev-card" href="#">Previous</a>
+        //                 </li>
+        //             `;
+        //             for (let i = 0; i < totalCardPages; i++) {
+        //                 paginationHTML += `
+        //                 <li class="CardPage-item ${i === currentCardPage ? 'active' : ''}">
+        //                     <a class="CardPage-link" href="#" data-page="${i}">${i + 1}</a>
+        //                 </li>
+        //             `;
+        //             }
+        //             paginationHTML += `
+        //                 <li class="CardPage-item ${currentCardPage === totalCardPages - 1 ? 'disabled' : ''}">
+        //                     <a class="CardPage-link next-card" href="#">Next</a>
+        //                 </li>
+        //             `;
+        //
+        //
+        //
+        //             $('#CardPagination').html(paginationHTML);
+        //         },
+        //         error: function (xhr) {
+        //             console.error("Error loading pagination:", xhr.responseText);
+        //         }
+        //     });
+        // }
+        //
+        // // Event delegation for page numbers
+        // $(document).on('click', '.CardPage-link[data-page]', function(e) {
+        //     e.preventDefault();
+        //     let page = parseInt($(this).data('page'));
+        //     currentCardPage = page;
+        //     loadItemsForCardPage();
+        // });
+        //
+        // // Previous button
+        // $(document).on('click', '.CardPage-link.prev-card', function(e) {
+        //     e.preventDefault();
+        //     if(currentCardPage > 0) {
+        //         currentCardPage--;
+        //         loadItemsForCardPage();
+        //     }
+        // });
+        //
+        // $(document).on('click', '.CardPage-link.next-card', function(e) {
+        //     e.preventDefault();
+        //     if(currentCardPage < totalCardPages - 1) {
+        //         currentCardPage++;
+        //         loadItemsForCardPage();
+        //     }
+        // });
+        // window.goToCardPage = function(page){
+        //     currentCardPage = page;
+        //     loadItemsForCardPage();
+        // }
 
 
     })

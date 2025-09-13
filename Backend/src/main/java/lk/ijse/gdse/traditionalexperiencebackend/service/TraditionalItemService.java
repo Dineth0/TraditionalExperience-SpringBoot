@@ -20,5 +20,8 @@ public interface TraditionalItemService {
     public List<TraditionalItemDTO> getItemsForPage(int page, int size);
     public int getTotalPages(int size);
 
+    public List<TraditionalItemDTO> getItemsForCardPage(int page, int size);
+    public int getTotalCardPages(int size);
+
 
     }
