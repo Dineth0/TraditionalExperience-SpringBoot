@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #433c3b;
+            font-family: 'Inter', sans-serif;
+            color: #f4e2c6; /* Light beige text for readability */
+
+        }
+
+        .form-section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #e0b84b; /* Gold accent */
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(244, 226, 198, 0.4);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            border: 1px solid #e0b84b;
+            background-color: #5a4e4c; /* Slightly lighter than background */
+            border-radius: 8px;
+            padding: 10px 15px;
+            transition: all 0.3s ease;
+            color: #ffffff;
+        }
+
+        .form-control:focus {
+            border-color: #c97b63; /* Clay accent */
+            background-color: #6e5d5a; /* Focused slightly lighter shade */
+            box-shadow: 0 0 8px rgba(224, 184, 75, 0.5); /* Soft gold glow */
+            outline: none;
+            color: #fff;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .file-input-container label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .file-input-container input[type="file"] {
+            display: block;
+            margin-top: 5px;
+            padding: 6px;
+            border-radius: 8px;
+            background-color: #5a4e4c;
+            border: 1px solid #e0b84b;
+            color: #fff;
+        }
+
+        .file-input-container p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 5px;
+        }
+
+        .submit-btn {
+            background-color: #e0b84b;
+            color: #433c3b;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #c97b63; /* Clay hover */
+            color: #fff;
+        }
+        .modal-content{
+            background-color: #32302b;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container my-5">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="mb-0">Instructor List</h4>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addJobModal">
+                    + Add Admin
+                </button>
+            </div>
+            <div class="mb-3">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search Instructors...">
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-light">
+                    <tr>
+                        <th scope="col">User Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Role</th>
+                    </tr>
+                    </thead>
+                    <tbody class="user-tbody">
+                    <!-- Populated via script.js -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center" id="ItemPagination">
+                <li class="page-item">
+                    <a class="page-link" href="#" id="prevPage">Previous</a>
+                </li>
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">1</span>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+
+
+                <li class="page-item">
+                    <a class="page-link" href="#" id="nextPage">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="addJobModal" tabindex="-1" aria-labelledby="addJobModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addJobModalLabel">Add New Job</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="instructorForm">
+                <input type="hidden" id="instructorId" name="Id">
+
+                <h3 class="form-section-title">Instructors Information</h3>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Instructor Name</label>
+                            <input class="form-control" type="text" name="title" id="instructorName" required>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Instructor Age</label>
+                            <input class="form-control" type="text" name="Age" id="instructorAge" required>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Category</label>
+                            <input class="form-control" type="text" name="Category" id="instructorCategory" required>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Instructor Email</label>
+                            <input class="form-control" type="email" name="Email" id="instructorEmail" required>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Instructor Phone</label>
+                            <input class="form-control" type="number" name="Phone" id="instructorPhone" required>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group file-input-container">
+                            <label>Image</label>
+                            <input type="file" id="instructorImg" name="img" accept="image/*">
+                            <p>Maximum file size: 2 MB</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn submit-btn" >Save Instructor</button>
+                </div>
+
+                <!--                <div class="col-lg-12">-->
+                <!--                    <button type="submit" class="btn submit-btn">-->
+                <!--                        Submit-->
+                <!--                    </button>-->
+                <!--                </div>-->
+
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="editInstructorModal" tabindex="-1" aria-labelledby="editJobModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editJobModalLabel">Edit Instructor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editInstructorForm">
+                <input type="hidden" id="editInstructorId" name="Id">
+
+                <h3 class="form-section-title">Instructors Information</h3>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Instructor Name</label>
+                            <input class="form-control" type="text" name="name" id="editInstructorName" required>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Instructor Age</label>
+                            <input class="form-control" type="text" name="Age" id="editInstructorAge" required>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Category</label>
+                            <input class="form-control" type="text" name="Category" id="editInstructorCategory" required>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Instructor Email</label>
+                            <input class="form-control" type="email" name="Email" id="editInstructorEmail" required>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Instructor Phone</label>
+                            <input class="form-control" type="number" name="Phone" id="editInstructorPhone" required>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="existingFiles" name="existingFiles">
+
+
+                    <div class="col-lg-12">
+                        <div class="form-group file-input-container">
+                            <label>Image</label>
+                            <input type="file" id="EditInstructorFileInput" name="img" accept="image/*">
+                            <p>Maximum file size: 2 MB</p>
+                        </div>
+                        <div id="EditInstructorImg"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="updateInstructorBtn">Save Changes</button>
+                </div>
+
+                <!--                <div class="col-lg-12">-->
+                <!--                    <button type="submit" class="btn submit-btn">-->
+                <!--                        Submit-->
+                <!--                    </button>-->
+                <!--                </div>-->
+
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/jquery-3.7.1.min.js"></script>
+<script src="js/UserManage.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    $(document).ready(function() {
+        let currentPage = 0;
+        const pageSize = 2;
+        let totalPages = 0;
+
+        loadUsersForPage();
+
+        function loadUsersForPage() {
+            let token = localStorage.getItem("authtoken")
+            $.ajax({
+                url: `http://localhost:8080/api/v1/user/paginated?page=${currentPage}&size=${pageSize}`,
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function (res) {
+                    const users = res || []; // backend returns raw array
+                    let rows = "";
+                    users.forEach((user) => {
+                        rows += `
+                            <tr class="payment-row">
+                                <td>${user.username}</td>
+                               <td>${user.email}</td>
+                                <td>${user.role}</td>
+
+                            </tr>
+                        `;
+                    });
+                    $('.user-tbody').html(rows);
+                    loadUserPagination();
+                },
+
+                error: function(err){
+                    console.log(err);
+                    // alert("Failed to load Feedback");
+                }
+            });
+        }
+
+        function loadUserPagination() {
+            let token = localStorage.getItem("authtoken")
+            $.ajax({
+                url: `http://localhost:8080/api/v1/user/total-pages?size=${pageSize}`,
+                method: "GET",
+                headers:{
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function (tp) {
+                    totalPages = tp
+                    let paginationHTML = "";
+                    for (let i = 0; i < totalPages; i++) {
+                        paginationHTML += `
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="goToPage(${i})">${i + 1}</a>
+                    </li>
+                `;
+                    }
+                    $('.pagination').html(paginationHTML);
+                },
+                error: function (xhr) {
+                    console.error("Error loading pagination:", xhr.responseText);
+                }
+            });
+        }
+
+
+        window.goToPage = function(page) {
+            currentPage = page;
+            loadUsersForPage();
+        }
+    })
+</script>
+</body>
+</html>

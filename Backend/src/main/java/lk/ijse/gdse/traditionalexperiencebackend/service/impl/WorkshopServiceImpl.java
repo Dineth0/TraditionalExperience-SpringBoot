@@ -150,5 +150,12 @@ public class WorkshopServiceImpl implements WorkshopService {
         return (int) Math.ceil((double) itemCount / size);
     }
 
+    @Override
+    public List<WorkshopDTO> searchWorkshops(String keyword) {
+        System.out.println("Searching by keyword: " + keyword);
+        List<Workshop> workshops = workshopRepo.findWorkshopByTitleContainingIgnoreCase(keyword);
+        return modelMapper.map(workshops, new TypeToken<List<WorkshopDTO>>() {}.getType());
+    }
+
 
 }

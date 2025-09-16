@@ -1,7 +1,9 @@
 package lk.ijse.gdse.traditionalexperiencebackend.service.impl;
 
 
+import lk.ijse.gdse.traditionalexperiencebackend.dto.PaymentDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.UserDTO;
+import lk.ijse.gdse.traditionalexperiencebackend.entity.Payment;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.RoleType;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.User;
 import lk.ijse.gdse.traditionalexperiencebackend.repo.UserRepo;
@@ -156,10 +158,28 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return userRepo.findByEmail(email);
     }
 
+    @Override
+    public List<UserDTO> getUsersForPage(int page, int size) {
+        int offset = page * size;
+        List<User> users = userRepo.findUserPaginated(size, offset);
+        return users.stream()
+                .map(user -> {
+                    UserDTO userDTO = modelMapper.map(user, UserDTO.class);
 
+                    return userDTO;
+                }).toList();
+    }
 
+    @Override
+    public int getTotalPages(int size) {
+        int paymentCount = userRepo.getTotalUserCount();
+        return (int) Math.ceil((double) paymentCount / size);
+    }
 
-
+    @Override
+    public List<UserDTO> searchUsers(String keyword) {
+        return List.of();
+    }
 
 
 }

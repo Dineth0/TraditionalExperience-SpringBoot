@@ -5,6 +5,7 @@ package lk.ijse.gdse.traditionalexperiencebackend.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import lk.ijse.gdse.traditionalexperiencebackend.config.JwtFilter;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.AuthDTO;
+import lk.ijse.gdse.traditionalexperiencebackend.dto.PaymentDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.ResponseDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.UserDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.User;
@@ -116,6 +117,16 @@ public class UserController {
             return ResponseEntity.ok(Collections.singletonMap("userId", user.getId()));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+    }
+
+    @GetMapping("/paginated")
+    public List<UserDTO> getPaginatedUsers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "2") int size) {
+        return userService.getUsersForPage(page, size);
+    }
+
+    @GetMapping("/total-pages")
+    public int getTotalPages(@RequestParam(defaultValue = "2") int size) {
+        return userService.getTotalPages(size);
     }
 
 
