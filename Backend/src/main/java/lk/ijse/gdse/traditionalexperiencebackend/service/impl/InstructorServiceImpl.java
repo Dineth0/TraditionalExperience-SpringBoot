@@ -100,7 +100,7 @@ public class InstructorServiceImpl implements InstructorService {
     @Override
     public List<InstructorDTO> searchInstructors(String keyword) {
         System.out.println("Searching by keyword: " + keyword);
-        List<Instructor> instructors = instructorRepo.findJobByInstructorNameContainingIgnoreCase(keyword);
+        List<Instructor> instructors = instructorRepo.findInstructorByInstructorNameContainingIgnoreCase(keyword);
         System.out.println("Found jobs: " + instructors.size());
         return modelMapper.map(instructors, new TypeToken<List<InstructorDTO>>() {}.getType());
     }

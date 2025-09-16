@@ -380,7 +380,7 @@ $(document).ready(function () {
         if (currentPage < totalPages - 1) goToPage(currentPage + 1);
     });
 
-    function searchInstructors(){
+    function searchItems(){
         let keyword = $('#searchInput').val();
         let token  = localStorage.getItem("authtoken")
 
@@ -440,7 +440,7 @@ $(document).ready(function () {
         })
     }
     $('#searchInput').on('keyup', function () {
-        searchInstructors();
+        searchItems();
     })
 
 

@@ -22,4 +22,6 @@ public interface InstructorRepo extends JpaRepository<Instructor, Long> {
 
     @Query(value = "SELECT COUNT(*) FROM Instructor ", nativeQuery = true)
     int getTotalInstructorCount();
+
+    List<Instructor> findInstructorByInstructorNameContainingIgnoreCase(String keyword);
 }
