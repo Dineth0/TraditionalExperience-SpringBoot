@@ -59,22 +59,24 @@
 
         /* ---------- Right Side Card ---------- */
         .details-card {
-            background-color: #886230;
+            background-color: #c88b39;
             border-radius: 16px;
             padding: 20px;
-            margin-left: 30px;
             margin-bottom: 30px;
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-            position: fixed;
+            position: sticky;
+            top: 60px;
+            width: 100%;
+
         }
 
-        #rightSide {
+        /*#rightSide {*/
 
-            top: 100px;
-            right: 40px;
-            width: 38%;
-            z-index: 1000;
-        }
+
+        /*    right: 40px;*/
+        /*    width: 38%;*/
+        /*    z-index: 1000;*/
+        /*}*/
         /* parent එකේ height adjust කරන්න */
 
 
@@ -84,7 +86,6 @@
             border: 1px solid #e6e6e6;
             border-radius: 12px;
             background: #5f352a;
-            overflow: hidden;
 
             transition: all 0.2s;
         }
@@ -222,7 +223,10 @@
             color: #e5b53c;
         }
         #ReviewBtn{
-            margin-right: 590px;
+            margin-right: 300px;
+            border-radius: 12px;
+            outline: none;
+
         }
         #MyBookingBtn{
             margin-right: 100px;
@@ -241,6 +245,69 @@
             cursor: pointer;
         }
         .star.checked { color: #ffc107; }
+
+        .review-info {
+            background: rgba(95,53,42,0.6);
+            padding: 20px;
+            border-radius: 14px;
+            margin-top: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+
+        #reviewCarousel {
+            width: 100%;   /* full width */
+            margin-top: 15px;
+        }
+
+        .carousel-inner {
+            width: 100%;
+            text-align: center;
+        }
+
+        .review-card {
+            width: 260px;            /* card width */
+            height: 220px;           /* card height */
+            background: rgb(179, 117, 37);
+            border-radius: 12px;
+            padding: 15px;
+            color: #000000;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: center;
+        }
+        .review-card .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .MyBtn{
+            background-color: #4c3622;
+            margin-top: 10px;
+            color: #dea816;
+        }
+        .MyBtn:hover{
+            background-color: #392006;
+        }
+        .MyBtn>a{
+            color: #dea816;
+            text-decoration: none;
+        }
+        .read-more-btn {
+            font-size: 0.85rem;
+            display: inline;
+            margin-left: 5px;
+            vertical-align: baseline;
+            text-decoration: none;
+            color: #3a2a1a;
+            padding: 0;
+        }
+
+
+
+
+
+
 
 
 
@@ -268,7 +335,7 @@
 </header>
 <div class="d-flex justify-content-between align-items-center my-3">
     <h2 id="workshopName" ></h2>
-    <button id="ReviewBtn" data-bs-toggle="modal" data-bs-target="#ReviewModal">
+    <button class="btn btn-outline-warning" id="ReviewBtn" data-bs-toggle="modal" data-bs-target="#ReviewModal">
         <i class="fa-solid fa-star"></i> Reviews
     </button>
 
@@ -314,15 +381,7 @@
             <p id="workshopIncludes"></p>
 
         </div>
-        <div class="review-info mt-4">
-            <div class="info-item">
-                <i class="fa-solid fa-star" style="color:#f1c40f; cursor:pointer;" id="review"></i>
-                <span><strong style="font-size: 24px;">Reviews</strong></span>
-            </div>
-            <div id="reviewSummary" >
-                <p><span id="reviewCount">0</span> Reviews • Average Rating: <span id="avgRating">0</span>/5 ⭐</p>
-            </div>
-        </div>
+
 
         <div class="col-lg-5">
             <div id="rightSide" class="details-card">
@@ -360,13 +419,14 @@
                     <p class="mb-1 info-line"><i class="fa fa-check-circle"></i> Free cancellation up to 24 hours before</p>
 
                     <p class="mb-0 info-line"><i class="fa fa-check-circle"></i> Reserve Now and Pay Later</p>
-                    <button class="btn btn-outline-warning MyBtn" >
-                        <a href="MyBooking.html"><i class="fa-solid fa-book"></i> MyBooking</a>
-                    </button>
-                    <button class="btn btn-outline-warning MyBtn">
-                        <a href="MyReview.html"><i class="fa-solid fa-book"></i> MyReview</a>
-                    </button>
+
                 </div>
+                <button class="btn btn-outline-warning MyBtn" >
+                    <a href="MyBooking.html"><i class="fa-solid fa-book"></i> MyBooking</a>
+                </button>
+                <button class="btn btn-outline-warning MyBtn">
+                    <a href="MyReview.html"><i class="fa-solid fa-book"></i> MyReview</a>
+                </button>
 
                 <!-- Availability results -->
                 <div class="mt-3" id="availabilityWrap" style="display:none;">
@@ -379,6 +439,34 @@
                 <!--                </div>-->
             </div>
         </div>
+
+        <div class="col-12">
+            <div class="review-info mt-4">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="fa-solid fa-star" style="color:#f1c40f;"></i>
+                    <span><strong style="font-size: 24px; color: white">Reviews</strong></span>
+                </div>
+
+                <div id="reviewCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner" id="reviewCarouselInner">
+                        <!-- Reviews will append here -->
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#reviewCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#reviewCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                </div>
+
+                <div id="reviewSummary" class="mt-3 text-light">
+                    <p><span id="reviewCount">0</span> Reviews • Average Rating:
+                        <span id="avgRating">0</span>/5 ⭐</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
     </div>
 </div>
@@ -529,6 +617,27 @@
         </div>
     </div>
 </div>
+
+<!-- Review Details Modal -->
+<div class="modal fade" id="reviewDetailsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Review Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center icon"
+                     style="width:40px; height:40px; font-size:14px; font-weight:bold;">
+                </div>
+                <h6 id="reviewVisitorName" class=""></h6>
+                <div id="reviewRating"></div>
+                <p id="reviewFullDesc"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <footer class="pt-5 pb-3" style="background-color: #4c2417; color: #f5f5f5;">
     <div class="container">
@@ -886,6 +995,112 @@
             let workshopId = new URLSearchParams(window.location.search).get('id');
             window.location.href = `review.html?id=${workshopId}`;
         });
+
+
+        function loadReviewsByWorkshop(workshopId){
+            let token = localStorage.getItem('authtoken');
+
+            $.ajax({
+                url: `http://localhost:8080/api/v1/review/getReviewByWorkshop/${workshopId}`,
+                method: 'GET',
+                headers: {
+                    "Authorization": "Bearer " + token
+                },
+                success: function (response) {
+
+                    let reviews = response.data || [];
+                    $('#reviewCarouselInner').empty();
+
+                    if(reviews.length === 0) {
+                        $('#reviewCarouselInner').html(`<div class="text-center text-light">No Reviews Yet</div>`)
+                        return;
+                    }
+                    for (let i = 0; i < reviews.length; i += 3) {
+                        let group = reviews.slice(i, i + 3);
+
+                        let cards = group.map(rev =>{
+                            let reviewDate = new Date(rev.reviewDate).toLocaleDateString();
+
+
+
+                            let shortDesc = rev.description.length > 80
+                            ? rev.description.substring(0,80) + "..." :rev.description
+
+
+                            return `
+                    <div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center mb-3">
+                        <div class="card review-card shadow-sm">
+                            <div class="card-body text-start">
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center"
+                                         style="width:40px; height:40px; font-size:14px; font-weight:bold;">
+                                         ${rev.visitorName.charAt(0).toUpperCase()}
+                                    </div>
+                                    <div class="ms-2">
+                                        <h6 class="mb-0 fw-bold">${rev.visitorName}</h6>
+                                        <small class="text-muted">Written ${reviewDate}</small>
+                                    </div>
+                                </div>
+                                <div class="mb-2" style="color:#ffc107;">
+                                    ${'★'.repeat(rev.rating)}${'☆'.repeat(5 - rev.rating)}
+                                </div>
+
+                                <p class="card-text small">
+                                    ${shortDesc}
+                                    <button class="read-more-btn btn btn-link"
+                                     data-name= ${rev.visitorName}
+                                            data-rating=${rev.rating}
+                                            data-desc="${rev.description}">
+                                            Read more
+                                    </button>
+                                 </p>
+
+                                <small class="text-muted">Visited: ${new Date(rev.wentDate).toLocaleDateString()}</small>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                        }).join("");
+
+                        $("#reviewCarouselInner").append(`
+                    <div class="carousel-item ${i === 0 ? 'active' : ''}">
+                        <div class="row justify-content-center flex-wrap">
+                            ${cards}
+                        </div>
+                    </div>
+                    `)
+                    }
+                },
+                error: function () {
+                    $("#reviewCarouselInner").html(`<div class="text-danger">Failed to load reviews</div>`);
+                }
+            });
+
+
+        }
+        let workshop = new URLSearchParams(window.location.search).get('id');
+        if(workshop){
+            loadReviewsByWorkshop(workshop)
+        }
+        $(document).on('click', ".read-more-btn", function (){
+            let name = $(this).data("name")
+            let rating = $(this).data("rating")
+            let desc = $(this).data("desc")
+
+            $('.icon').text(name.charAt(0).toLocaleUpperCase())
+
+            $('#reviewVisitorName').text(name)
+            $('#reviewRating').html('★'.repeat(rating) + '☆'.repeat(5 - rating))
+            $('#reviewFullDesc').text(desc)
+
+            $('#reviewDetailsModal').modal('show')
+        })
+
+
+
+
+
+
 
 
 

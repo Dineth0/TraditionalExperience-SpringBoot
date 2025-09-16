@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ReviewRepo extends JpaRepository<Review, Long> {
-    List<ReviewDTO> findByWorkshopId(Long workshopId);
+    List<Review> findByWorkshopId(Long workshopId);
 
     List<Review> findByUserId(Long userId);
 

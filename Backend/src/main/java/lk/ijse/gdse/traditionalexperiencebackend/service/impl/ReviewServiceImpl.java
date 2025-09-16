@@ -64,7 +64,7 @@ public class ReviewServiceImpl implements ReviewService {
         if(workshopId == null){
             return new ArrayList<>();
         }
-        List<ReviewDTO> reviews = reviewRepo.findByWorkshopId(workshopId);
+        List<Review> reviews = reviewRepo.findByWorkshopId(workshopId);
         return reviews.stream()
                 .map(review -> modelMapper.map(review, ReviewDTO.class))
                 .toList();

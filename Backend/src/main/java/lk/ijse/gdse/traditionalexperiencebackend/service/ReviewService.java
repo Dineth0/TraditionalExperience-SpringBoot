@@ -18,4 +18,5 @@ public interface ReviewService {
     ReviewDTO getReviewById(Long id);
     public List<ReviewDTO> getReviewsForPage(int page, int size);
     public int getTotalPages(int size);
+
 }

@@ -22,6 +22,7 @@ public class Review {
     private String visitorName;
     private int rating;
     private String title;
+    @Column(length = 10000)
     private String description;
     private Date wentDate;
     private Date reviewDate;
