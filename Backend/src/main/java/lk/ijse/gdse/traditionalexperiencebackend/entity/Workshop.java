@@ -47,4 +47,7 @@ public class Workshop {
 
     @OneToMany(mappedBy = "workshop", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkshopRegistration> workshopRegistration;
+
+    @OneToMany(mappedBy = "workshop", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Payment> Payment;
 }

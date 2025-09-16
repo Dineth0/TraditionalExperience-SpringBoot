@@ -15,8 +15,12 @@ public class PaymentDTO {
     private Long id;
     private double amount;
     private PaymentMethod paymentMethod;
-    private String Status;
+    private String status;
     private Date paymentDate;
     private Long userId;
     private Long registrationId;
+    private Long workshopId;
+    private String workshopName;
+    private String userName;
 }
+

@@ -29,6 +29,12 @@ public class Payment {
     @JoinColumn(name = "RegistrationId")
     private WorkshopRegistration workshopRegistration;
 
+    @ManyToOne
+    @JoinColumn(name = "workshopId")
+    private Workshop workshop;
+
+
+
 
 
 }

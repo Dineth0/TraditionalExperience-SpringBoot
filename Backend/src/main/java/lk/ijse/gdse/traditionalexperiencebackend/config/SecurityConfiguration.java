@@ -110,7 +110,9 @@ public class SecurityConfiguration {
                                 "api/v1/instructor/total-pages",
                                 "api/v1/review/paginated",
                                 "api/v1/review/total-pages",
-                                "api/v1/payment/getPayments")
+                                "api/v1/payment/getPayments",
+                                "api/v1/payment/paginated",
+                                "api/v1/payment/total-pages")
                         .hasAuthority("ADMIN")
                         .anyRequest().authenticated()
 

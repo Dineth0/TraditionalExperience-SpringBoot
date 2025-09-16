@@ -3,8 +3,12 @@ $(document).ready(function(){
     const urlParams = new URLSearchParams(window.location.search);
     const registrationId = urlParams.get('registrationId');
     const userId = urlParams.get('userId');
+    const workshopId = urlParams.get('workshopId');
 
-    if(!registrationId || !userId){
+
+
+
+    if(!registrationId || !userId || !workshopId){
         Swal.fire({
             icon: "error",
             title: "Payment Successfully",
@@ -18,6 +22,7 @@ $(document).ready(function(){
         let paymentData = {
             registrationId:registrationId,
             userId:userId,
+            workshopId:workshopId,
             amount: $("input[name='amount']").val(),
             paymentMethod: $("input[name='paymentMethod']:checked").val(),
             status: "PENDING",
@@ -62,4 +67,7 @@ $(document).ready(function(){
             }
         })
     })
+
+
+
 })
