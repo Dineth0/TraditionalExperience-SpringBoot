@@ -286,6 +286,10 @@
             transition: 0.3s;
         }
 
+        #workshopBookingsChart{
+            max-height: 200px !important;
+            max-width: 450px !important;
+        }
         /* Responsive adjustments */
         @media (max-width: 992px) {
             .sidebar {
@@ -393,13 +397,19 @@
 
             <div class="stat-card">
                 <i class="fas fa-chart-line stat-icon"></i>
-                <div class="stat-title">Workshops</div>
-                <div id="activeUserCount" class="stat-value">0</div> <!-- ID added here -->
+                <div class="stat-title">Total Workshops</div>
+                <h1 id="workshopCount" class="stat-value"></h1> <!-- ID added here -->
                 <div class="stat-change change-down">
 <!--                    <i class="fas fa-arrow-down"></i> 3% from last week-->
                 </div>
             </div>
         </div>
+
+        <div class="mt-4 p-4 bg-white rounded shadow">
+            <h4 class="mb-3 text-dark">Workshop-wise Bookings</h4>
+            <canvas id="workshopBookingsChart" height="400"></canvas>
+        </div>
+
 
 
         <!-- Table Section - Same structure but enhanced -->

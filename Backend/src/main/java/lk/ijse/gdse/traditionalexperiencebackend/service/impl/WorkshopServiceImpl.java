@@ -157,5 +157,10 @@ public class WorkshopServiceImpl implements WorkshopService {
         return modelMapper.map(workshops, new TypeToken<List<WorkshopDTO>>() {}.getType());
     }
 
+    @Override
+    public int getTotalWorkshopCount() {
+        return workshopRepo.getTotalWorkshopCount();
+    }
+
 
 }

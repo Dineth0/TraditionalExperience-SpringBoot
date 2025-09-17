@@ -17,6 +17,8 @@ public interface WorkshopService {
     public List<WorkshopDTO> getWorkshopsForPage(int page, int size);
     public int getTotalPages(int size);
     public List<WorkshopDTO> searchWorkshops(String keyword);
+    int getTotalWorkshopCount();
+
 
 
 }

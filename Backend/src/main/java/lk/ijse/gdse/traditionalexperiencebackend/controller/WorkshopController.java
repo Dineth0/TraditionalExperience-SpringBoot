@@ -198,4 +198,11 @@ public class WorkshopController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseDTO(VarList.OK, "Search Success", workshops));
     }
+
+    @GetMapping("/total-count")
+    public ResponseEntity<ResponseDTO> getTotalWorkshopCount() {
+        int count = workshopService.getTotalWorkshopCount();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDTO(VarList.OK, "Total Count", count));
+    }
 }

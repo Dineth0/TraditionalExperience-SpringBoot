@@ -138,6 +138,12 @@ public class WorkshopRegistrationServiceImpl implements WorkshopRegistrationServ
                 });
     }
 
+    @Override
+    public List<Map<String, Object>> getWorkshopBookingCounts() {
+        return workshopRegistrationRepo.getWorkshopBookingCounts();
+    }
+
+
 //    @Override
 //    public List<WorkshopRegistrationDTO> searchWorkshopRegistrations(int keyword) {
 //        System.out.println("Searching by keyword: " + keyword);
@@ -154,6 +160,8 @@ public class WorkshopRegistrationServiceImpl implements WorkshopRegistrationServ
 //        System.out.println("Found jobs: " + workshopRegistrations.size());
 //        return modelMapper.map(workshopRegistrations, new TypeToken<List<WorkshopRegistrationDTO>>() {}.getType());
 //    }
+
+
 
 }
 

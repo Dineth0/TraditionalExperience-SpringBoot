@@ -138,4 +138,9 @@ public class WorkshopRegistrationController {
 //        return ResponseEntity.status(HttpStatus.OK)
 //                .body(new ResponseDTO(VarList.OK, "Search Success", workshopRegistrations));
 //    }
+
+   @GetMapping("/summary/workshop-wise")
+    public ResponseEntity<List<Map<String, Object>>> WorkshopWiseSummary(){
+        return ResponseEntity.ok(workshopRegistrationService.getWorkshopBookingCounts());
+   }
 }

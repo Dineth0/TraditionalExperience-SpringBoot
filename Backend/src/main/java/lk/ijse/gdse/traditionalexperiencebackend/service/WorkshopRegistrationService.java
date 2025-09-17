@@ -21,5 +21,7 @@ public interface WorkshopRegistrationService {
     Page<WorkshopRegistrationDTO> getWorkshopRegistrationsForPAge(Pageable pageable);
 //    List<WorkshopRegistrationDTO> searchWorkshopRegistrations(int keyword);
 
+    public List<Map<String, Object>> getWorkshopBookingCounts();
+
 
 }
