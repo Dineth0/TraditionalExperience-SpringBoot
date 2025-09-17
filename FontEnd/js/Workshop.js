@@ -551,6 +551,95 @@ $(document).ready(function(){
         loadWorkshopForPage();
     }
 
+    function searchWorkshops(){
+        let keyword = $('#searchInput').val();
+        let token  = localStorage.getItem("authtoken")
+
+        if(keyword.trim() === ''){
+            loadWorkshopForPage();
+            return;
+        }
+        $.ajax({
+            method: "GET",
+            url: `http://localhost:8080/api/v1/workshop/searchWorkshops/${encodeURIComponent(keyword)}`,
+            headers: token ? { 'Authorization': 'Bearer ' + token } : {},
+
+            success: function (response) {
+                let workshops = response.data;
+                let container = $(".card-container");
+                let tbody = $('.workshop-tbody');
+
+                tbody.empty();
+                container.empty();
+
+                if (!workshops || workshops.length === 0) {
+                    container.html('<p>No items added yet</p>');
+                    return;
+                }
+
+                workshops.forEach(workshop => {
+                    let workshopTitle = workshop.title;
+                    let workshopDescription = workshop.description;
+                    let duration = workshop.duration;
+                    let language = workshop.language;
+                    let participantCount = workshop.participantCount;
+                    let include = workshop.include;
+                    let fee = workshop.fee;
+                    let address = workshop.address;
+                    let instructorName = workshop.instructorName;
+                    let times= workshop.time;
+                    let imagePaths = workshop.image || []
+
+                    let imagesHtml = imagePaths.length > 0
+                        ? imagePaths.map(img => `<img src="http://localhost:8080/uploads/${img}" alt="Item Image" width="40" style="margin-right: 5px;">`).join('')
+                        : 'No Images Found';
+
+                    let row = `
+                    <tr class="workshop-row" 
+                        data-workshop-title="${workshopTitle}"
+                        data-description="${workshopDescription}"
+                        data-duration="${duration}"
+                        data-language="${language}"
+                        data-participantCount="${participantCount}"
+                        data-include="${include}"
+                        data-fee="${fee}"
+                        data-address="${address}"
+                        data-instructorName = "${instructorName}"
+                        data-time="${times}"
+                       
+                        data-image="${imagePaths.join(';')}">
+                        <td>${workshopTitle}</td>
+                        <td>${workshopDescription}></td>
+                        <td>${duration}</td>
+                        <td>${language}</td>
+                        <td>${participantCount}</td>
+                        <td>${include}</td>
+                        <td>${fee}</td>
+                        <td>${address}</td>
+                        <td>${instructorName}</td>
+                         <td>${times.join(', ')}</td>
+                        
+                        <td>${imagesHtml}</td>
+                        <td>
+                            <button class="btn btn-sm editBtn" style="background-color:bisque" data-id="${workshops.id}" >Edit</button>
+                            <button class="btn btn-sm" style="background-color: cornflowerblue" data-id="${workshops.id}" id="deleteBtn">Delete</button>
+                        </td>
+                    </tr>`;
+                    tbody.append(row);
+                })
+
+
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                alert("Failed to search Bookings!");
+            }
+        })
+    }
+    $('#searchInput').on('keyup', function () {
+        searchWorkshops();
+    })
+
 
 
 })

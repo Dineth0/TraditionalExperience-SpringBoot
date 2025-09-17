@@ -20,4 +20,6 @@ public interface WorkshopRepo extends JpaRepository<Workshop, Long> {
     List<Workshop> findWorkshopPaginated(@Param("limit") int limit, @Param("offset") int offset);
     @Query(value = "SELECT COUNT(*) FROM Workshop ", nativeQuery = true)
     int getTotalWorkshopCount();
+
+    List<Workshop> findWorkshopByTitleContainingIgnoreCase(String keyword);
 }

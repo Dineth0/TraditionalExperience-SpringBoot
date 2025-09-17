@@ -191,4 +191,11 @@ public class WorkshopController {
     public int getTotalPages(@RequestParam(defaultValue = "2") int size) {
         return workshopService.getTotalPages(size);
     }
+
+    @GetMapping("/searchWorkshops/{keyword}")
+    public ResponseEntity<ResponseDTO> searchWorkshops(@PathVariable("keyword") String keyword) {
+        List<WorkshopDTO> workshops = workshopService.searchWorkshops(keyword);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDTO(VarList.OK, "Search Success", workshops));
+    }
 }
