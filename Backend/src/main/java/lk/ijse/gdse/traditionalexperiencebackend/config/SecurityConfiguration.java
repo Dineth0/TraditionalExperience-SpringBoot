@@ -88,7 +88,8 @@ public class SecurityConfiguration {
                                 "api/v1/item/CardPaginated",
                                 "api/v1/item/total-CardPages",
                                 "api/v1/item/searchItems/**",
-                                "api/v1/workshop/searchWorkshops/"
+                                "api/v1/workshop/searchWorkshops/",
+                                "api/v1/user/getByEmail"
 
                         ).permitAll()
                         .requestMatchers("/api/v1/item/addItem",
@@ -115,7 +116,8 @@ public class SecurityConfiguration {
                                 "api/v1/payment/paginated",
                                 "api/v1/payment/total-pages",
                                 "api/v1/user/paginated," ,
-                                        "api/v1/user/total-pages")
+                                "api/v1/user/total-pages",
+                                "api/v1/user/searchUsers/")
                         .hasAuthority("ADMIN")
                         .anyRequest().authenticated()
 

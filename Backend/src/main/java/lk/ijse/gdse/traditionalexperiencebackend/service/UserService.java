@@ -24,7 +24,9 @@ public interface UserService {
 
     public int getTotalPages(int size);
 
-    public List<UserDTO> searchUsers(String keyword);
+//    public List<UserDTO> searchUsers(String keyword);
+
+    public List<UserDTO>searcherUsersByRole(String keyword);
 
 
 

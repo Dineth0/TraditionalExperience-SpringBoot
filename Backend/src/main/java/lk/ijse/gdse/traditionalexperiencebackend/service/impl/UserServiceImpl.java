@@ -2,9 +2,11 @@ package lk.ijse.gdse.traditionalexperiencebackend.service.impl;
 
 
 import lk.ijse.gdse.traditionalexperiencebackend.dto.PaymentDTO;
+import lk.ijse.gdse.traditionalexperiencebackend.dto.TraditionalItemDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.UserDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.Payment;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.RoleType;
+import lk.ijse.gdse.traditionalexperiencebackend.entity.TraditionalItem;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.User;
 import lk.ijse.gdse.traditionalexperiencebackend.repo.UserRepo;
 import lk.ijse.gdse.traditionalexperiencebackend.service.UserService;
@@ -72,10 +74,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         }
 
 
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 
-        String hashedPassword = encoder.encode(newPassword);
+        String hashedPassword = passwordEncoder.encode(newPassword);
 
 
         user.setPassword(hashedPassword);
@@ -176,9 +178,20 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return (int) Math.ceil((double) paymentCount / size);
     }
 
+//    @Override
+//    public List<UserDTO> searchUsers(String keyword) {
+//        List<User> users = userRepo.findUserByUsernameContainingIgnoreCase(keyword);
+//        return modelMapper.map(users, new TypeToken<List<UserDTO>>() {}.getType());
+//    }
+
     @Override
-    public List<UserDTO> searchUsers(String keyword) {
-        return List.of();
+    public List<UserDTO> searcherUsersByRole(String keyword) {
+        List<User> users = userRepo.findAll()
+                .stream()
+                .filter(user -> user.getRole().name().toLowerCase().contains(keyword.toLowerCase()))
+                .toList();
+
+        return modelMapper.map(users, new TypeToken<List<UserDTO>>() {}.getType());
     }
 
 

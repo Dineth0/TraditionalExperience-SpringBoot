@@ -4,10 +4,7 @@ package lk.ijse.gdse.traditionalexperiencebackend.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lk.ijse.gdse.traditionalexperiencebackend.config.JwtFilter;
-import lk.ijse.gdse.traditionalexperiencebackend.dto.AuthDTO;
-import lk.ijse.gdse.traditionalexperiencebackend.dto.PaymentDTO;
-import lk.ijse.gdse.traditionalexperiencebackend.dto.ResponseDTO;
-import lk.ijse.gdse.traditionalexperiencebackend.dto.UserDTO;
+import lk.ijse.gdse.traditionalexperiencebackend.dto.*;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.User;
 import lk.ijse.gdse.traditionalexperiencebackend.repo.UserRepo;
 import lk.ijse.gdse.traditionalexperiencebackend.service.UserService;
@@ -114,7 +111,12 @@ public class UserController {
 
         User user = userService.findByEmail(email);
         if (user != null) {
-            return ResponseEntity.ok(Collections.singletonMap("userId", user.getId()));
+            Map<String, Object> users = new HashMap<>();
+            users.put("userId", user.getId());
+            users.put("username", user.getUsername());
+            users.put("email", user.getEmail());
+            return ResponseEntity.ok(users);
+
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
     }
@@ -130,4 +132,17 @@ public class UserController {
     }
 
 
+//    @GetMapping("/searchUsers/{keyword}")
+//    public ResponseEntity<ResponseDTO> searchUsers(@PathVariable("keyword") String keyword) {
+//        List<UserDTO> users = userService.searchUsers(keyword);
+//        return ResponseEntity.status(HttpStatus.OK)
+//                .body(new ResponseDTO(VarList.OK, "Search Success", users));
+//    }
+
+    @GetMapping("/searchUsersByRole/{keyword}")
+    public ResponseEntity<ResponseDTO> searchUsersByRole(@PathVariable("keyword") String keyword) {
+        List<UserDTO> users = userService.searcherUsersByRole(keyword);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDTO(VarList.OK, "Search Success", users));
+    }
 }

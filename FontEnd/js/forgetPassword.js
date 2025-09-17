@@ -70,8 +70,8 @@ $(document).ready(function () {
         $.ajax({
             url: 'http://localhost:8080/api/v1/auth/reset-password',
             type: 'POST',
-            data: {email: email, newPassword: newPassword},
-            success: function (response) {
+            contentType: 'application/json',
+            data: JSON.stringify({ email: email, newPassword: newPassword }),            success: function (response) {
                 Swal.fire({
                     title: 'Success!',
                     text: 'Password updated successfully!',
