@@ -330,6 +330,20 @@
                 <li class="nav-item"><a class="nav-link" href="#">Reviews</a></li>
                 <button id="logout">Logout</button>
             </ul>
+            <div class="dropdown">
+                <button class="btn dropdown-toggle d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown">
+                    <div id="userIcon" class="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center icon"
+                         style="width:40px; height:40px; font-size:14px; font-weight:bold;">
+                    </div>
+                    <span id="userName"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="home.html"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                </ul>
+            </div>
         </div>
     </nav>
 </header>
@@ -396,7 +410,7 @@
                         <div class="w-100">
                             <span class="label">Date</span>
                             <span class="value" id="dateDisplay">Pick a date</span>
-                            <input type="date" class="form-control d-none" id="bookingDate">
+                            <input type="date" class="form-control d-none" id="bookingDate" min="">
                         </div>
 
                     </div>
@@ -603,7 +617,7 @@
 
                 <div class="mb-3">
                     <label for="wentDate" class="form-label">Date visited</label>
-                    <input type="date" id="wentDate" name="wentDate" class="form-control">
+                    <input type="date" id="wentDate" name="wentDate" class="form-control" max="">
                 </div>
 
 
@@ -848,6 +862,9 @@
 
 
         })
+
+        const today = new Date().toISOString().split('T')[0]
+        $('#bookingDate').attr('min', today)
 
         $('#dateCell').on('click', function () {
             $('#bookingDate').removeClass('d-none')[0].click();

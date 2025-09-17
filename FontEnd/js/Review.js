@@ -40,6 +40,8 @@ $(document).ready(function () {
             }
         });
     });
+    const today = new Date().toISOString().split('T')[0]
+    $('#wentDate').attr('max', today)
 
     $("#reviewForm").on("submit", function(e){
         e.preventDefault();
@@ -51,6 +53,8 @@ $(document).ready(function () {
             $("#ratingText").text("Please select a rating").addClass("text-danger");
             return;
         }
+
+
 
         let review = {
             visitorName:$("#name").val(),
