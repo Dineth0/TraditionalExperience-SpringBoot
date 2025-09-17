@@ -179,6 +179,20 @@
                 <li class="nav-item"><a class="nav-link" href="#">Reviews</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
             </ul>
+            <div class="dropdown">
+                <button class="btn dropdown-toggle d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown">
+                    <div id="userIcon" class="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center icon"
+                         style="width:40px; height:40px; font-size:14px; font-weight:bold;">
+                    </div>
+                    <span id="userName"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="home.html"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                </ul>
+            </div>
         </div>
     </nav>
 </header>
@@ -260,6 +274,8 @@
 <script src="js/jquery-3.7.1.min.js"></script>
 <script src="js/item.js"></script>
 <script src="js/jk.js"></script>
+<script src="js/UserManage.js"></script>
+<script src="js/SignIn.js"></script>
 <!--<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>-->
 
 </body>

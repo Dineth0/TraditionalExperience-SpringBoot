@@ -105,3 +105,10 @@ $(document).on('click', '#logout', function () {
 
     window.location.href= "home.html"
 })
+
+$(document).on('click', '.dropdown-item', function () {
+    localStorage.removeItem("authtoken");
+    sessionStorage.removeItem("authtoken")
+
+    window.location.href= "home.html"
+})
