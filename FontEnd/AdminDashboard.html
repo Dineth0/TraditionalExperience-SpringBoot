@@ -353,10 +353,20 @@
                 <li><span class="dropdown-item">No new notifications</span></li>
             </ul>
         </li>
-        <button class="btn profile-btn">
-            <i class="fas fa-user-circle"></i>
-            <span>Admin Profile</span>
-        </button>
+        <div class="dropdown">
+            <button class="btn dropdown-toggle d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown">
+                <div id="userIcon" class="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center icon"
+                     style="width:40px; height:40px; font-size:14px; font-weight:bold;">
+                </div>
+                <span id="userName"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
+                <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+            </ul>
+        </div>
         <button id="logout">LogOut</button>
     </div>
 
@@ -499,6 +509,6 @@
 </script>
 
 <script src="js/jquery-3.7.1.min.js"></script>
-
+<script src="js/UserManage.js"></script>
 </body>
 </html>
