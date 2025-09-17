@@ -194,5 +194,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return modelMapper.map(users, new TypeToken<List<UserDTO>>() {}.getType());
     }
 
+    @Override
+    public int getTotalUserCount() {
+        return userRepo.getTotalUserCount();
+    }
+
 
 }

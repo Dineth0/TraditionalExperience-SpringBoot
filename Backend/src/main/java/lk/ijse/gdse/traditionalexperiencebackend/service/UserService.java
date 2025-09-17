@@ -28,6 +28,10 @@ public interface UserService {
 
     public List<UserDTO>searcherUsersByRole(String keyword);
 
+    int getTotalUserCount();
+
+
+
 
 
 

@@ -377,14 +377,14 @@
             <div class="stat-card">
                 <i class="fas fa-users stat-icon"></i>
                 <div class="stat-title">Total Users</div>
-                <div class="stat-value" id="totalUsers">1,250</div>
+                <h1 class="stat-value" id="totalUsers"></h1>
                 <div class="stat-change change-up">
 <!--                    <i class="fas fa-arrow-up"></i> 12% from last month-->
                 </div>
             </div>
             <div class="stat-card">
                 <i class="fas fa-briefcase stat-icon"></i>
-                <div class="stat-title">Items Lists</div>
+                <div class="stat-title">Traditional Items</div>
                 <div id="totalJobCount" class="stat-value">0</div> <!-- Dynamic count -->
                 <div class="stat-change change-up">
 <!--                    <i class="fas fa-arrow-up"></i> 8% from last month-->
@@ -393,7 +393,7 @@
 
             <div class="stat-card">
                 <i class="fas fa-chart-line stat-icon"></i>
-                <div class="stat-title">All Users</div>
+                <div class="stat-title">Workshops</div>
                 <div id="activeUserCount" class="stat-value">0</div> <!-- ID added here -->
                 <div class="stat-change change-down">
 <!--                    <i class="fas fa-arrow-down"></i> 3% from last week-->
@@ -403,27 +403,7 @@
 
 
         <!-- Table Section - Same structure but enhanced -->
-        <div class="table-card">
-            <div class="table-header  text-white">
-                <span>Recent Users</span>
-                <button class="btn btn-light btn-sm">View All</button>
-            </div>
-            <div class="table-responsive p-3">
-                <table class="table modern-table" id="userTable">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>User Name</th>
-                        <th>Email</th>
-                        <th>Account Type</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- User data will be injected here -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
+
     </div>
 </div>
 
@@ -447,6 +427,7 @@
         }
     })
     $(document).ready(function () {
+
         $(".sidebar a").click(function (e) {
             e.preventDefault();
 
@@ -457,6 +438,7 @@
 
         });
         loadNotifications();
+
 
         setInterval(loadNotifications, 10000);
     });
@@ -504,11 +486,15 @@
                 }
             })
         })
+
     }
+
 
 </script>
 
 <script src="js/jquery-3.7.1.min.js"></script>
 <script src="js/UserManage.js"></script>
+<script src="js/Dashboard.js"></script>
+
 </body>
 </html>

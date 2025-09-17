@@ -22,7 +22,7 @@ public interface UserRepo extends JpaRepository<User, Long> {
   @Query(value = "SELECT * FROM User  LIMIT :limit OFFSET :offset", nativeQuery = true)
   List<User> findUserPaginated(@Param("limit") int limit, @Param("offset") int offset);
 
-  @Query(value = "SELECT COUNT(*) FROM User ", nativeQuery = true)
+  @Query(value = "SELECT COUNT(*) FROM user ", nativeQuery = true)
   int getTotalUserCount();
 
 
