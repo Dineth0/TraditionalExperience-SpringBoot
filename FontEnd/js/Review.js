@@ -257,4 +257,62 @@ $(document).ready(function () {
         loadReviewsForPage();
     }
 
+    function searchReviews(){
+        let keyword = $('#searchInput').val();
+        let token  = localStorage.getItem("authtoken")
+
+        if(keyword.trim() === ''){
+            loadReviewsForPage();
+            return;
+        }
+        $.ajax({
+            method: "GET",
+            url: `http://localhost:8080/api/v1/review/search/${encodeURIComponent(keyword)}`,
+            headers: token ? { 'Authorization': 'Bearer ' + token } : {},
+
+            success: function (response) {
+                let reviews = response.data;
+                let container = $(".card-container");
+                let tbody = $('.review-tbody');
+
+                tbody.empty();
+                container.empty();
+
+                if (!reviews || reviews.length === 0) {
+                    container.html('<p>No items added yet</p>');
+                    return;
+                }
+
+                reviews.forEach((review) => {
+                    let row = `
+                            <tr class="review-row">
+                                <td>${review.workshopName}</td>
+                                <td>${review.visitorName}             </td>
+                                <td>${renderStars(review.rating)}</td>
+                                <td>${review.title}</td>
+                                <td>${review.description}</td>
+                                <td>${review.wentDate}</td>
+                                <td>${review.reviewDate}</td>
+                                
+                                <td>
+                                    <button class="btn btn-sm btn-warning deleteBtn" data-id="${review.id}" >
+                                    Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    tbody.append(row);
+                });
+
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                alert("Failed to search Bookings!");
+            }
+        })
+    }
+    $('#searchInput').on('keyup', function () {
+        searchReviews();
+    })
+
 })

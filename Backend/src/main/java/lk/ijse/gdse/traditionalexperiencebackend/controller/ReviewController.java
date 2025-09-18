@@ -146,5 +146,20 @@ public class ReviewController {
     public int getTotalPages(@RequestParam(defaultValue = "2") int size) {
         return reviewService.getTotalPages(size);
     }
+//    @GetMapping("/searchItems/{keyword}")
+//    public ResponseEntity<ResponseDTO> searchReviews(@PathVariable("keyword") String keyword) {
+//        List<ReviewDTO> reviews = reviewService.searchReviews(keyword);
+//        return ResponseEntity.status(HttpStatus.OK)
+//                .body(new ResponseDTO(VarList.OK, "Search Success", reviews));
+//    }
+
+
+    @GetMapping("/search/{keyword}")
+    public ResponseEntity<ResponseDTO> searchReviews(@PathVariable("keyword") String keyword) {
+        List<ReviewDTO> reviews = reviewService.searchReviewsByWorkshopName(keyword);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDTO(VarList.OK, "Search Success", reviews));
+    }
+
 
 }

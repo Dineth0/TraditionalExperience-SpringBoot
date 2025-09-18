@@ -145,4 +145,36 @@ public class ReviewServiceImpl implements ReviewService {
         return (int) Math.ceil((double) itemCount / size);
     }
 
+    @Override
+    public List<ReviewDTO> searchReviewsByWorkshopName(String keyword) {
+        List<Review> reviews = reviewRepo.findByWorkshopTitleContainingIgnoreCase(keyword);
+        return reviews.stream().map(review -> {
+            ReviewDTO reviewDTO = modelMapper.map(review, ReviewDTO.class);
+            if(review.getWorkshop() != null){
+                reviewDTO.setWorkshopName(review.getWorkshop().getTitle());
+            }
+            if(review.getUser() != null){
+                reviewDTO.setUserId(review.getUser().getId());
+            }
+            reviewDTO.setWorkshopId(review.getWorkshop() != null ? review.getWorkshop().getId() : null);
+            return reviewDTO;
+        }).toList();
+    }
+
+
+//    @Override
+//    public List<ReviewDTO> searchReviews(String keyword) {
+//        System.out.println("Searching by keyword: " + keyword);
+//        List<Review> reviews = reviewRepo.findByWorkshopNameContainingIgnoreCase(keyword);
+//        System.out.println("Found reviews: " + reviews.size());
+//
+//        return reviews.stream().map(review -> {
+//            ReviewDTO dto = modelMapper.map(review, ReviewDTO.class);
+//            dto.setUserId(review.getUser() != null ? review.getUser().getId() : null);
+//            dto.setWorkshopId(review.getWorkshop() != null ? review.getWorkshop().getId() : null);
+//            dto.setWorkshopName(review.getWorkshop() != null ? review.getWorkshop().getTitle() : null);
+//            return dto;
+//        }).toList();
+//    }
+
 }

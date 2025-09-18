@@ -23,4 +23,11 @@ public interface ReviewRepo extends JpaRepository<Review, Long> {
 
     @Query(value = "SELECT COUNT(*) FROM Review ", nativeQuery = true)
     int getTotalReviewCount();
+
+//    List<Review> findReviewByWorkshopNameContainingIgnoreCase(String keyword);
+//
+//    List<Review> findByWorkshopNameContainingIgnoreCase(String keyword);
+
+    @Query("SELECT r FROM Review r WHERE LOWER(r.workshop.title) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    List<Review> findByWorkshopTitleContainingIgnoreCase(@Param("keyword") String keyword);
 }
