@@ -28,6 +28,6 @@ public interface ReviewRepo extends JpaRepository<Review, Long> {
 //
 //    List<Review> findByWorkshopNameContainingIgnoreCase(String keyword);
 
-    @Query("SELECT r FROM Review r WHERE LOWER(r.workshop.title) LIKE LOWER(CONCAT('%', :keyword, '%'))")
-    List<Review> findByWorkshopTitleContainingIgnoreCase(@Param("keyword") String keyword);
+//    @Query("SELECT r FROM Review r WHERE LOWER(r.workshop.title) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    List<Review> findByWorkshopTitleContainingIgnoreCase(String keyword);
 }
