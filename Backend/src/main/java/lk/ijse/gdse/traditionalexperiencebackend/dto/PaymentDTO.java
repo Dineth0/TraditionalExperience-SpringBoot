@@ -1,5 +1,6 @@
 package lk.ijse.gdse.traditionalexperiencebackend.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.PaymentMethod;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +15,7 @@ import java.sql.Date;
 public class PaymentDTO {
     private Long id;
     private double amount;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private PaymentMethod paymentMethod;
     private String status;
     private Date paymentDate;

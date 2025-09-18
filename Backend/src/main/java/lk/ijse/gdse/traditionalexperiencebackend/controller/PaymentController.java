@@ -57,4 +57,11 @@ public class PaymentController {
     public int getTotalPages(@RequestParam(defaultValue = "2") int size) {
         return paymentService.getTotalPages(size);
     }
+
+    @GetMapping("/search/{keyword}")
+    public ResponseEntity<ResponseDTO> searchPayments(@PathVariable("keyword") String keyword) {
+        List<PaymentDTO> payments = paymentService.searchPaymentsByWorkshopName(keyword);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDTO(VarList.OK, "Search Success", payments));
+    }
 }

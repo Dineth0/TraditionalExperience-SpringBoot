@@ -10,4 +10,5 @@ public interface PaymentService {
     public List<PaymentDTO> getAllPayments();
     public List<PaymentDTO> getPaymentsForPage(int page, int size);
     public int getTotalPages(int size);
+    public List<PaymentDTO> searchPaymentsByWorkshopName(String keyword);
 }

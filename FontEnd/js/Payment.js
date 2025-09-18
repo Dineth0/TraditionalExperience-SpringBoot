@@ -1,24 +1,24 @@
 $(document).ready(function(){
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const registrationId = urlParams.get('registrationId');
-    const userId = urlParams.get('userId');
-    const workshopId = urlParams.get('workshopId');
+   let registrationId = sessionStorage.getItem('registrationId');
+   let userId = sessionStorage.getItem('userId');
+   let workshopId = sessionStorage.getItem('workshopId');
 
 
 
 
-    if(!registrationId || !userId || !workshopId){
+    if(!registrationId || !userId || !workshopId  ){
         Swal.fire({
             icon: "error",
-            title: "Payment Successfully",
+            title: "Can't pay to payment",
             showConfirmButton: false,
             timer: 2000
         })
         $(".btn-pay").prop("disabled", false).text("Invalid Link")
         return;
     }
-    $("form").submit(function(){
+    $("form").submit(function(e){
+        e.preventDefault();
         let paymentData = {
             registrationId:registrationId,
             userId:userId,

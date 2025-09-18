@@ -70,9 +70,9 @@ public class PaymentServiceImpl implements PaymentService {
         return payments.stream()
                 .map(reg -> {
                     PaymentDTO paymentDTO = modelMapper.map(reg, PaymentDTO.class);
-                    if(reg.getWorkshop() != null){
-                        paymentDTO.setWorkshopName(reg.getWorkshop().getTitle());
-                    }
+//                    if(reg.getWorkshop() != null){
+//                        paymentDTO.setWorkshopName(reg.getWorkshop().getTitle());
+//                    }
 
                     return paymentDTO;
                 }).toList();
@@ -87,8 +87,8 @@ public class PaymentServiceImpl implements PaymentService {
                     PaymentDTO paymentDTO = modelMapper.map(pay, PaymentDTO.class);
                     if(pay.getWorkshop() != null){
                         paymentDTO.setWorkshopName(pay.getWorkshop().getTitle());
-                        paymentDTO.setUserName(pay.getUser().getUsername());
                     }
+                    paymentDTO.setUserName(pay.getUser().getUsername());
                     return paymentDTO;
                 }).toList();
     }
@@ -97,6 +97,22 @@ public class PaymentServiceImpl implements PaymentService {
     public int getTotalPages(int size) {
         int paymentCount = paymentRepo.getTotalPaymentCount();
         return (int) Math.ceil((double) paymentCount / size);
+    }
+
+    @Override
+    public List<PaymentDTO> searchPaymentsByWorkshopName(String keyword) {
+        List<Payment> payments = paymentRepo.findByWorkshopTitleContainingIgnoreCase(keyword);
+        return payments.stream().map(payment -> {
+            PaymentDTO paymentDTO = modelMapper.map(payment, PaymentDTO.class);
+            if(payment.getWorkshop() != null){
+                paymentDTO.setWorkshopName(payment.getWorkshop().getTitle());
+            }
+            if(payment.getUser() != null){
+                paymentDTO.setUserId(payment.getUser().getId());
+            }
+            paymentDTO.setWorkshopId(payment.getWorkshop() != null ? payment.getWorkshop().getId() : null);
+            return paymentDTO;
+        }).toList();
     }
 
 }

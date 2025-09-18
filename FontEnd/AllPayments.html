@@ -218,6 +218,59 @@
       currentPage = page;
       loadPaymentsForPage();
     }
+    function searchPayments(){
+      let keyword = $('#searchInput').val();
+      let token  = localStorage.getItem("authtoken")
+
+      if(keyword.trim() === ''){
+        loadPaymentsForPage();
+        return;
+      }
+      $.ajax({
+        method: "GET",
+        url: `http://localhost:8080/api/v1/payment/search/${encodeURIComponent(keyword)}`,
+        headers: token ? { 'Authorization': 'Bearer ' + token } : {},
+
+        success: function (response) {
+          let payments = response.data;
+          let container = $(".card-container");
+          let tbody = $('.payment-tbody');
+
+          tbody.empty();
+          container.empty();
+
+          if (!payments || payments.length === 0) {
+            container.html('<p>No items added yet</p>');
+            return;
+          }
+
+          payments.forEach((payment) => {
+           let row = `
+                            <tr class="payment-row">
+                                <td>${payment.workshopName}</td>
+                               <td>${payment.userName}</td>
+                                <td>${payment.paymentDate}</td>
+                                <td>${payment.paymentMethod}</td>
+                                <td>${payment.amount}</td>
+                                <td>${payment.status}</td>
+
+                            </tr>
+                        `;
+           tbody.append(row);
+          });
+
+
+
+        },
+        error: function (xhr, status, error) {
+          console.log(xhr.responseText);
+          alert("Failed to search Bookings!");
+        }
+      })
+    }
+    $('#searchInput').on('keyup', function () {
+      searchPayments();
+    })
   })
 </script>
 </body>

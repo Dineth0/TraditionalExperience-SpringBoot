@@ -19,4 +19,6 @@ public interface PaymentRepo extends JpaRepository<Payment, Long> {
 
     @Query(value = "SELECT COUNT(*) FROM payment ", nativeQuery = true)
     int getTotalPaymentCount();
+
+    List<Payment> findByWorkshopTitleContainingIgnoreCase(String keyword);
 }
