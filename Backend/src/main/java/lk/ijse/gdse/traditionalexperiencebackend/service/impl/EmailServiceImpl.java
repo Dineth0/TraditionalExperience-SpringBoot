@@ -75,7 +75,7 @@ public class EmailServiceImpl implements EmailService {
         String body = String.format(
                 "Hello Instructor,\n\n" +
                         "You have received a new workshop booking detail. Please find the details below:\n\n" +
-                        "Workshop Name: %s\n" + // Added Workshop Name
+                        "Workshop Name: %s\n" +
                         "Selected Date: %s\n" +
                         "Selected Time: %s\n" +
                         "Number of Members: %d\n\n" +
@@ -90,7 +90,6 @@ public class EmailServiceImpl implements EmailService {
                 workshopRegistrationDTO.getSelectWorkshopDate(),
                 workshopRegistrationDTO.getWorkshopTime(),
                 workshopRegistrationDTO.getMember(),
-
                 workshopRegistrationDTO.getEmail(),
                 workshopRegistrationDTO.getPhone(),
                 workshopRegistrationDTO.getCountry(),
