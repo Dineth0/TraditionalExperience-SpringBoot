@@ -272,7 +272,7 @@ $(document).ready(function(){
 
             error: function(err){
                 console.log(err);
-                alert("Failed to load Feedback");
+                // alert("Failed to load Feedback");
             }
         });
     }
