@@ -303,6 +303,196 @@
             padding: 0;
         }
 
+        #WorkshopBookModal .modal-content {
+            background: linear-gradient(135deg, #3e1f0d, #5a2d1a);
+            color: #fdf2d3;
+            border: 2px solid #c89f65;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+            font-family: 'Crimson Text', serif;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        /* Header */
+        #WorkshopBookModal .modal-header {
+            background: linear-gradient(90deg, rgba(90,40,10,0.95), rgba(120,60,20,0.95));
+            border-bottom: 2px solid #d4af37;
+            color: #ffdd99;
+        }
+        #WorkshopBookModal .modal-title {
+            font-weight: bold;
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, #f1cc7f, #ffcc33, #ff9800);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Form labels */
+        #WorkshopBookModal label {
+            font-weight: bold;
+            color: #f1cc7f;
+        }
+
+        /* Inputs */
+        #WorkshopBookModal .form-control {
+            background: #fdf2d3;
+            border: 2px solid #c89f65;
+            border-radius: 10px;
+            color: #3e1f0d;
+            transition: all 0.3s ease;
+        }
+        #WorkshopBookModal .form-control:focus {
+            background: #fff8e7;
+            border-color: #ffcc33;
+            box-shadow: 0 0 12px rgba(255,204,51,0.6);
+            color: #3e1f0d;
+        }
+
+        /* Footer buttons */
+        #WorkshopBookModal .modal-footer .btn-primary {
+            background: linear-gradient(90deg, #9e1b1b, #d84315);
+            border: none;
+            font-weight: bold;
+            padding: 0.6rem 1.4rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        #WorkshopBookModal .modal-footer .btn-primary:hover {
+            background: linear-gradient(90deg, #6d0f0f, #b71c1c);
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {opacity: 0; transform: translateY(40px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        /* === Review Modal Styling === */
+        #ReviewModal .modal-content {
+            background: linear-gradient(135deg, #3e1f0d, #5a2d1a);
+            color: #fdf2d3;
+            border: 2px solid #c89f65;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+            font-family: 'Crimson Text', serif;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        /* Header */
+        #ReviewModal .modal-header {
+            background: linear-gradient(90deg, rgba(90,40,10,0.95), rgba(120,60,20,0.95));
+            border-bottom: 2px solid #d4af37;
+            color: #ffdd99;
+        }
+        #ReviewModal .modal-title {
+            font-weight: bold;
+            font-size: 1.6rem;
+            background: linear-gradient(45deg, #f1cc7f, #ffcc33, #ff9800);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Labels */
+        #ReviewModal label {
+            font-weight: bold;
+            color: #f1cc7f;
+        }
+
+        /* Inputs & Textarea */
+        #ReviewModal .form-control {
+            background: #fdf2d3;
+            border: 2px solid #c89f65;
+            border-radius: 10px;
+            color: #3e1f0d;
+            transition: all 0.3s ease;
+        }
+        #ReviewModal .form-control:focus {
+            background: #fff8e7;
+            border-color: #ffcc33;
+            box-shadow: 0 0 12px rgba(255,204,51,0.6);
+            color: #3e1f0d;
+        }
+
+        /* Rating Stars */
+        #ReviewModal #stars {
+            font-size: 2rem;
+            color: #ccc;
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.2s ease;
+        }
+        #ReviewModal .star:hover,
+        #ReviewModal .star.hover,
+        #ReviewModal .star.selected {
+            color: #ffcc33;
+            transform: scale(1.2);
+        }
+
+        /* Buttons */
+        #ReviewModal .btn-primary {
+            background: linear-gradient(90deg, #9e1b1b, #d84315);
+            border: none;
+            font-weight: bold;
+            padding: 0.6rem 1.4rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        #ReviewModal .btn-primary:hover {
+            background: linear-gradient(90deg, #6d0f0f, #b71c1c);
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+        #ReviewModal .btn-outline-secondary {
+            border-color: #c89f65;
+            color: #f1cc7f;
+            font-weight: bold;
+        }
+        #ReviewModal .btn-outline-secondary:hover {
+            background-color: #c89f65;
+            color: #3e1f0d;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {opacity: 0; transform: translateY(40px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        .review-modal-content {
+            background: #fffaf3;
+            border-radius: 15px;
+            border: 2px solid #d4a373;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+            padding: 15px;
+            font-family: 'Segoe UI', serif;
+        }
+
+        .text-brown {
+            color: #5a3e2b;
+        }
+
+        .bg-brown {
+            background: linear-gradient(135deg, #8b5e34, #6f4e37);
+        }
+
+        .custom-close {
+            filter: brightness(0) saturate(100%) invert(22%) sepia(16%) saturate(1255%) hue-rotate(347deg) brightness(93%) contrast(92%);
+        }
+
+        .stars span {
+            font-size: 18px;
+            color: #d4a373;
+            margin-right: 2px;
+        }
+
+        #reviewFullDesc {
+            background: #fff;
+            border-left: 4px solid #d4a373;
+            padding: 10px 15px;
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+
 
 
 
@@ -529,7 +719,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="WorkshopBookModalLabel">Edit Job</h5>
+                <h5 class="modal-title" id="WorkshopBookModalLabel">Booking Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="WorkshopBookForm">
@@ -559,7 +749,7 @@
 
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label>Total Fee</label><span class="text-danger font-weight-bold" id="totalFee">*</span>
+                            <label>Total Fee: </label><span class="text-danger font-weight-bold" id="totalFee">*</span>
                         </div>
                     </div>
 
@@ -635,18 +825,23 @@
 <!-- Review Details Modal -->
 <div class="modal fade" id="reviewDetailsModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Review Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <div class="modal-content review-modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold text-brown">🌿 Review Details</h5>
+                <button type="button" class="btn-close custom-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <div class="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center icon"
-                     style="width:40px; height:40px; font-size:14px; font-weight:bold;">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div class="rounded-circle bg-brown text-white d-flex align-items-center justify-content-center icon"
+                         style="width:50px; height:50px; font-size:16px; font-weight:bold;">
+                        <span id="reviewVisitorIcon">A</span>
+                    </div>
+                    <div>
+                        <h6 id="reviewVisitorName" class="mb-1 fw-semibold text-dark"></h6>
+                        <div id="reviewRating" class="stars"></div>
+                    </div>
                 </div>
-                <h6 id="reviewVisitorName" class=""></h6>
-                <div id="reviewRating"></div>
-                <p id="reviewFullDesc"></p>
+                <p id="reviewFullDesc" class="text-secondary fst-italic"></p>
             </div>
         </div>
     </div>
@@ -987,8 +1182,11 @@
                             icon:'success',
                             title:'Booking Successfully',
                         });
+                        sessionStorage.setItem('registrationId', response.data.id);
+                        sessionStorage.setItem('userId', response.data.userId);
+                        sessionStorage.setItem('workshopId', response.data.workshopId);
 
-                        window.location.href = `Payment.html?registrationId=${response.data.id}&userId=${userId}`;
+                        window.location.href = `Payment.html`;
 
 
                     } else {
