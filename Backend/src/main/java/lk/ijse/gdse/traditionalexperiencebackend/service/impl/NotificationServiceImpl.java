@@ -22,6 +22,9 @@ public class NotificationServiceImpl implements NotificationService {
     private NotificationRepo notificationRepo;
 
     @Autowired
+    private UserRepo userRepo;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     @Override
@@ -29,9 +32,9 @@ public class NotificationServiceImpl implements NotificationService {
         try{
             Notification notification = modelMapper.map(notificationDTO, Notification.class);
 
-            if(notificationDTO.getUserId()!= null){
-                User user = new User();
-                user.setId(notificationDTO.getUserId());
+            if(notificationDTO.getUserId() != null){
+                User user = userRepo.findById(notificationDTO.getUserId())
+                        .orElseThrow(() -> new RuntimeException("User not found"));
                 notification.setUser(user);
             }
             notificationRepo.save(notification);

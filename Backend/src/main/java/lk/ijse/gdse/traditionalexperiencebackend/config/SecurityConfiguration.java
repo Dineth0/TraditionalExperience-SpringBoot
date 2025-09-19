@@ -122,7 +122,8 @@ public class SecurityConfiguration {
                                 "api/v1/workshop/total-count",
                                 "api/v1/workshopRegistration/summary/workshop-wise",
                                 "api/v1/workshopRegistration/searchWorkshopBookings/**",
-                                "api/v1/review/search/**")
+                                "api/v1/review/search/**",
+                                "api/v1/workshopRegistration/total-pages")
                         .hasAuthority("ADMIN")
                         .anyRequest().authenticated()
 

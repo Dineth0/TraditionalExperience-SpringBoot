@@ -42,7 +42,7 @@ public class WorkshopRegistrationController {
                 NotificationDTO notificationDTO = new NotificationDTO();
                 WorkshopDTO workshopDTO = workshopService.getWorkshopById(workshopRegistrationDTO.getWorkshopId());
                 notificationDTO.setMessage("New Workshop Booking For " + workshopDTO.getTitle() );
-                Long adminUserId = 1L;
+                Long adminUserId = 2L;
                 notificationDTO.setUserId(adminUserId);
                 notificationDTO.setReadStatus(false);
                 notificationDTO.setCreateAt(new  java.sql.Date(System.currentTimeMillis()));
@@ -52,6 +52,7 @@ public class WorkshopRegistrationController {
                 return ResponseEntity.status(HttpStatus.CREATED)
                         .body(new ResponseDTO(VarList.Created, "Registration successfully", savedDTO));
             }else {
+
                 return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
                         .body(new ResponseDTO(VarList.Not_Acceptable, "This time has not found", null));
             }
@@ -116,6 +117,19 @@ public class WorkshopRegistrationController {
 //
 //    }
 
+
+    @GetMapping("/searchWorkshopBookings/{date}")
+    public ResponseEntity<ResponseDTO> searchWorkshopBookings(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) java.sql.Date date){
+        List<WorkshopRegistrationDTO> workshopRegistrations = workshopRegistrationService.searchWorkshopRegistrations(date);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDTO(VarList.OK, "Search Success", workshopRegistrations));
+    }
+
+   @GetMapping("/summary/workshop-wise")
+    public ResponseEntity<List<Map<String, Object>>> WorkshopWiseSummary(){
+        return ResponseEntity.ok(workshopRegistrationService.getWorkshopBookingCounts());
+   }
+
     @GetMapping("/RegistrationPagination")
     public ResponseEntity<ResponseDTO> pagination(@RequestParam(defaultValue = "0") int page,
                                                   @RequestParam(defaultValue = "5") int size) {
@@ -131,16 +145,9 @@ public class WorkshopRegistrationController {
                     .body(new ResponseDTO(VarList.Internal_Server_Error, "Instructor Deleted", null));
         }
     }
+    @GetMapping("/total-pages")
+    public int getTotalPages(@RequestParam(defaultValue = "3") int size) {
+        return workshopRegistrationService.getTotalPages(size);
+    }
 
-//    @GetMapping("/searchWorkshopBookings/{keyword}")
-//    public ResponseEntity<ResponseDTO> searchWorkshopBookings(@PathVariable("keyword") int keyword){
-//        List<WorkshopRegistrationDTO> workshopRegistrations = workshopRegistrationService.searchWorkshopRegistrations(keyword);
-//        return ResponseEntity.status(HttpStatus.OK)
-//                .body(new ResponseDTO(VarList.OK, "Search Success", workshopRegistrations));
-//    }
-
-   @GetMapping("/summary/workshop-wise")
-    public ResponseEntity<List<Map<String, Object>>> WorkshopWiseSummary(){
-        return ResponseEntity.ok(workshopRegistrationService.getWorkshopBookingCounts());
-   }
 }

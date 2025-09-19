@@ -1,14 +1,8 @@
 package lk.ijse.gdse.traditionalexperiencebackend.service.impl;
 
 import jakarta.transaction.Transactional;
-import lk.ijse.gdse.traditionalexperiencebackend.dto.InstructorDTO;
-import lk.ijse.gdse.traditionalexperiencebackend.dto.UserDTO;
-import lk.ijse.gdse.traditionalexperiencebackend.dto.WorkshopDTO;
-import lk.ijse.gdse.traditionalexperiencebackend.dto.WorkshopRegistrationDTO;
-import lk.ijse.gdse.traditionalexperiencebackend.entity.Instructor;
-import lk.ijse.gdse.traditionalexperiencebackend.entity.User;
-import lk.ijse.gdse.traditionalexperiencebackend.entity.Workshop;
-import lk.ijse.gdse.traditionalexperiencebackend.entity.WorkshopRegistration;
+import lk.ijse.gdse.traditionalexperiencebackend.dto.*;
+import lk.ijse.gdse.traditionalexperiencebackend.entity.*;
 import lk.ijse.gdse.traditionalexperiencebackend.repo.PaymentRepo;
 import lk.ijse.gdse.traditionalexperiencebackend.repo.WorkshopRegistrationRepo;
 import lk.ijse.gdse.traditionalexperiencebackend.service.WorkshopRegistrationService;
@@ -19,7 +13,9 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -29,35 +25,35 @@ import java.util.*;
 public class WorkshopRegistrationServiceImpl implements WorkshopRegistrationService {
 
 
-   private final WorkshopRegistrationRepo workshopRegistrationRepo;
-   private final PaymentRepo paymentRepo;
-   private final ModelMapper modelMapper;
-   private final WorkshopService workshopService;
+    private final WorkshopRegistrationRepo workshopRegistrationRepo;
+    private final PaymentRepo paymentRepo;
+    private final ModelMapper modelMapper;
+    private final WorkshopService workshopService;
 
     @Override
     public WorkshopRegistrationDTO registerWorkshop(WorkshopRegistrationDTO workshopRegistrationDTO) {
 
-            WorkshopRegistration workshopRegistration = modelMapper.map(workshopRegistrationDTO, WorkshopRegistration.class);
+        WorkshopRegistration workshopRegistration = modelMapper.map(workshopRegistrationDTO, WorkshopRegistration.class);
 
-            workshopRegistration.setPaymentStatus("Pending");
-            if(workshopRegistrationDTO.getUserId() != null){
-                User user = new User();
-                user.setId(workshopRegistrationDTO.getUserId());
-                workshopRegistration.setUser(user);
-            }
-            if(workshopRegistrationDTO.getWorkshopId() != null){
-                Workshop workshop = new Workshop();
-                workshop.setId(workshopRegistrationDTO.getWorkshopId());
-                workshopRegistration.setWorkshop(workshop);
-            }
-            boolean exists = workshopRegistrationRepo.existsByWorkshopTimeAndSelectWorkshopDateAndWorkshopId(workshopRegistrationDTO.getWorkshopTime(),workshopRegistrationDTO.getSelectWorkshopDate(),workshopRegistrationDTO.getWorkshopId());
+        workshopRegistration.setPaymentStatus("Pending");
+        if (workshopRegistrationDTO.getUserId() != null) {
+            User user = new User();
+            user.setId(workshopRegistrationDTO.getUserId());
+            workshopRegistration.setUser(user);
+        }
+        if (workshopRegistrationDTO.getWorkshopId() != null) {
+            Workshop workshop = new Workshop();
+            workshop.setId(workshopRegistrationDTO.getWorkshopId());
+            workshopRegistration.setWorkshop(workshop);
+        }
+        boolean exists = workshopRegistrationRepo.existsByWorkshopTimeAndSelectWorkshopDateAndWorkshopId(workshopRegistrationDTO.getWorkshopTime(), workshopRegistrationDTO.getSelectWorkshopDate(), workshopRegistrationDTO.getWorkshopId());
 
-            if(exists){
-                return null;
-            }else {
-              WorkshopRegistration saved = workshopRegistrationRepo.save(workshopRegistration);
-              return modelMapper.map(saved, WorkshopRegistrationDTO.class);
-            }
+        if (exists) {
+            return null;
+        } else {
+            WorkshopRegistration saved = workshopRegistrationRepo.save(workshopRegistration);
+            return modelMapper.map(saved, WorkshopRegistrationDTO.class);
+        }
     }
 
     @Override
@@ -65,13 +61,13 @@ public class WorkshopRegistrationServiceImpl implements WorkshopRegistrationServ
         WorkshopDTO workshop = workshopService.getWorkshopById(workshopId);
         List<String> times = workshop.getTime();
 
-        List<Map<String,Object>> result = new ArrayList<>();
+        List<Map<String, Object>> result = new ArrayList<>();
 
-        for(String t : times){
+        for (String t : times) {
             boolean isBooked = workshopRegistrationRepo
                     .existsByWorkshopTimeAndSelectWorkshopDateAndWorkshopId(t, date, workshopId);
 
-            Map<String,Object> slot = new HashMap<>();
+            Map<String, Object> slot = new HashMap<>();
             slot.put("time", t);
             slot.put("available", !isBooked);
             result.add(slot);
@@ -82,21 +78,21 @@ public class WorkshopRegistrationServiceImpl implements WorkshopRegistrationServ
     @Override
     @Transactional
     public boolean cancelBooking(Long id) {
-        if(workshopRegistrationRepo.existsById(id)){
+        if (workshopRegistrationRepo.existsById(id)) {
 //            paymentRepo.deleteById(id);
-       WorkshopRegistration workshopRegistration = workshopRegistrationRepo.findById(id)
-               .orElseThrow(() -> new RuntimeException("Not found"));
-       workshopRegistration.getPayments().clear();
-       workshopRegistrationRepo.delete(workshopRegistration);
+            WorkshopRegistration workshopRegistration = workshopRegistrationRepo.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Not found"));
+            workshopRegistration.getPayments().clear();
+            workshopRegistrationRepo.delete(workshopRegistration);
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
     @Override
     public List<WorkshopRegistrationDTO> getBookingsByUserId(Long userId) {
-        if(userId == null){
+        if (userId == null) {
             return new ArrayList<>();
         }
         List<WorkshopRegistration> workshopRegistrations = workshopRegistrationRepo.findByUserId(userId);
@@ -110,10 +106,10 @@ public class WorkshopRegistrationServiceImpl implements WorkshopRegistrationServ
         List<WorkshopRegistration> registrations = workshopRegistrationRepo.findAll();
         return registrations.stream()
                 .map(reg -> {
-                   WorkshopRegistrationDTO workshopRegistrationDTO = modelMapper.map(reg, WorkshopRegistrationDTO.class);
-                    if(reg.getWorkshop() != null){
+                    WorkshopRegistrationDTO workshopRegistrationDTO = modelMapper.map(reg, WorkshopRegistrationDTO.class);
+                    if (reg.getWorkshop() != null) {
                         workshopRegistrationDTO.setWorkshopName(reg.getWorkshop().getTitle());
-                        if(reg.getWorkshop().getInstructor() != null){
+                        if (reg.getWorkshop().getInstructor() != null) {
                             workshopRegistrationDTO.setInstructorName(reg.getWorkshop().getInstructor().getInstructorName());
                         }
                     }
@@ -125,17 +121,46 @@ public class WorkshopRegistrationServiceImpl implements WorkshopRegistrationServ
 
     @Override
     public Page<WorkshopRegistrationDTO> getWorkshopRegistrationsForPAge(Pageable pageable) {
-        Page<WorkshopRegistration> registrations = workshopRegistrationRepo.findAll(pageable);
+        Pageable sorted = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                Sort.by(Sort.Direction.DESC, "id")   // or "registrationDate"
+        );
+
+        Page<WorkshopRegistration> registrations = workshopRegistrationRepo.findAll(sorted);
         return registrations.map(reg -> {
-                    WorkshopRegistrationDTO workshopRegistrationDTO = modelMapper.map(reg, WorkshopRegistrationDTO.class);
-                    if(reg.getWorkshop() != null){
-                        workshopRegistrationDTO.setWorkshopName(reg.getWorkshop().getTitle());
-                        if(reg.getWorkshop().getInstructor() != null){
-                            workshopRegistrationDTO.setInstructorName(reg.getWorkshop().getInstructor().getInstructorName());
+            WorkshopRegistrationDTO workshopRegistrationDTO = modelMapper.map(reg, WorkshopRegistrationDTO.class);
+            if(reg.getWorkshop() != null){
+                workshopRegistrationDTO.setWorkshopName(reg.getWorkshop().getTitle());
+                if(reg.getWorkshop().getInstructor() != null){
+                    workshopRegistrationDTO.setInstructorName(reg.getWorkshop().getInstructor().getInstructorName());
+                }
+            }
+            return workshopRegistrationDTO;
+        });
+    }
+
+    @Override
+    public int getTotalPages(int size) {
+        int bookingCount = workshopRegistrationRepo.getTotalWorkshopRegistrationCount();
+        return (int) Math.ceil((double) bookingCount / size);
+    }
+
+
+    @Override
+    public List<WorkshopRegistrationDTO> searchWorkshopRegistrations(Date date) {
+        List<WorkshopRegistration> registrations = workshopRegistrationRepo.findBySelectWorkshopDateWithDetails(date);
+        return registrations.stream()
+                .map(registration -> {
+                    WorkshopRegistrationDTO workshopRegistrationDTO = modelMapper.map(registration, WorkshopRegistrationDTO.class);
+                    if (registration.getWorkshop() != null) {
+                        workshopRegistrationDTO.setWorkshopName(registration.getWorkshop().getTitle());
+                        if (registration.getWorkshop().getInstructor() != null) {
+                            workshopRegistrationDTO.setInstructorName(registration.getWorkshop().getInstructor().getInstructorName());
                         }
                     }
                     return workshopRegistrationDTO;
-                });
+                }).toList();
     }
 
     @Override
@@ -145,12 +170,14 @@ public class WorkshopRegistrationServiceImpl implements WorkshopRegistrationServ
 
 
 //    @Override
-//    public List<WorkshopRegistrationDTO> searchWorkshopRegistrations(int keyword) {
+//    public List<WorkshopRegistrationDTO> searchWorkshopRegistrations(Date keyword) {
 //        System.out.println("Searching by keyword: " + keyword);
 //        List<WorkshopRegistration> workshopRegistrations = workshopRegistrationRepo.findWorkshopRegistrationBySelectWorkshopDateContainingIgnoreCase(keyword);
 //        System.out.println("Found jobs: " + workshopRegistrations.size());
-//        return modelMapper.map(workshopRegistrations, new TypeToken<List<WorkshopRegistrationDTO>>() {}.getType());
+//        return modelMapper.map(workshopRegistrations, new TypeToken<List<WorkshopRegistrationDTO>>() {
+//        }.getType());
 //    }
+}
 
 
 //    @Override
@@ -162,8 +189,6 @@ public class WorkshopRegistrationServiceImpl implements WorkshopRegistrationServ
 //    }
 
 
-
-}
 
 
 
