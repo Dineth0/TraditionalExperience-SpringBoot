@@ -1,4 +1,4 @@
-package lk.ijse.gdse.traditionalexperiencebackend;
+package java.lk.ijse.gdse.traditionalexperiencebackend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

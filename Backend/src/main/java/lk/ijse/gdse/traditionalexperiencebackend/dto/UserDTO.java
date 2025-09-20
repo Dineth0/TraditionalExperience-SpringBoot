@@ -1,5 +1,7 @@
 package lk.ijse.gdse.traditionalexperiencebackend.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.RoleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,8 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Data
 public class UserDTO {
     private Long id;
+    @NotBlank(message = "username is null")
     private String username;
+    @NotBlank(message = "email is null")
+    @Email(message = "invalid Email")
     private String email;
+    @NotBlank(message = "password is null")
     private String password;
     private RoleType role;
 }
