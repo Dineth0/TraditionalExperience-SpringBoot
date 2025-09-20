@@ -76,6 +76,55 @@
             background: #432513;
             transform: scale(1.05);
         }
+        .review-modal-content {
+            background: #fffaf3;
+            border-radius: 15px;
+            border: 2px solid #d4a373;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+            padding: 15px;
+            font-family: 'Segoe UI', serif;
+        }
+
+        /* Header */
+        .text-brown {
+            color: #5a3e2b;
+        }
+        .custom-close {
+            filter: brightness(0) saturate(100%) invert(22%) sepia(16%) saturate(1255%) hue-rotate(347deg) brightness(93%) contrast(92%);
+        }
+
+        /* Inputs */
+        .input-traditional {
+            border: 1px solid #d4a373;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+        .input-traditional:focus {
+            border-color: #8b5e34;
+            box-shadow: 0 0 8px rgba(139,94,52,0.5);
+        }
+
+        /* Buttons */
+        .btn-brown {
+            background: linear-gradient(135deg, #8b5e34, #6f4e37);
+            color: white;
+            border-radius: 8px;
+            border: none;
+            transition: 0.3s;
+        }
+        .btn-brown:hover {
+            background: linear-gradient(135deg, #6f4e37, #5a3e2b);
+        }
+        .btn-outline-brown {
+            border: 1px solid #8b5e34;
+            color: #8b5e34;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+        .btn-outline-brown:hover {
+            background: #8b5e34;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -84,26 +133,24 @@
     <div class="row justify-content-center" id="reviewList"></div>
 
 </div>
-<div class="modal fade" id="editReviewModal" tabindex="-1" aria-labelledby="editJobModalLabel" aria-hidden="true">
+<div class="modal fade" id="editReviewModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="ReviewModalLabel">Edit Review</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content review-modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold text-brown">✍️ Edit Review</h5>
+                <button type="button" class="btn-close custom-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <form id="editReviewForm" action="${pageContext.request.contextPath}/reviews" method="post" enctype="multipart/form-data">
-
                 <input type="hidden" id="EditReviewId" name="reviewId">
 
                 <div class="mb-3">
-                    <label for="editName" class="form-label">Visitor Name</label>
-                    <input type="text" id="editName" name="name" class="form-control" required>
+                    <label for="editName" class="form-label text-brown fw-semibold">Visitor Name</label>
+                    <input type="text" id="editName" name="name" class="form-control input-traditional" required>
                 </div>
 
-
                 <div class="mb-3">
-                    <label class="form-label d-block">Rating</label>
+                    <label class="form-label d-block text-brown fw-semibold">Rating</label>
                     <input type="hidden" id="editRating" name="rating" value="0" required>
                     <div id="stars">
                         <span class="star" data-value="1">&#9733;</span>
@@ -112,32 +159,29 @@
                         <span class="star" data-value="4">&#9733;</span>
                         <span class="star" data-value="5">&#9733;</span>
                     </div>
-                    <small id="ratingText" class="text-muted">No rating yet</small>
+                    <small id="editRatingText" class="text-muted">No rating yet</small>
                 </div>
 
                 <div class="mb-3">
-                    <label for="editTitle" class="form-label">Title</label>
-                    <input type="text" id="editTitle" name="title" class="form-control" required>
+                    <label for="editTitle" class="form-label text-brown fw-semibold">Title</label>
+                    <input type="text" id="editTitle" name="title" class="form-control input-traditional" required>
                 </div>
 
                 <div class="mb-3">
-                    <label for="editDescription" class="form-label">Description</label>
-                    <textarea id="editDescription" name="description" class="form-control" rows="5" required></textarea>
+                    <label for="editDescription" class="form-label text-brown fw-semibold">Description</label>
+                    <textarea id="editDescription" name="description" class="form-control input-traditional" rows="5" required></textarea>
                 </div>
 
                 <div class="mb-3">
-                    <label for="editWentDate" class="form-label">Date visited</label>
-                    <input type="date" id="editWentDate" name="wentDate" class="form-control">
+                    <label for="editWentDate" class="form-label text-brown fw-semibold">Date visited</label>
+                    <input type="date" id="editWentDate" name="wentDate" class="form-control input-traditional">
                 </div>
-
-
 
                 <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-primary">Edit Review</button>
-                    <a href="${pageContext.request.contextPath}/workshops" class="btn btn-outline-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-brown">💾 Save Changes</button>
+                    <a href="${pageContext.request.contextPath}/workshops" class="btn btn-outline-brown">Cancel</a>
                 </div>
             </form>
-
         </div>
     </div>
 </div>
