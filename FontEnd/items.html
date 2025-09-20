@@ -144,6 +144,41 @@
             transform: scale(1.05);
             box-shadow: 0 4px 12px rgba(0,0,0,0.4);
         }
+        #searchItemInput {
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            border: 2px solid #f1cc7f;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+
+            background-color: #2b1a12;   /* dark background */
+            color: #ffd966;              /* golden text inside */
+        }
+
+        /* when focused */
+        #searchItemInput:focus {
+            border-color: #ffcc33;
+            box-shadow: 0 6px 15px rgba(255, 204, 51, 0.4);
+            outline: none;
+            background-color: #3a2318;  /* a bit lighter brown */
+            color: #ffeb99;             /* brighter golden */
+        }
+
+        /* placeholder color */
+        #searchItemInput::placeholder {
+            color: #d4af37; /* golden placeholder */
+            opacity: 0.7;
+            font-style: italic;
+        }
+
+
+        #searchItemInput:focus::placeholder {
+            color: #ffcc33;
+            opacity: 1;
+            letter-spacing: 1px;
+        }
 
         /* === Animations === */
         @keyframes fadeIn {
@@ -199,7 +234,9 @@
 
 
 <h2 class="main-title">Sri Lankan Traditional Items</h2>
-
+<div class="mb-3  d-flex justify-content-center">
+    <input type="text" id="searchItemInput" class="form-control" placeholder="Search Items...">
+</div>
 <section class="card-container">
 <!--    <div class="row card-container"></div>-->
 </section>

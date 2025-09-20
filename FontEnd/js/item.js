@@ -288,7 +288,7 @@ $(document).ready(function () {
             success: function (res) {
                 const items = res || []; // backend returns raw array
                 let rows = "";
-                items.forEach(item => {
+                items.reverse().forEach(item => {
                     let itemName = item.itemName;
                     let shortDescription = item.itemShortDescription;
                     let imagePaths = item.itemImage || [];
@@ -334,26 +334,37 @@ $(document).ready(function () {
                 totalPages = tp
                 let paginationHTML = "";
                 paginationHTML += `
-                <li class="page-item ${currentPage === 0 ? 'disabled' : ''}">
-                    <a class="page-link" href="#" id="prevPage">Previous</a>
-                </li>
-            `;
-
-                // Page numbers
-                for (let i = 0; i < totalPages; i++) {
-                    paginationHTML += `
-                    <li class="page-item ${i === currentPage ? 'active' : ''}">
-                        <a class="page-link" href="#" onclick="goToPage(${i})">${i + 1}</a>
+                    <li class="page-item ${ currentPage === 0 ? 'disabled' : ''}">
+                        <a class="page-link" href="#" id="prevPage" >Previous</a>
                     </li>
                 `;
-                }
 
-                // Next button
+                const windowSize = 3
+                let start = currentPage - 1;
+                let end = currentPage + 1
+
+                if(start < 0) { start = 0}
+                if(end >= totalPages) { end = totalPages - 1}
+
+                if(end - start + 1 < windowSize && totalPages >= windowSize) {
+                    if(start === 0){
+                        end = windowSize - 1;
+                    }else if(end === totalPages - 1){
+                        start = totalPages - windowSize;
+                    }
+                }
+                for(let i = start; i <= end; i++) {
+                    paginationHTML += `
+               <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="goToPage(${i})">${i + 1}</a>
+                    </li>
+            `
+                }
                 paginationHTML += `
-                <li class="page-item ${currentPage === totalPages - 1 ? 'disabled' : ''}">
-                    <a class="page-link" href="#" id="nextPage">Next</a>
-                </li>
-            `;
+               <li class="page-item ${ currentPage === totalPages - 1 ? 'disabled' : ''}">
+                        <a class="page-link" href="#" id="nextPage" >Next</a>
+                    </li>
+          `
 
 
                 $('#ItemPagination').html(paginationHTML);
@@ -399,7 +410,6 @@ $(document).ready(function () {
                 let tbody = $('.item-tbody');
 
                 tbody.empty();
-                container.empty();
 
                 if (!items || items.length === 0) {
                     container.html('<p>No items added yet</p>');
@@ -442,6 +452,8 @@ $(document).ready(function () {
     $('#searchInput').on('keyup', function () {
         searchItems();
     })
+
+
 
 
 
