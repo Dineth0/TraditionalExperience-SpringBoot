@@ -337,6 +337,13 @@
                 success: function (tp) {
                     totalPages = tp
                     let paginationHTML = "";
+                    paginationHTML += `
+                <li class="page-item ${currentPage === 0 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" id="prevPage">Previous</a>
+                </li>
+            `;
+
+                    // Page numbers
                     for (let i = 0; i < totalPages; i++) {
                         paginationHTML += `
                     <li class="page-item ${i === currentPage ? 'active' : ''}">
@@ -344,6 +351,14 @@
                     </li>
                 `;
                     }
+
+                    // Next button
+                    paginationHTML += `
+                <li class="page-item ${currentPage === totalPages - 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" id="nextPage">Next</a>
+                </li>
+            `;
+
                     $('.pagination').html(paginationHTML);
                 },
                 error: function (xhr) {
@@ -357,6 +372,133 @@
             currentPage = page;
             loadUsersForPage();
         }
+        $(document).on('click', '#prevPage', function(e) {
+            e.preventDefault();
+            if (currentPage > 0) goToPage(currentPage - 1);
+        });
+
+        $(document).on('click', '#nextPage', function(e) {
+            e.preventDefault();
+            if (currentPage < totalPages - 1) goToPage(currentPage + 1);
+        });
+
+
+
+        // function searchUsers(){
+        //     let keyword = $('#searchInput').val();
+        //     let token  = localStorage.getItem("authtoken")
+        //
+        //     if(keyword.trim() === ''){
+        //         loadUsersForPage();
+        //         return;
+        //     }
+        //     $.ajax({
+        //         method: "GET",
+        //         url: `http://localhost:8080/api/v1/user/searchUsers/${encodeURIComponent(keyword)}`,
+        //         headers: token ? { 'Authorization': 'Bearer ' + token } : {},
+        //
+        //         success: function (response) {
+        //             let users = response.data;
+        //             let container = $(".card-container");
+        //             let tbody = $('.user-tbody');
+        //
+        //             tbody.empty();
+        //             container.empty();
+        //
+        //             if (!users || users.length === 0) {
+        //                 container.html('<p>No items added yet</p>');
+        //                 return;
+        //             }
+        //
+        //             users.forEach(user => {
+        //                 let userName = user.username;
+        //                 let email = user.email;
+        //                 let role = user.role;
+        //
+        //
+        //
+        //                 let row = `
+        //             <tr class="item-row"
+        //                 data-user-name="${userName}"
+        //                 data-email="${email}"
+        //                 data-role="${role}"">
+        //                 <td>${userName}</td>
+        //                 <td>${email}</td>
+        //                 <td>${role}</td>
+        //
+        //             </tr>`;
+        //                 tbody.append(row);
+        //             })
+        //
+        //
+        //         },
+        //         error: function (xhr, status, error) {
+        //             console.log(xhr.responseText);
+        //             alert("Failed to search Bookings!");
+        //         }
+        //     })
+        // }
+        // $('#searchInput').on('keyup', function () {
+        //     searchUsers();
+        // })
+
+        function searchUsersByRole(){
+            let keyword = $('#searchInput').val();
+            let token  = localStorage.getItem("authtoken")
+
+            if(keyword.trim() === ''){
+                loadUsersForPage();
+                return;
+            }
+            $.ajax({
+                method: "GET",
+                url: `http://localhost:8080/api/v1/user/searchUsersByRole/${encodeURIComponent(keyword)}`,
+                headers: token ? { 'Authorization': 'Bearer ' + token } : {},
+
+                success: function (response) {
+                    let users = response.data;
+                    let container = $(".card-container");
+                    let tbody = $('.user-tbody');
+
+                    tbody.empty();
+                    container.empty();
+
+                    if (!users || users.length === 0) {
+                        container.html('<p>No items added yet</p>');
+                        return;
+                    }
+
+                    users.forEach(user => {
+                        let userName = user.username;
+                        let email = user.email;
+                        let role = user.role;
+
+
+
+                        let row = `
+                    <tr class="item-row"
+                        data-user-name="${userName}"
+                        data-email="${email}"
+                        data-role="${role}"">
+                        <td>${userName}</td>
+                        <td>${email}</td>
+                        <td>${role}</td>
+
+                    </tr>`;
+                        tbody.append(row);
+                    })
+
+
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText);
+                    alert("Failed to search Bookings!");
+                }
+            })
+        }
+        $('#searchInput').on('keyup', function () {
+            searchUsersByRole();
+        })
     })
 </script>
 </body>
