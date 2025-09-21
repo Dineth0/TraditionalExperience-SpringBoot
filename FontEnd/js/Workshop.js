@@ -513,9 +513,16 @@ $(document).ready(function(){
                 loadPagination();
             },
 
-            error: function(err){
-                console.log(err);
-                alert("Failed to load Feedback");
+            error: function(xhr){
+                if(xhr.status === 403){
+                    Swal.fire({
+                        icon: "error",
+                        title: "Not Authenticated",
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                    console.log(status,error)
+                }
             }
         });
     }
@@ -565,8 +572,17 @@ $(document).ready(function(){
           `
                 $('.pagination').html(paginationHTML);
             },
-            error: function (xhr) {
+            error: function (xhr , error) {
                 console.error("Error loading pagination:", xhr.responseText);
+                if(xhr.status === 403){
+                    Swal.fire({
+                        icon: "error",
+                        title: "Not Authenticated",
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                    console.log(error)
+                }
             }
         });
     }

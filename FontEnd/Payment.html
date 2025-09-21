@@ -7,28 +7,77 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
   <style>
     body {
-      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      background: linear-gradient(135deg, #4a2c2a, #8c6239);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       font-family: 'Segoe UI', sans-serif;
+      color: #3b2b2b;
     }
+
     .payment-card {
-      background: #fff;
+      background: #fffaf0; /* ivory/off-white */
       padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      width: 450px;
+      border-radius: 18px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+      width: 460px;
+      border: 2px solid #d4a35f; /* golden edge */
     }
+
+    h3 {
+      color: #6b3e26;
+      font-weight: bold;
+    }
+
+    .form-label {
+      font-weight: 600;
+      color: #5a3921;
+    }
+
+    .form-control, .form-select {
+      border-radius: 12px;
+      border: 1.5px solid #c49a6c;
+      padding: 10px 14px;
+      transition: 0.3s ease;
+    }
+
+    .form-control:focus, .form-select:focus {
+      border-color: #a8743a;
+      box-shadow: 0 0 6px rgba(168,116,58,0.5);
+    }
+
+    .form-check {
+      background: #fff8ee;
+      transition: 0.3s;
+    }
+
+    .form-check:hover {
+      background: #f4e1c1;
+    }
+
+    .form-check-input:checked {
+      background-color: #a8743a;
+      border-color: #8b5e34;
+    }
+
     .btn-pay {
-      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      background: linear-gradient(135deg, #a8743a, #6b3e26);
       color: white;
       border: none;
+      padding: 12px;
+      font-weight: 600;
+      font-size: 16px;
+      border-radius: 14px;
+      transition: 0.3s ease-in-out;
     }
+
     .btn-pay:hover {
-      opacity: 0.9;
+      opacity: 0.95;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
     }
+
   </style>
 </head>
 <body>

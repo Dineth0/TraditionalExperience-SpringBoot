@@ -46,6 +46,7 @@ $(document).ready(function(){
                         showConfirmButton: false,
                         timer: 2000
                     })
+
                 }else {
                     Swal.fire({
                         icon: "error",

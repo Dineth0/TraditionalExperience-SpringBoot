@@ -32,8 +32,9 @@ $(document).ready(function () {
 
                     const decoded = parseJwt(response.data.token);
                     localStorage.setItem("userId", decoded.id);
+                    sessionStorage.setItem("userId", decoded.id);
 
-                    if (email === "sltraditionalexperience@gmail.com") {
+                    if (email === "sltraditionalportal@gmail.com") {
                         Swal.fire({
                             icon: "success",
                             title: "Login Successful",

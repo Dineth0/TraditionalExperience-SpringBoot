@@ -129,6 +129,14 @@
         </span>
             </div>
         </div>
+        <div id="g_id_onload"
+             data-client_id="49054632989-miqc6erkgq84104g1g18m33ifjtdk35f.apps.googleusercontent.com"
+             data-login_uri="http://localhost:8080/api/v1/auth/google"
+             data-auto_prompt="false" class="mb-3">
+        </div>
+
+        <div class="g_id_signin"
+             data-type="standard"></div>
 
 
         <button type="submit" class="btn btn-primary w-100"><i class="fas fa-user-plus"></i> Sign Up</button>
@@ -141,22 +149,50 @@
 <script src="js/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="js/SignUp.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 
+<script src="js/SignUp.js"></script>
+<script src="js/jquery-3.7.1.min.js"></script>
 <script>
 
+    $(document).ready(function() {
+        handleGoogleCredentialResponse()
         $(document).on('click', '.toggle-password', function () {
-        const input = $($(this).attr("data-target"));
-        const icon = $(this).find("i");
+            const input = $($(this).attr("data-target"));
+            const icon = $(this).find("i");
 
-        if (input.attr("type") === "password") {
-        input.attr("type", "text");
-        icon.removeClass("fa-eye-slash").addClass("fa-eye");
-    } else {
-        input.attr("type", "password");
-        icon.removeClass("fa-eye").addClass("fa-eye-slash");
-    }
-    });
+            if (input.attr("type") === "password") {
+                input.attr("type", "text");
+                icon.removeClass("fa-eye-slash").addClass("fa-eye");
+            } else {
+                input.attr("type", "password");
+                icon.removeClass("fa-eye").addClass("fa-eye-slash");
+            }
+        });
+        function handleGoogleCredentialResponse(response) {
+            const id_token = response.credential;
+
+            $.ajax({
+                url: "http://localhost:8080/api/v1/auth/google",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ token: id_token }),
+                success: function (res) {
+                    localStorage.setItem("authtoken", res.data.token);
+                    const decoded = parseJwt(res.data.token);
+                    localStorage.setItem("userId", decoded.id);
+                    window.location.href = "items.html"; // Redirect to dashboard
+                },
+                error: function (err) {
+                    console.error(err);
+                    Swal.fire("Login Failed", "Google login failed.", "error");
+                }
+            });
+        }
+
+    })
+
+
 
 </script>
 </body>

@@ -145,4 +145,11 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseDTO(VarList.OK, "Search Success", users));
     }
+
+    @GetMapping("/total-count")
+    public ResponseEntity<ResponseDTO> getTotalCount() {
+        int count = userService.getTotalUserCount();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDTO(VarList.OK, "Total Count", count));
+    }
 }
