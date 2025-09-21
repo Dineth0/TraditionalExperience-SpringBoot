@@ -3,6 +3,7 @@ package lk.ijse.gdse.traditionalexperiencebackend.controller;
 
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lk.ijse.gdse.traditionalexperiencebackend.config.JwtFilter;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.*;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.User;
@@ -42,7 +43,7 @@ public class UserController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<ResponseDTO> addUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<ResponseDTO> addUser(@Valid @RequestBody UserDTO userDTO) {
         System.out.println("register");
         System.out.println(userDTO.getEmail());
         System.out.println(userDTO.getUsername());
