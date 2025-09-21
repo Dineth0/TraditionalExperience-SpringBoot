@@ -162,6 +162,25 @@
                 font-weight: 600;
                 transition: 0.3s;
             }
+            .wishlist-btn {
+                border: 1px solid #f1cc7f;
+                color: #f1cc7f;
+                background: transparent;
+                font-weight: bold;
+                transition: 0.3s;
+                border-radius: 20px;
+                padding: 0.3rem 0.8rem;
+            }
+            .wishlist-btn:hover {
+                background: #f1cc7f;
+                color: #000;
+            }
+            .wishlist-btn.active {
+                background: #c82333;
+                color: #fff;
+                border: none;
+            }
+
 
         </style>
 
@@ -175,7 +194,7 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="Instructors.html">Instructors</a></li>
                 <li class="nav-item"><a class="nav-link" href="items.html">Items</a></li>
 
@@ -346,18 +365,59 @@
                                         <img src="${firstImageUrl}" alt="${workshop.title}">
                                         <div class="card-body">
                                             <h3 class="card-title" style="font-weight: bold">${workshop.title}</h3>
-
                                             <div class="card-text">${workshop.duration}</div>
                                             <div class="card-text">Fee: ${workshop.fee}</div>
-                                                        <a href="Workshop-Details.html?id=${workshop.id}" class="btn">View More</a>
 
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <a href="Workshop-Details.html?id=${workshop.id}" class="btn">View More</a>
+                                                <button class="btn btn-sm btn-outline-warning wishlist-btn" data-id="${workshop.id}">
+                                                    ❤️
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>`;
+
                         container.append(card);
                     });
                 }
             });
         }
+
+        let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+
+        function markWishlistButtons() {
+            $(".wishlist-btn").each(function () {
+                let id = $(this).data("id");
+                if (wishlist.includes(id)) {
+                    $(this).addClass("active").text("💔 Remove");
+                } else {
+                    $(this).removeClass("active").text("❤️");
+                }
+            });
+        }
+
+
+        $(document).on("click", ".wishlist-btn", function () {
+            let id = $(this).data("id");
+
+            if (wishlist.includes(id)) {
+
+                wishlist = $.grep(wishlist, function (val) {
+                    return val !== id;
+                });
+            } else {
+
+                wishlist.push(id);
+            }
+
+
+            localStorage.setItem("wishlist", JSON.stringify(wishlist));
+            markWishlistButtons();
+        });
+
+
+        markWishlistButtons();
 
         // function loadItemsForCardPage() {
         //     let token = localStorage.getItem("authtoken")

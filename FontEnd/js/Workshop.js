@@ -243,7 +243,7 @@ $(document).ready(function(){
                         <td>${instructorName}</td>
                          <td>${times.join(', ')}</td>
                         
-                        <td>${imagesHtml}</td>
+                        <td class="wokshop-images">${imagesHtml}</td>
                         <td>
                             <button class="btn btn-sm editBtn" style="background-color:bisque" data-id="${workshops.id}" >Edit</button>
                             <button class="btn btn-sm" style="background-color: cornflowerblue" data-id="${workshops.id}" id="deleteBtn">Delete</button>
@@ -462,7 +462,6 @@ $(document).ready(function(){
                 let rows = "";
                 workshops.forEach(workshops => {
                     let workshopTitle = workshops.title;
-                    let workshopDescription = workshops.description;
                     let duration = workshops.duration;
                     let language = workshops.language;
                     let participantCount = workshops.participantCount;
@@ -480,7 +479,7 @@ $(document).ready(function(){
                      rows += `
                     <tr class="workshop-row" 
                         data-workshop-title="${workshopTitle}"
-                        data-description="${workshopDescription}"
+                     
                         data-duration="${duration}"
                         data-language="${language}"
                         data-participantCount="${participantCount}"
@@ -492,7 +491,7 @@ $(document).ready(function(){
                        
                         data-image="${imagePaths.join(';')}">
                         <td>${workshopTitle}</td>
-                        <td>${workshopDescription}></td>
+                     
                         <td>${duration}</td>
                         <td>${language}</td>
                         <td>${participantCount}</td>
@@ -629,7 +628,7 @@ $(document).ready(function(){
 
                 workshops.forEach(workshop => {
                     let workshopTitle = workshop.title;
-                    let workshopDescription = workshop.description;
+
                     let duration = workshop.duration;
                     let language = workshop.language;
                     let participantCount = workshop.participantCount;
@@ -647,7 +646,7 @@ $(document).ready(function(){
                     let row = `
                     <tr class="workshop-row" 
                         data-workshop-title="${workshopTitle}"
-                        data-description="${workshopDescription}"
+                   
                         data-duration="${duration}"
                         data-language="${language}"
                         data-participantCount="${participantCount}"
@@ -659,7 +658,7 @@ $(document).ready(function(){
                        
                         data-image="${imagePaths.join(';')}">
                         <td>${workshopTitle}</td>
-                        <td>${workshopDescription}></td>
+                 
                         <td>${duration}</td>
                         <td>${language}</td>
                         <td>${participantCount}</td>

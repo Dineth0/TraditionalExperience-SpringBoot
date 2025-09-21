@@ -244,6 +244,9 @@
               <p class="card-text small text-muted mb-2" style="font-size: 20px; color: #688a3b"  >${workshop.duration}</p>
               <p class="card-text mb-2" style="color: #9e660d; font-size: 20px"><strong>Fee:</strong> $${workshop.fee}</p>
               <a href="Workshop-Details.html?id=${workshop.id}" class="btn btn-success fw-bold">Book Now</a>
+               <button class="btn btn-sm btn-outline-warning wishlist-btn" data-id="${workshop.id}">
+                                                    ❤️
+                                                </button>
             </div>
           </div>
         </div>
@@ -349,6 +352,42 @@
             currentCardPage = page;
             loadItemsForCardPage();
         }
+
+        let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+
+        function markWishlistButtons() {
+            $(".wishlist-btn").each(function () {
+                let id = $(this).data("id");
+                if (wishlist.includes(id)) {
+                    $(this).addClass("active").text("💔 Remove");
+                } else {
+                    $(this).removeClass("active").text("❤️");
+                }
+            });
+        }
+
+
+        $(document).on("click", ".wishlist-btn", function () {
+            let id = $(this).data("id");
+
+            if (wishlist.includes(id)) {
+
+                wishlist = $.grep(wishlist, function (val) {
+                    return val !== id;
+                });
+            } else {
+
+                wishlist.push(id);
+            }
+
+
+            localStorage.setItem("wishlist", JSON.stringify(wishlist));
+            markWishlistButtons();
+        });
+
+
+        markWishlistButtons();
     })
 </script>
 </body>
