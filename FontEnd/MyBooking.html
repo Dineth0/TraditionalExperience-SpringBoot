@@ -60,6 +60,43 @@
         .booking-card {
             background: #9e5f0d;
         }
+        header {
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #c89f65;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.6);
+            animation: slideDown 1s ease-out;
+        }
+        header h1, .navbar-brand {
+            font-size: 2rem;
+            background: linear-gradient(45deg, #f1cc7f, #ffdd99, #ffd54f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav a {
+            color: #f1cc7f;
+            margin: 0 1rem;
+            text-decoration: none;
+            font-weight: bold;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        nav a::after {
+            content: "";
+            position: absolute;
+            width: 0%;
+            height: 2px;
+            background: #ffcc00;
+            left: 0;
+            bottom: -5px;
+            transition: 0.4s ease;
+        }
+        nav a:hover {
+            color: #ffcc00;
+        }
+        nav a:hover::after {
+            width: 100%;
+        }
         .cancelBtn:hover { background: #6e4019; transform:scale(1.05); }
     </style>
 </head>
