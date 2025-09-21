@@ -170,7 +170,7 @@ $(document).ready(function () {
             showConfirmButton: false,
             timer: 2000
         })
-        window.location.href = "home.html";
+        window.location.href = "index.html";
     }
 
     $(document).on('click', '#editBtn', function () {

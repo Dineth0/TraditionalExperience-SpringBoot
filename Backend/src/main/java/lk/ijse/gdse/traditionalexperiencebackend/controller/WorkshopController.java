@@ -8,6 +8,7 @@ import lk.ijse.gdse.traditionalexperiencebackend.entity.Workshop;
 import lk.ijse.gdse.traditionalexperiencebackend.service.WorkshopService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.ResponseUtil;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +24,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/workshop")
+@RequiredArgsConstructor
 public class WorkshopController {
 
-    @Autowired
-    private WorkshopService workshopService;
+
+    private final WorkshopService workshopService;
 
     @PostMapping(value ="addWorkshop" , consumes = {"multipart/form-data"})
     public ResponseEntity<ResponseDTO> saveInstructor(@RequestPart("workshop") WorkshopDTO workshopDTO,

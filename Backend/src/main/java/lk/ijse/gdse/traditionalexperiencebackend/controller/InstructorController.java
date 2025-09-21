@@ -6,6 +6,7 @@ import lk.ijse.gdse.traditionalexperiencebackend.dto.TraditionalItemDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.service.InstructorService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.ResponseUtil;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,10 +26,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/instructor")
 @CrossOrigin
+@RequiredArgsConstructor
 public class InstructorController {
 
-    @Autowired
-    private InstructorService instructorService;
+
+    private final InstructorService instructorService;
 
     @PostMapping(value ="addInstructor" , consumes = {"multipart/form-data"})
     public ResponseEntity<ResponseDTO> saveInstructor(@RequestPart("instructor") InstructorDTO instructorDTO,

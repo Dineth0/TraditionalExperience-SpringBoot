@@ -4,6 +4,7 @@ import lk.ijse.gdse.traditionalexperiencebackend.dto.NotificationDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.ResponseDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.service.NotificationService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/notification")
 @CrossOrigin
+@RequiredArgsConstructor
 public class NotificationController {
 
-    @Autowired
-    private NotificationService notificationService;
+
+    private final NotificationService notificationService;
 
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO> createNotification(@RequestBody NotificationDTO notificationDTO) {

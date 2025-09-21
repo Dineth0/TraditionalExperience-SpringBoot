@@ -104,12 +104,12 @@ $(document).on('click', '#logout', function () {
     localStorage.removeItem("authtoken");
     sessionStorage.removeItem("authtoken")
 
-    window.location.href= "home.html"
+    window.location.href= "index.html"
 })
 
 $(document).on('click', '.dropdown-item', function () {
     localStorage.removeItem("authtoken");
     sessionStorage.removeItem("authtoken")
 
-    window.location.href= "home.html"
+    window.location.href= "index.html"
 })

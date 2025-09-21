@@ -1,5 +1,6 @@
 package lk.ijse.gdse.traditionalexperiencebackend.service.impl;
 
+import lk.ijse.gdse.traditionalexperiencebackend.advisor.IdNotFoundException;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.NotificationDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.TraditionalItemDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.Notification;
@@ -9,6 +10,7 @@ import lk.ijse.gdse.traditionalexperiencebackend.repo.NotificationRepo;
 import lk.ijse.gdse.traditionalexperiencebackend.repo.UserRepo;
 import lk.ijse.gdse.traditionalexperiencebackend.service.NotificationService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,16 +18,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class NotificationServiceImpl implements NotificationService {
 
-    @Autowired
-    private NotificationRepo notificationRepo;
 
-    @Autowired
-    private UserRepo userRepo;
-
-    @Autowired
-    private ModelMapper modelMapper;
+    private final NotificationRepo notificationRepo;
+    private final UserRepo userRepo;
+    private final ModelMapper modelMapper;
 
     @Override
     public int createNotification(NotificationDTO notificationDTO) {
@@ -34,13 +33,15 @@ public class NotificationServiceImpl implements NotificationService {
 
             if(notificationDTO.getUserId() != null){
                 User user = userRepo.findById(notificationDTO.getUserId())
-                        .orElseThrow(() -> new RuntimeException("User not found"));
+                        .orElseThrow(() -> new IdNotFoundException("User not found"));
                 notification.setUser(user);
             }
             notificationRepo.save(notification);
             return VarList.Created;
         }catch (Exception e){
             return VarList.Bad_Gateway;
+        } catch (IdNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 

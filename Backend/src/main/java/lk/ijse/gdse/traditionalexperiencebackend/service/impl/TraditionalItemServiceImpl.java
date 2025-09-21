@@ -8,24 +8,25 @@ import lk.ijse.gdse.traditionalexperiencebackend.entity.TraditionalItem;
 import lk.ijse.gdse.traditionalexperiencebackend.repo.TraditionalItemRepo;
 import lk.ijse.gdse.traditionalexperiencebackend.service.TraditionalItemService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class TraditionalItemServiceImpl implements TraditionalItemService {
 
-    @Autowired
-    private TraditionalItemRepo itemRepo;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final TraditionalItemRepo itemRepo;
+    private final ModelMapper modelMapper;
 
     @Override
     public int addItem(TraditionalItemDTO itemDTO) {
@@ -118,7 +119,7 @@ public class TraditionalItemServiceImpl implements TraditionalItemService {
     public List<TraditionalItemDTO> searchItems(String keyword) {
         System.out.println("Searching by keyword: " + keyword);
         List<TraditionalItem> traditionalItems = itemRepo.findTraditionalItemByItemNameContainingIgnoreCase(keyword);
-        System.out.println("Found jobs: " + traditionalItems.size());
+
         return modelMapper.map(traditionalItems, new TypeToken<List<TraditionalItemDTO>>() {}.getType());
     }
 

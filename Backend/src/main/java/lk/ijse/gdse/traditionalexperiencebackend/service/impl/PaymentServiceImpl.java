@@ -1,5 +1,6 @@
 package lk.ijse.gdse.traditionalexperiencebackend.service.impl;
 
+import lk.ijse.gdse.traditionalexperiencebackend.advisor.IdNotFoundException;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.PaymentDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.ReviewDTO;
 import lk.ijse.gdse.traditionalexperiencebackend.entity.Payment;
@@ -36,7 +37,7 @@ public class PaymentServiceImpl implements PaymentService {
         try{
             WorkshopRegistration workshopRegistration =
                     workshopRegistrationRepo.findById(paymentDTO.getRegistrationId())
-                            .orElseThrow(() -> new RuntimeException("Registration not found"));
+                            .orElseThrow(() -> new IdNotFoundException("Registration not found"));
 
             Payment payment = new Payment();
             payment.setAmount(workshopRegistration.getTotalFee());
@@ -58,7 +59,7 @@ public class PaymentServiceImpl implements PaymentService {
             paymentRepo.save(payment);
             workshopRegistration.setPaymentStatus("Success");
             return VarList.Created;
-        }catch(RuntimeException e){
+        }catch(RuntimeException | IdNotFoundException e){
             e.printStackTrace();
             return VarList.Internal_Server_Error;
         }

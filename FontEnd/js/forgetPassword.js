@@ -77,7 +77,7 @@ $(document).ready(function () {
                     text: 'Password updated successfully!',
                     icon: 'success',
                 });
-                window.location.href = 'home.html';
+                window.location.href = 'index.html';
             },
             error: function(xhr, status, error) {
                 Swal.fire({

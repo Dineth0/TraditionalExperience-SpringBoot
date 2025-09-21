@@ -5,6 +5,7 @@ import lk.ijse.gdse.traditionalexperiencebackend.service.NotificationService;
 import lk.ijse.gdse.traditionalexperiencebackend.service.WorkshopRegistrationService;
 import lk.ijse.gdse.traditionalexperiencebackend.service.WorkshopService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,16 +23,13 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/workshopRegistration")
 @CrossOrigin
+@RequiredArgsConstructor
 public class WorkshopRegistrationController {
 
-    @Autowired
-    private WorkshopRegistrationService workshopRegistrationService;
 
-    @Autowired
-    private NotificationService notificationService;
-
-    @Autowired
-    private WorkshopService workshopService;
+    private final WorkshopRegistrationService workshopRegistrationService;
+    private final NotificationService notificationService;
+    private final WorkshopService workshopService;
 
     @PostMapping("/registerWorkshop")
     public ResponseEntity<ResponseDTO> registerWorkshop(@RequestBody WorkshopRegistrationDTO workshopRegistrationDTO){

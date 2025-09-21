@@ -11,7 +11,7 @@
         body {
             background-color: #433c3b;
             font-family: 'Inter', sans-serif;
-            color: #f4e2c6; /* Light beige text for readability */
+            color: #f4e2c6;
 
         }
 
@@ -19,7 +19,7 @@
             font-size: 18px;
             font-weight: 600;
             margin-bottom: 20px;
-            color: #e0b84b; /* Gold accent */
+            color: #e0b84b;
             padding-bottom: 10px;
             border-bottom: 1px solid rgba(244, 226, 198, 0.4);
         }
@@ -30,7 +30,7 @@
 
         .form-control {
             border: 1px solid #e0b84b;
-            background-color: #5a4e4c; /* Slightly lighter than background */
+            background-color: #5a4e4c;
             border-radius: 8px;
             padding: 10px 15px;
             transition: all 0.3s ease;
@@ -38,9 +38,9 @@
         }
 
         .form-control:focus {
-            border-color: #c97b63; /* Clay accent */
-            background-color: #6e5d5a; /* Focused slightly lighter shade */
-            box-shadow: 0 0 8px rgba(224, 184, 75, 0.5); /* Soft gold glow */
+            border-color: #c97b63;
+            background-color: #6e5d5a;
+            box-shadow: 0 0 8px rgba(224, 184, 75, 0.5);
             outline: none;
             color: #fff;
         }
@@ -81,7 +81,7 @@
         }
 
         .submit-btn:hover {
-            background-color: #c97b63; /* Clay hover */
+            background-color: #c97b63;
             color: #fff;
         }
         .modal-content{
@@ -114,7 +114,7 @@
                     </tr>
                     </thead>
                     <tbody class="user-tbody">
-                    <!-- Populated via script.js -->
+
                     </tbody>
                 </table>
             </div>
@@ -303,7 +303,7 @@
                     'Authorization': 'Bearer ' + token
                 },
                 success: function (res) {
-                    const users = res || []; // backend returns raw array
+                    const users = res || [];
                     let rows = "";
                     users.forEach((user) => {
                         rows += `
@@ -321,7 +321,7 @@
 
                 error: function(err){
                     console.log(err);
-                    // alert("Failed to load Feedback");
+                    // alert("Failed to load ");
                 }
             });
         }
@@ -343,7 +343,7 @@
                 </li>
             `;
 
-                    // Page numbers
+
                     for (let i = 0; i < totalPages; i++) {
                         paginationHTML += `
                     <li class="page-item ${i === currentPage ? 'active' : ''}">
@@ -352,7 +352,7 @@
                 `;
                     }
 
-                    // Next button
+
                     paginationHTML += `
                 <li class="page-item ${currentPage === totalPages - 1 ? 'disabled' : ''}">
                     <a class="page-link" href="#" id="nextPage">Next</a>

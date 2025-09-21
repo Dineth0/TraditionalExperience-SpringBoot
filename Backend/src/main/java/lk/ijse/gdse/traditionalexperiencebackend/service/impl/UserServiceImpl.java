@@ -11,6 +11,7 @@ import lk.ijse.gdse.traditionalexperiencebackend.entity.User;
 import lk.ijse.gdse.traditionalexperiencebackend.repo.UserRepo;
 import lk.ijse.gdse.traditionalexperiencebackend.service.UserService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,20 +31,13 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserDetailsService, UserService {
-    @Autowired
-    private UserRepo userRepo;
 
-    @Autowired
-    private ModelMapper modelMapper;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-
-
-    @Autowired
-    private JavaMailSender mailSender;
+    private final UserRepo userRepo;
+    private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
+    private final JavaMailSender mailSender;
 
     private Map<String, String> otpStorage = new HashMap<>();
 

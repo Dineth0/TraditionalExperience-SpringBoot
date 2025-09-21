@@ -7,6 +7,7 @@ import lk.ijse.gdse.traditionalexperiencebackend.entity.TraditionalItem;
 import lk.ijse.gdse.traditionalexperiencebackend.repo.InstructorRepo;
 import lk.ijse.gdse.traditionalexperiencebackend.service.InstructorService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +18,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class InstructorServiceImpl implements InstructorService {
 
-    @Autowired
-    InstructorRepo instructorRepo;
 
-    @Autowired
-    ModelMapper modelMapper;
+   private final InstructorRepo instructorRepo;
+   private final ModelMapper modelMapper;
 
     @Override
     public int addInstructor(InstructorDTO instructorDTO) {

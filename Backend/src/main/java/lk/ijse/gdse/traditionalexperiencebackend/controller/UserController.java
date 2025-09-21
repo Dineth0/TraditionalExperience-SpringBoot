@@ -10,6 +10,7 @@ import lk.ijse.gdse.traditionalexperiencebackend.repo.UserRepo;
 import lk.ijse.gdse.traditionalexperiencebackend.service.UserService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.JwtUtil;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,20 +28,16 @@ import java.util.Map;
 //@CrossOrigin(origins = "*")
 @Validated
 @CrossOrigin
+@RequiredArgsConstructor
 public class UserController {
 
 
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private ModelMapper modelMapper;
-    @Autowired
-    private JwtUtil jwtUtil;
 
-    @Autowired
-    private JwtFilter jwtFilter;
-    @Autowired
-    private UserRepo userRepo;
+    private final UserService userService;
+    private final ModelMapper modelMapper;
+    private final JwtUtil jwtUtil;
+    private final JwtFilter jwtFilter;
+    private final UserRepo userRepo;
 
 
 

@@ -10,18 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.css">
 
     <style>
-        :root {
-            /*--primary: #4361ee;*/
-            /*--primary-light: #4895ef;*/
-            /*--primary-dark: #3a0ca3;*/
-            /*--secondary: #7209b7;*/
-            /*--dark: #212529;*/
-            /*--light: #f8f9fa;*/
-            /*--card-bg: #ffffff;*/
-            /*--success: #4cc9f0;*/
-            /*--warning: #f8961e;*/
-            /*--danger: #f72585;*/
-        }
+
 
         body {
             background-color: #433c3b;
@@ -30,7 +19,7 @@
             overflow-x: hidden;
         }
 
-        /* Enhanced Sidebar */
+
         .sidebar {
             position: fixed;
             top: 0;
@@ -84,7 +73,7 @@
             color: red;
         }
 
-        /* Enhanced Main Content */
+
         .main-content {
             margin-left: 280px;
             padding: 0;
@@ -129,7 +118,7 @@
             margin-right: 8px;
         }
 
-        /* Enhanced Dashboard Cards */
+
         .content-container {
             padding: 30px;
         }
@@ -170,7 +159,7 @@
         .stat-icon {
             font-size: 32px;
             margin-bottom: 15px;
-            color: var(--primary);
+            /*color: var(--primary);*/
             position: relative;
             z-index: 1;
         }
@@ -205,20 +194,18 @@
             color: #10b981;
         }
 
-        .change-down {
-            color: var(--danger);
-        }
+
 
 
 
         .section-title i {
             margin-right: 10px;
-            color: var(--primary);
+
         }
 
 
 
-        /* Enhanced Table Section */
+
         .table-card {
             background: #7e6959;
             border-radius: 12px;
@@ -248,7 +235,7 @@
         }
 
         .modern-table thead tr {
-            background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+
             color: white;
         }
 
@@ -290,7 +277,7 @@
             max-height: 200px !important;
             max-width: 450px !important;
         }
-        /* Responsive adjustments */
+
         @media (max-width: 992px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -321,7 +308,7 @@
 </head>
 <body>
 
-<!-- Sidebar - Same structure -->
+
 <div class="sidebar">
     <div class="brand-logo">
 
@@ -336,12 +323,12 @@
     <a href="AllReviews.html"><i class="fas fa-tags"></i> All Reviews</a>
 
     <a href="AllPayments.html"><i class="fas fa-cog"></i> Payments</a>
-    <a href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+
 </div>
 
-<!-- Main Content - Same structure -->
+
 <div class="main-content">
-    <!-- Header - Same structure -->
+
     <div class="header">
         <button class="menu-toggle" id="menuToggle">
             <i class="fas fa-bars"></i>
@@ -374,9 +361,9 @@
         <button id="logout">LogOut</button>
     </div>
 
-    <!-- Content Container -->
+
     <div class="content-container">
-        <!-- Stats Cards - Enhanced version of your cards -->
+
         <div class="stats-container">
             <div class="stat-card">
                 <i class="fas fa-users stat-icon"></i>
@@ -389,7 +376,7 @@
             <div class="stat-card">
                 <i class="fas fa-briefcase stat-icon"></i>
                 <div class="stat-title">Traditional Items</div>
-                <div id="totalJobCount" class="stat-value">4</div> <!-- Dynamic count -->
+                <div id="totalJobCount" class="stat-value">4</div>
                 <div class="stat-change change-up">
                     <!--                    <i class="fas fa-arrow-up"></i> 8% from last month-->
                 </div>
@@ -398,7 +385,7 @@
             <div class="stat-card">
                 <i class="fas fa-chart-line stat-icon"></i>
                 <div class="stat-title">Total Workshops</div>
-                <h1 id="workshopCount" class="stat-value"></h1> <!-- ID added here -->
+                <h1 id="workshopCount" class="stat-value"></h1>
                 <div class="stat-change change-down">
                     <!--                    <i class="fas fa-arrow-down"></i> 3% from last week-->
                 </div>
@@ -412,7 +399,7 @@
 
 
 
-        <!-- Table Section - Same structure but enhanced -->
+
 
     </div>
 </div>

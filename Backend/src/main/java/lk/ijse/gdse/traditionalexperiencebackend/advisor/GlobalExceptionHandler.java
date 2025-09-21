@@ -27,5 +27,12 @@ public class GlobalExceptionHandler {
         responseUtil.setMsg(e.getMessage());
         return new ResponseEntity<>(responseUtil, HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(IdAllReadyExist.class)
+    public ResponseEntity<ResponseUtil> handleIdAllReadyExist(IdAllReadyExist e) {
+        ResponseUtil responseUtil = new ResponseUtil();
+        responseUtil.setCode(500);
+        responseUtil.setMsg(e.getMessage());
+        return new ResponseEntity<>(responseUtil, HttpStatus.FOUND);
+    }
 
 }

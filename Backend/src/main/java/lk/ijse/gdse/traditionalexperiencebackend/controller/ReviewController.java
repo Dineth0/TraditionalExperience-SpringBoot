@@ -3,6 +3,7 @@ package lk.ijse.gdse.traditionalexperiencebackend.controller;
 import lk.ijse.gdse.traditionalexperiencebackend.dto.*;
 import lk.ijse.gdse.traditionalexperiencebackend.service.ReviewService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +18,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/review")
+@RequiredArgsConstructor
 public class ReviewController {
 
-    @Autowired
-    private ReviewService reviewService;
+
+    private final ReviewService reviewService;
 
     @PostMapping(value = "/addReview")
     public ResponseEntity<ResponseDTO> addReview(@RequestBody ReviewDTO reviewDTO) {

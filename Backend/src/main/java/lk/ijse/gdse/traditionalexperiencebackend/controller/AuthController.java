@@ -101,10 +101,10 @@ public class AuthController {
 
     @PostMapping("/google")
     public ResponseEntity<ResponseDTO> googleLogin(@RequestBody Map<String, String> payload) {
-        String idTokenString = payload.get("authtoken"); // Frontend එකෙන් ලැබෙන Google ID Token
+        String idTokenString = payload.get("authtoken");
 
         try {
-            // 1️⃣ Token verifier create කරයි
+
             GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
                     new NetHttpTransport(),
                     new GsonFactory()
@@ -112,14 +112,14 @@ public class AuthController {
                     .setAudience(Collections.singletonList(GOOGLE_CLIENT_ID))
                     .build();
 
-            // 2️⃣ Token verify කරයි
+
             GoogleIdToken idToken = verifier.verify(idTokenString);
             if (idToken != null) {
                 GoogleIdToken.Payload tokenPayload = idToken.getPayload();
                 String email = tokenPayload.getEmail();
                 String name = (String) tokenPayload.get("username");
 
-                // 3️⃣ User database check
+
                 User user = userService.findByEmail(email);
                 if (user == null) {
                     UserDTO userDTO = new UserDTO();
@@ -129,7 +129,7 @@ public class AuthController {
                     userService.addUser(userDTO);
                 }
 
-                // 4️⃣ JWT generate
+
                 UserDTO loadedUser = userService.loadUserDetailsByUsername(email);
                 String jwtToken = jwtUtil.generateToken(loadedUser);
 

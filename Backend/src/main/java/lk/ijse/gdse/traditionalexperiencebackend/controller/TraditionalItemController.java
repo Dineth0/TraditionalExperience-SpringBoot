@@ -8,6 +8,7 @@ import lk.ijse.gdse.traditionalexperiencebackend.entity.TraditionalItem;
 import lk.ijse.gdse.traditionalexperiencebackend.service.TraditionalItemService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.ResponseUtil;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,9 +30,10 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/item")
 @CrossOrigin
+@RequiredArgsConstructor
 public class TraditionalItemController {
-    @Autowired
-    private TraditionalItemService itemService;
+
+    private final TraditionalItemService itemService;
 
     @PostMapping(value = "/addItem", consumes = {"multipart/form-data"})
     public ResponseEntity<ResponseDTO> saveItem(@RequestPart("item") TraditionalItemDTO itemDTO,

@@ -9,6 +9,7 @@ import lk.ijse.gdse.traditionalexperiencebackend.repo.ReviewRepo;
 import lk.ijse.gdse.traditionalexperiencebackend.repo.TraditionalItemRepo;
 import lk.ijse.gdse.traditionalexperiencebackend.service.ReviewService;
 import lk.ijse.gdse.traditionalexperiencebackend.util.VarList;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
-    @Autowired
-    private ReviewRepo reviewRepo;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ReviewRepo reviewRepo;
+    private final ModelMapper modelMapper;
     @Override
     public int addReview(ReviewDTO reviewDTO) {
         try{
