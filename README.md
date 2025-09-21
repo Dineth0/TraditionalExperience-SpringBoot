@@ -71,4 +71,5 @@ Security and access control are handled with **JWT-based authentication** and **
 ### 🔹 Others  
 - SMTP (for password reset & sending mails)  
 
-!(./Frontend/assets/screenshots/Screenshot (589).png)  
+![Screenshot](./FrontEnd/assets/screenshots/Screenshot%20(589).png)
+ 
