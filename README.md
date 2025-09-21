@@ -73,16 +73,20 @@ Security and access control are handled with **JWT-based authentication** and **
 
 ## ScreenShots   
 
-![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(589).png)
-![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(590).png)
-![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(591).png)
-![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(592).png)
-![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(593).png)
-![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(594).png)
-![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(595).png)
-![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(596).png)
-![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(597).png)
-![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(598).png)
-![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(599).png)
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(602).png)
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(603).png)
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(604).png)
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(605).png)
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(606).png)
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(607).png)
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(608).png)
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(609).png)
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(610).png)
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(611).png)
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(612).png)
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(613).png)
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(614).png)
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(615).png)
+
 
  
