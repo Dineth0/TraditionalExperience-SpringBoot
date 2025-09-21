@@ -69,6 +69,20 @@ Security and access control are handled with **JWT-based authentication** and **
 - JavaScript  
 
 ### 🔹 Others  
-- SMTP (for password reset & sending mails)  
+- SMTP (for password reset & sending mails)
 
----
+## ScreenShots   
+
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(589).png)
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(590).png)
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(591).png)
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(592).png)
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(593).png)
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(594).png)
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(595).png)
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(596).png)
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(597).png)
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(598).png)
+![Screenshot](./FontEnd/assets/screenshots/Screenshot%20(599).png)
+
+ 
