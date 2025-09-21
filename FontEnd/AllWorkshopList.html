@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body{
+            background: url(assets/newitmpettern.png) repeat;
+            background-size: cover;
+            color: #3a2a1a;
+        }
+        header {
+            background: rgba(76, 46, 31, 0.9);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #a9743f;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: #f1cc7f;
+        }
+
+        nav a {
+            color: #f1cc7f;
+            margin: 0 1rem;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #ffcc00;
+        }
+
+
+        .section-title{
+            text-align: center;
+            margin: 40px 0 30px;
+            font-size: 36px;
+            font-weight: bold;
+            color: #eecf0b;
+        }
+
+        .card-custom {
+            background-color: #b5925a;
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card-custom:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.6);
+        }
+
+
+        .card-custom img {
+            height: 320px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .card-body h5 {
+            font-size: 20px;
+            font-weight: bold;
+            width: 250px;
+            color: #3a1f1f;
+        }
+
+        .card-body p {
+            font-size: 14px;
+            color: #4a3a2a;
+        }
+        #logout{
+            background: #946a28;
+            border: none;
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .card-img-fixed {
+            height: 350px;        /* oyage preference - 220px, 250px, 300px wage ganna puluwan */
+            object-fit: cover;    /* crop karala fit wenna */
+            border-radius: 12px 0 0 12px;
+            display: block;
+        }
+        .card-body h5 {
+            font-size: 35px;
+            font-weight: bold;
+            color: #3a1f1f;
+            white-space: normal;
+            word-wrap: break-word;
+            width: 100%;
+        }
+
+
+
+    </style>
+</head>
+<body>
+<header class="sticky-top" style="background: rgba(69,41,31,0.9); border-bottom: 1px solid #a9743f;">
+    <nav class="navbar navbar-expand-lg navbar-dark container-fluid">
+        <a class="navbar-brand" href="#" style="color: #e2c6a3;">Heritage Portal</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="items.html">Items</a></li>
+
+                <li class="nav-item"><a class="nav-link" href="Instructors.html">Instructors</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Workshops</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Reviews</a></li>
+                <button id="logout">Logout</button>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<div class="container">
+    <h1 class="section-title" style="font-size: 50px">Sri Lankan Traditional Workshops</h1>
+    <div class="row g-4 justify-content-center" id="workshopCards">
+
+    </div>
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center" id="WorkshopPagination">
+            <li class="page-item">
+                <a class="page-link" href="#" id="prevPage">Previous</a>
+            </li>
+            <li class="page-item active" aria-current="page">
+                <span class="page-link">1</span>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+
+
+            <li class="page-item">
+                <a class="page-link" href="#" id="nextPage">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<footer class="pt-5 pb-3" style="background-color: #4c2417; color: #f5f5f5;">
+    <div class="container">
+        <div class="row">
+
+            <!-- Column 1: Brand / About -->
+            <div class="col-md-4 mb-4">
+                <h5 class="fw-bold text-warning">Heritage Portal</h5>
+                <p class="small">
+                    Discover and experience Sri Lankan traditional arts, crafts, foods, and culture.
+                    Join us to explore workshops, guides, and authentic places across the island.
+                </p>
+            </div>
+
+            <!-- Column 2: Quick Links -->
+            <div class="col-md-4 mb-4">
+                <h6 class="fw-bold text-warning">Quick Links</h6>
+                <ul class="list-unstyled">
+                    <li><a href="home.html" class="text-decoration-none text-light">🏠 Home</a></li>
+                    <li><a href="markscarving.html" class="text-decoration-none text-light">🎭 Masks</a></li>
+                    <li><a href="food.html" class="text-decoration-none text-light">🍛 Traditional Foods</a></li>
+                    <li><a href="SignUp.html" class="text-decoration-none text-light">📝 Register</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Contact / Social -->
+            <div class="col-md-4 mb-4">
+                <h6 class="fw-bold text-warning">Contact Us</h6>
+                <p class="small mb-1">📍 Mathugama, Sri Lanka</p>
+                <p class="small mb-1">📞 +94 77 9978 399</p>
+                <p class="small">📧 sltraditionalexperience@gmail.com</p>
+
+                <!-- Social Icons -->
+                <div class="mt-3">
+                    <a href="#" class="text-warning me-3 fs-5"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-warning me-3 fs-5"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-warning me-3 fs-5"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="text-warning fs-5"><i class="bi bi-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <hr style="border-color: rgba(255, 193, 7, 0.4);">
+
+        <!-- Bottom copyright -->
+        <div class="text-center small text-light">
+            &copy; <span id="year"></span>2025 Heritage Portal • All Rights Reserved
+        </div>
+    </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/jquery-3.7.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+        let currentCardPage = 0;
+        const CardPageSize = 3;
+        let totalCardPages = 0;
+         loadItemsForCardPage();
+        function loadItemsForCardPage() {
+            let token = localStorage.getItem("authtoken")
+            $.ajax({
+                url: `http://localhost:8080/api/v1/workshop/paginated?page=${currentCardPage}&size=${CardPageSize}`,
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function (res) {
+                    let workshops = res || [];
+                    let cards = ""
+
+
+                    workshops.forEach(workshop => {
+                        let firstImageUrl = workshop.image && workshop.image.length > 0
+                            ? `http://localhost:8080/uploads/${workshop.image[0]}`
+                            : "default-placeholder.png";
+
+                        cards += `
+  <div class="col-12 justify-content-center">
+    <div class="card mb-4 border-0 shadow-sm" style="border-radius:12px; background:transparent;">
+      <div class="row g-0">
+        <!-- Image full height left -->
+        <div class="col-md-4">
+          <img src="${firstImageUrl}"  class="card-img-fixed w-100 rounded-start" alt="${workshop.title}">
+        </div>
+        <!-- Content right -->
+        <div class="col-md-8 d-flex">
+          <div class="card-body d-flex flex-column justify-content-between">
+            <div>
+              <h5 class="card-title ">
+                <a href="Workshop-Details.html?id=${workshop.id}"
+                   style="text-decoration:none; color:#b86e2c; font-weight:bold; ">
+                   ${workshop.title}
+                </a>
+              </h5>
+              <p class="mb-1" style="font-size: 15px; color: #9e5f0d"><span style="color:#ffc401; font-weight:bold; font-size: 20px">5.0 ★★★★★</span> (100+ reviews)</p>
+              <p class="card-text small text-muted mb-2" style="font-size: 20px; color: #688a3b"  >${workshop.duration}</p>
+              <p class="card-text mb-2" style="color: #9e660d; font-size: 20px"><strong>Fee:</strong> $${workshop.fee}</p>
+              <a href="Workshop-Details.html?id=${workshop.id}" class="btn btn-success fw-bold">Book Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+`;
+
+
+
+
+                    });
+                    $('#workshopCards').html(cards);
+                    loadPaginationForCard();
+                },
+
+                error: function (err) {
+                    console.log(err);
+                    alert("Failed to load Feedback");
+                }
+            });
+        }
+        function loadPaginationForCard() {
+            let token = localStorage.getItem("authtoken")
+            $.ajax({
+                url: `http://localhost:8080/api/v1/workshop/total-pages?size=${CardPageSize}`,
+                method: "GET",
+                headers: { 'Authorization': 'Bearer ' + token },
+                success: function (tp) {
+                    totalCardPages = tp;
+                    let paginationHTML = "";
+
+
+
+                    paginationHTML += `
+                    <li class="page-item ${ currentCardPage === 0 ? 'disabled' : ''}">
+                        <a class="page-link" href="#" onclick="goToCardPage(${currentCardPage - 1})" >Previous</a>
+                    </li>
+                `;
+
+                    const windowSize = 3
+                    let start = currentCardPage - 1;
+                    let end = currentCardPage + 1
+
+                    if(start < 0) { start = 0}
+                    if(end >= totalCardPages) { end = totalCardPages - 1}
+
+                    if(end - start + 1 < windowSize && totalCardPages >= windowSize) {
+                        if(start === 0){
+                            end = windowSize - 1;
+                        }else if(end === totalCardPages - 1){
+                            start = totalCardPages - windowSize;
+                        }
+                    }
+                    for(let i = start; i <= end; i++) {
+                        paginationHTML += `
+               <li class="page-item ${i === currentCardPage ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="goToCardPage(${i})">${i + 1}</a>
+                    </li>
+            `
+                    }
+                    paginationHTML += `
+               <li class="page-item ${ currentCardPage === totalCardPages - 1 ? 'disabled' : ''}">
+                        <a class="page-link" href="#" onclick="goToCardPage(${currentCardPage + 1})" >Next</a>
+                    </li>
+          `
+
+
+
+                    $('#WorkshopPagination').html(paginationHTML);
+                },
+                error: function (xhr) {
+                    console.error("Error loading pagination:", xhr.responseText);
+                }
+            });
+        }
+
+        // Event delegation for page numbers
+        $(document).on('click', '.CardPage-link[data-page]', function(e) {
+            e.preventDefault();
+            let page = parseInt($(this).data('page'));
+            currentCardPage = page;
+            loadItemsForCardPage();
+        });
+
+        // Previous button
+        $(document).on('click', '.CardPage-link.prev-card', function(e) {
+            e.preventDefault();
+            if(currentCardPage > 0) {
+                currentCardPage--;
+                loadItemsForCardPage();
+            }
+        });
+
+        $(document).on('click', '.CardPage-link.next-card', function(e) {
+            e.preventDefault();
+            if(currentCardPage < totalCardPages - 1) {
+                currentCardPage++;
+                loadItemsForCardPage();
+            }
+        });
+        window.goToCardPage = function(page){
+            currentCardPage = page;
+            loadItemsForCardPage();
+        }
+    })
+</script>
+</body>
+</html>
