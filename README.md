@@ -1,4 +1,4 @@
-🌸 Overview
+ **Overview**
 
 Sri Lankan Traditional Experience is a web application designed to bring the rich cultural heritage of Sri Lanka into the digital space. The platform allows users to explore a wide range of traditional items along with detailed descriptions and images, while also discovering workshops related to those items. A user can select a workshop, choose a preferred date, specify the number of participants, and pick from the available time slots provided by the system. During the booking process, users are given the flexibility to either make an online payment or opt to pay in cash upon arrival at the workshop.
 
@@ -9,7 +9,7 @@ On the administrative side, the platform includes a powerful admin dashboard. Ad
 Security and access control are handled with JWT-based authentication and role-based authorization, ensuring separate privileges for users, instructors, and admins. Additionally, a secure password recovery mechanism is implemented, allowing users who have forgotten their passwords to receive a reset code via email and create a new password safely.
 
 
-🚀 Features
+🚀 **Features**
 
 Traditional items catalogue (list, search, filter, Paginations)
 
@@ -17,7 +17,7 @@ Item detailed page with photos and description
 
 Workshop listing for each item
 
-Workshop booking with:
+*Workshop booking with:*
 
 Date selection
 
@@ -27,15 +27,13 @@ Available time-slot selection
 
 Online payment (integration point) OR Pay-on-arrival option
 
-Booking management:
+*Booking management:*
 
 User: view, cancel bookings
 
 Admin: view all bookings, filter
 
-Reviews:
-
-Users can post, view and delete their own reviews
+Reviews: Users can post, view and delete their own reviews
 
 Admin can view/delete any review
 
@@ -43,11 +41,11 @@ Admin can assign instructors to workshops
 
 Admin can email instructor about bookings
 
-Notifications:
+*Notifications:*
 
 Admin receives notification when user makes booking
 
-Auth & Security:
+*Auth & Security:*
 
 JWT authentication + role-based authorization
 
@@ -58,4 +56,21 @@ Forgot password via emailed code and reset endpoint
 Admin CRUD for items, workshops, instructors
 
 Responsive UI using Bootstrap
+
+
+ 🛠 **Tech Stack**
+*Backend:* 
+- Java 17+  
+- Spring Boot (Web, Data JPA, Security, Mail)  
+- JWT Authentication  
+- MySQL  
+
+*Frontend:*  
+- HTML5, CSS3  
+- Bootstrap 5  
+- JavaScript   
+
+*Others:*  
+- SMTP (password reset & send Mails)  
+ 
 
