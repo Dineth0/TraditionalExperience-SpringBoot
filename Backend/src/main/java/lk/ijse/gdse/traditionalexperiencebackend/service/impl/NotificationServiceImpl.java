@@ -74,7 +74,7 @@ public class NotificationServiceImpl implements NotificationService {
     public void markSingleAsRead(Long id) {
         Notification notification = notificationRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Not found"));
-        notification.setReadStatus(true);
+        notification.setReadStatus(false);
         notificationRepo.save(notification);
     }
 }
