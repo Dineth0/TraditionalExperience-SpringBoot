@@ -34,40 +34,38 @@ $(document).ready(function () {
                     localStorage.setItem("userId", decoded.id);
                     sessionStorage.setItem("userId", decoded.id);
 
-                    if (email === "sltraditionalportal@gmail.com") {
-                        Swal.fire({
-                            icon: "success",
-                            title: "Login Successful",
-                            text: "Redirecting to Admin Dashboard...",
-                            showConfirmButton: false,
-                            timer: 2000
-                        }).then(() => {
-                            window.location.href = "AdminDashboard.html"; // Redirect to admin dashboard
-                        });
-                    }else {
-                        Swal.fire({
-                            icon: "success",
-                            title: "Login Successful",
-                            text: "Redirecting...",
-                            showConfirmButton: false,
-                            timer: 2000
-                        }).then(() => {
-                            const token = response.data.token;
-                            const decoded = parseJwt(token);
-                            console.log("Decoded token:", decoded);
+                    if (decoded.role) {
+                        const role = decoded.role.toUpperCase();
+                        console.log("Decoded role:", role);
 
-                            if (decoded && decoded.role) { // Change to 'role'
-                                const role = decoded.role.toUpperCase(); // Use 'role' instead of 'accountType'
+                        if (role === "ADMIN") {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Login Successful",
+                                text: "Redirecting to Admin Dashboard...",
+                                showConfirmButton: false,
+                                timer: 2000
+                            }).then(() => {
+                                window.location.href = "AdminDashboard.html";
+                            });
+                        } else if (role === "USER") {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Login Successful",
+                                text: "Redirecting...",
+                                showConfirmButton: false,
+                                timer: 2000
+                            }).then(() => {
+                                window.location.href = "items.html";
+                            });
+                        } else {
+                            Swal.fire("Login Failed", "Unknown role in token!", "error");
+                        }
 
-                                if (role === "USER") {
-                                    window.location.href = "items.html";
-                                }
-                            } else {
-                                console.log("role not found in token");
-
-                            }
-                        })
+                    } else {
+                        Swal.fire("Login Failed", "Role not found in token!", "error");
                     }
+
                 }else {
                     Swal.fire("Login Failed", "Invalid email or password.", "error");
                 }
