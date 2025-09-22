@@ -65,5 +65,16 @@ public class NotificationController {
                     .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
         }
     }
+    @PutMapping("/markSingle/{notificationId}")
+    public ResponseEntity<ResponseDTO> markSingle(@PathVariable Long notificationId) {
+        try {
+            notificationService.markSingleAsRead(notificationId);
+            return ResponseEntity.ok(new ResponseDTO(VarList.OK, "Marked one", null));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+        }
+    }
+
 
 }

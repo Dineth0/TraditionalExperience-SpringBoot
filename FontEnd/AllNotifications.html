@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Notifications</title>
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: #433c3b;
+    }
+    .notification-card {
+      background: #fff;
+      padding: 1rem;
+      border-left: 4px solid #0d6efd;
+    }
+    .notification-card.unread {
+      background: #e9f3ff;
+      border-left-color: #0d6efd;
+    }
+    .notification-title {
+      font-weight: 600;
+    }
+    .time {
+      font-size: 0.85rem;
+      color: #6c757d;
+    }
+    .container{
+      background-color: #fff;
+    }
+
+  </style>
+</head>
+<body class="bg-light">
+
+<div class="container my-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="fw-bold"><i class="bi bi-bell-fill"></i> Notifications</h3>
+    <button id="markAll" class="btn btn-primary btn-sm">Mark all as read</button>
+  </div>
+
+
+  <ul class="nav nav-tabs mb-3" id="notifyTabs">
+    <li class="nav-item"><button class="nav-link active" data-type="all">All Notifications <span class="badge bg-secondary" id="allCount">0</span></button></li>
+    <li class="nav-item"><button class="nav-link" data-type="unread">Unread <span class="badge bg-secondary" id="unreadCount">0</span></button></li>
+  </ul>
+
+
+  <div id="notification-list" class="list-group shadow-sm rounded"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.js"></script>
+<script>
+  $(document).ready(function () {
+    $(function () {
+      const API = "http://localhost:8080/api/v1/notification";
+      const token = localStorage.getItem("authtoken");
+      if (!token) { window.location.href = "signIn.html"; return; }
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const userId = payload.id;
+
+
+      loadNotifications("all");
+
+
+      $("#notifyTabs button").on("click", function () {
+        $("#notifyTabs button").removeClass("active");
+        $(this).addClass("active");
+        loadNotifications($(this).data("type"));
+      });
+
+
+      function loadNotifications(type) {
+        $("#notification-list").empty();
+        let url = `${API}/unread/${userId}?includeRead=true`;
+        if (type === "unread") url = `http://localhost:8080/api/v1/notification/unread/${userId}`;
+
+
+        $.ajax({
+          url,
+          type: "GET",
+          headers: { "Authorization": "Bearer " + token },
+          success: res => renderList(res.data || [], type),
+          error: err => console.error(err)
+        });
+      }
+
+      function renderList(list, type) {
+        if (!list.length) {
+          $("#notification-list").html("<p class='text-muted text-center py-3'>No notifications</p>");
+          return;
+        }
+        // update counts
+        $("#allCount").text(list.length);
+        $("#unreadCount").text(list.filter(n => !n.readStatus).length);
+        $("#providerCount").text(list.filter(n => n.category === "provider").length);
+
+        list.forEach(n => {
+          if (type === "system" && n.category !== "system") return;
+          if (type === "provider" && n.category !== "provider") return;
+
+          const card = $(`
+        <div class="list-group-item notification-card ${n.readStatus ? '' : 'unread'}">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="notification-title">${n.title || "Notification"}</div>
+              <small class="text-muted">${n.message}</small><br>
+              <small class="time">${new Date(n.createAt).toLocaleString()}</small>
+            </div>
+            ${n.readStatus ? '' :
+                  `<button class="btn btn-sm btn-outline-primary mark-btn" data-id="${n.id}">Mark Read</button>`}
+          </div>
+        </div>
+      `);
+          $("#notification-list").append(card);
+        });
+      }
+
+
+      $("#markAll").on("click", function () {
+        $.ajax({
+          url: `${API}/markAsRead/${userId}`,
+          type: "PUT",
+          headers: { "Authorization": "Bearer " + token },
+          success: () => loadNotifications($("#notifyTabs .active").data("type"))
+        });
+      });
+    });
+
+    $("#notification-list").on("click", ".mark-btn", function () {
+      const notiId = $(this).data("id");
+      $.ajax({
+        url: `http://localhost:8080/api/v1/notification/markSingle/${notiId}`,
+        type: "PUT",
+        headers: { "Authorization": "Bearer " + token },
+        success: () => {
+
+          if ($("#notifyTabs .active").data("type") === "unread") {
+            $(this).closest(".notification-card").remove();
+          } else {
+            const card = $(this).closest(".notification-card");
+            card.removeClass("unread");
+            $(this).remove();
+          }
+
+          refreshCounts();
+        }
+      });
+    });
+
+    function refreshCounts(){
+      $.ajax({
+        url: `http://localhost:8080/api/v1/notification/unread/${userId}?includeRead=true`,
+        type: "GET",
+        headers: { "Authorization": "Bearer " + token },
+        success: res => {
+          const all = res.data || [];
+          $("#allCount").text(all.length);
+          $("#unreadCount").text(all.filter(n => !n.readStatus).length);
+          $("#providerCount").text(all.filter(n => n.category==="provider").length);
+        }
+      });
+    }
+
+
+  })
+</script>
+</body>
+</html>

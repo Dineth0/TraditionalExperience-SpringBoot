@@ -9,4 +9,5 @@ public interface NotificationService {
     List<NotificationDTO> getAllNotifications();
     List<NotificationDTO> getUnReadNotifications(Long userId);
     int markAsRead(Long id);
+    public void markSingleAsRead(Long id);
 }

@@ -69,4 +69,12 @@ public class NotificationServiceImpl implements NotificationService {
         notificationRepo.saveAll(notifications);
         return notifications.size();
     }
+
+    @Override
+    public void markSingleAsRead(Long id) {
+        Notification notification = notificationRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Not found"));
+        notification.setReadStatus(true);
+        notificationRepo.save(notification);
+    }
 }
