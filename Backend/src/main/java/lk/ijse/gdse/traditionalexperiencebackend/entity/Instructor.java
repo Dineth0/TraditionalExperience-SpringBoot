@@ -2,6 +2,7 @@ package lk.ijse.gdse.traditionalexperiencebackend.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
@@ -12,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Entity
+@Builder
 public class Instructor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
